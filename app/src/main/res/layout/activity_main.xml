@@ -6,8 +6,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_fondo"
     tools:context=".control.MainActivity">
-    android:background="@drawable/bg_fondo"
-    tools:context=".control.MainActivity" >
 
     <LinearLayout
         android:id="@+id/linearLayout"

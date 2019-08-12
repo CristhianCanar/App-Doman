@@ -7,4 +7,9 @@
     <string name="animales">Animales</string>
     <string name="frutas">Frutas</string>
     <string name="partesdelcuerpos">Partes del cuerpo</string>
+
+
+    <string name="registrarmeLogin"><u>Registrarme</u></string>
+
+
 </resources>
