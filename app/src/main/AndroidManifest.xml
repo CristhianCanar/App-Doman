@@ -12,7 +12,9 @@
         <activity
             android:name=".control.GameActivity"
             android:label="@string/title_activity_game"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="landscape"
+            ></activity>
         <activity android:name=".control.Login" />
         <activity android:name=".control.Splash" />
         <activity android:name=".control.MainActivity">
