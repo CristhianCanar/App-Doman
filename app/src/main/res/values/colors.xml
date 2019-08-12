@@ -10,9 +10,8 @@
     <color name="naranja">#FF5519</color>
     <color name="rosa">#FF1455</color>
 
-    <color name="colorWhithe">#ffffff</color>
-
-
+    <color name="colorWhithe">#FFFFFF</color>
+    <color name="colorGris">#ccc</color>
 
 
     <color name="azul">#009CFF</color>
