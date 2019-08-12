@@ -6,16 +6,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_fondo"
     tools:context=".control.MainActivity">
-    android:background="@drawable/bg_fondo"
-    tools:context=".control.MainActivity" >
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
         android:orientation="horizontal"
@@ -32,16 +30,18 @@
             android:text="@string/bienvenido"
             android:textColor="@android:color/background_light"
             android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:fontFamily="@font/instantharmony" />
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/tvNombreUSer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/usern"
-            android:textColor="@android:color/background_light"
-            android:textSize="24sp" />
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            app:fontFamily="@font/instantharmony" />
     </LinearLayout>
 
     <TextView
@@ -57,6 +57,7 @@
         android:textColor="@android:color/background_light"
         android:textSize="30sp"
         android:textStyle="bold"
+        app:fontFamily="@font/instantharmony"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
@@ -69,17 +70,19 @@
         android:layout_marginLeft="24dp"
         android:layout_marginTop="16dp"
         android:text="@string/categorias"
-        android:textColor="@android:color/background_light"
-        android:textSize="18sp"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20sp"
+        app:fontFamily="@font/instantharmony"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
         android:orientation="horizontal"
@@ -88,37 +91,97 @@
         app:layout_constraintTop_toBottomOf="@+id/textView7">
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/btnAnimales"
             android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="start"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:background="@drawable/bg_button"
+            android:fontFamily="@font/instantharmony"
             android:text="@string/animales"
-            android:textColor="@android:color/holo_blue_dark" />
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/btnFrutas"
             android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="start"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:background="@drawable/bg_button"
+            android:fontFamily="@font/instantharmony"
             android:text="@string/frutas"
-            android:textColor="@android:color/holo_blue_dark" />
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btnPartesCuerpo"
             android:layout_width="60dp"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_gravity="start"
             android:layout_weight="1"
             android:background="@drawable/bg_button"
+            android:fontFamily="@font/instantharmony"
             android:text="@string/partesdelcuerpos"
-            android:textColor="@android:color/holo_blue_dark" />
+            android:textColor="@android:color/background_light"
+            android:textSize="16sp" />
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/lvListaFases"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+
+    <Button
+        android:id="@+id/btnEmpezar"
+        android:layout_width="220dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+
+        android:background="@drawable/bg_whithe"
+        android:fontFamily="@font/instantharmony"
+        android:text="@string/empezar"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lvListaFases" />
+
+    <ImageView
+        android:id="@+id/btnInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/logo_info"
+        app:layout_constraintStart_toStartOf="@+id/btnEmpezar"
+        app:layout_constraintTop_toBottomOf="@+id/btnEmpezar" />
+
+    <ImageView
+        android:id="@+id/btnDesLog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:src="@drawable/logo_exit"
+        app:layout_constraintEnd_toEndOf="@+id/btnEmpezar"
+        app:layout_constraintTop_toBottomOf="@+id/btnEmpezar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
