@@ -1,8 +1,10 @@
-package com.senasoft.appdoman;
+package com.senasoft.appdoman.control;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.senasoft.appdoman.R;
 
 public class MainActivity extends AppCompatActivity {
 
