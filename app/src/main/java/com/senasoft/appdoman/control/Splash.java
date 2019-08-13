@@ -22,7 +22,7 @@ public class Splash extends AppCompatActivity {
         TimerTask tarea = new TimerTask() {
             @Override
             public void run() {
-                Intent intent = new Intent(Splash.this,Login.class);
+                Intent intent = new Intent(Splash.this, Login.class);
                 startActivity(intent);
                 finish();
             }
@@ -30,6 +30,6 @@ public class Splash extends AppCompatActivity {
 
         Timer timer = new Timer();
 
-        timer.schedule(tarea,3000);
+        timer.schedule(tarea, 3000);
     }
 }

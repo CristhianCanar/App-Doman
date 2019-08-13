@@ -48,7 +48,7 @@ public class GameActivity extends AppCompatActivity {
         puntos = new TextView[5];
         linearPuntos.removeAllViews();
 
-        for (int x = 0; x < puntos.length; x++){
+        for (int x = 0; x < puntos.length; x++) {
             puntos[x] = new TextView(this);
             puntos[x].setText(Html.fromHtml("&#8226;"));
             puntos[x].setTextSize(45);
@@ -56,7 +56,8 @@ public class GameActivity extends AppCompatActivity {
             linearPuntos.addView(puntos[x]);
         }
 
-        if (puntos.length>0) puntos[i].setTextColor(getResources().getColor(R.color.colorPrimary));
+        if (puntos.length > 0)
+            puntos[i].setTextColor(getResources().getColor(R.color.colorPrimary));
 
     }
 

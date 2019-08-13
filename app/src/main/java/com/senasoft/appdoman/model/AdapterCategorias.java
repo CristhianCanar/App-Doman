@@ -20,7 +20,7 @@ public class AdapterCategorias extends BaseAdapter {
     Context context;
 
     String[] title = {"Fase uno - Palabras", "Fase dos - Parejas de datos",
-                    "Fase tres - Oraciones sencillas", "Fase cuatro - frases", "Fase cinco - Cuentos"};
+            "Fase tres - Oraciones sencillas", "Fase cuatro - frases", "Fase cinco - Cuentos"};
 
     public AdapterCategorias(Context context) {
         this.context = context;
@@ -54,7 +54,6 @@ public class AdapterCategorias extends BaseAdapter {
 
         return view;
     }
-
 
 
 }
