@@ -15,9 +15,10 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="landscape"
             ></activity>
-        <activity android:name=".control.Login" />
-        <activity android:name=".control.Splash" />
-        <activity android:name=".control.MainActivity">
+        <activity android:name=".control.MainActivity"></activity>
+        <activity android:name=".control.Register"></activity>
+        <activity android:name=".control.Login"></activity>
+        <activity android:name=".control.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
