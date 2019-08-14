@@ -1,4 +1,4 @@
-package com.senasoft.appdoman.control.model;
+package com.senasoft.appdoman.model;
 
 import android.content.Context;
 import android.graphics.Color;

@@ -1,4 +1,4 @@
-package com.senasoft.appdoman.control.ui.main;
+package com.senasoft.appdoman.ui.main;
 
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;

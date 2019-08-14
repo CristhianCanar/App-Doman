@@ -1,4 +1,4 @@
-package com.senasoft.appdoman.control.model;
+package com.senasoft.appdoman.model;
 
 public class Constantes {
     public static String NAME_DB = "dbDoman";

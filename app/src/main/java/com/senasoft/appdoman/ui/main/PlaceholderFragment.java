@@ -1,4 +1,4 @@
-package com.senasoft.appdoman.control.ui.main;
+package com.senasoft.appdoman.ui.main;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
