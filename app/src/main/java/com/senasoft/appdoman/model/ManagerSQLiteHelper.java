@@ -72,7 +72,7 @@ public class ManagerSQLiteHelper {
     }
 
 
-    public ArrayList<Palabra> readDataWord() {
+
     public ArrayList<Palabra> readDataWord() {
 
         openDB();
@@ -97,6 +97,5 @@ public class ManagerSQLiteHelper {
 
         return listPalabra;
     }
-
 
 }
