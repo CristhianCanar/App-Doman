@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
-import com.senasoft.appdoman.control.model.AdapterCategorias;
+import com.senasoft.appdoman.model.AdapterCategorias;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

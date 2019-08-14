@@ -1,8 +1,11 @@
-package com.senasoft.appdoman.control.model;
+package com.senasoft.appdoman.model;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import java.util.ArrayList;
 
@@ -68,7 +71,28 @@ public class ManagerSQLiteHelper {
         return listCategoria;
     }
 
-    public ArrayList<Palabra> readDataWord(Palabra palabra) {
+    public ArrayList<Palabra> readDataWord() {
+
+        openDB();
+
+        listPalabra = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Constantes.NAME_TABLE_WORD, null);
+
+        if (cursor.moveToFirst()){
+
+            do {
+
+                Palabra palabra = new Palabra();
+
+                palabra.setPalName(cursor.getString(1));
+
+                listPalabra.add(palabra);
+
+            }while (cursor.moveToNext());
+
+        }
+
         return listPalabra;
     }
 

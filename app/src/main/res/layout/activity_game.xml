@@ -6,4 +6,70 @@
     android:layout_height="match_parent"
     tools:context=".control.GameActivity">
 
+    <ViewFlipper
+        android:id="@+id/viewFlipperLetras"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/tvPalabra1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="TextView"
+            android:textColor="@color/azuloscuro"
+            android:textSize="64sp"
+            android:textStyle="bold"
+            app:fontFamily="@font/instantharmony" />
+
+        <TextView
+            android:id="@+id/tvPalabra2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="TextView2"
+            android:textColor="@color/azuloscuro"
+            android:textSize="64sp"
+            android:textStyle="bold"
+            app:fontFamily="@font/instantharmony" />
+
+        <TextView
+            android:id="@+id/tvPalabra3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="TextView"
+            android:textColor="@color/azuloscuro"
+            android:textSize="64sp"
+            android:textStyle="bold"
+            app:fontFamily="@font/instantharmony" />
+
+        <TextView
+            android:id="@+id/tvPalabra4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="TextView"
+            android:textColor="@color/azuloscuro"
+            android:textSize="64sp"
+            android:textStyle="bold"
+            app:fontFamily="@font/instantharmony" />
+
+        <TextView
+            android:id="@+id/tvPalabra5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="TextView"
+            android:textColor="@color/azuloscuro"
+            android:textSize="64sp"
+            android:textStyle="bold"
+            app:fontFamily="@font/instantharmony" />
+    </ViewFlipper>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

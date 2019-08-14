@@ -1,4 +1,4 @@
-package com.senasoft.appdoman.control.model;
+package com.senasoft.appdoman.model;
 
 public class Categoria {
     private String catId;
