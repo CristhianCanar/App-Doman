@@ -4,106 +4,240 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_degralogin"
+    android:background="@drawable/bg_degrainverlogin"
     android:foregroundGravity="center"
-    tools:context=".control.Login">
+    tools:context=".control.Register">
 
-    <EditText
-        android:id="@+id/etUserLogin"
-        android:layout_width="280dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="61dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/bg_editext"
-        android:ems="10"
-        android:fontFamily="@font/instantharmony"
-        android:gravity="center"
-        android:hint="Usuario"
-        android:inputType="textPersonName"
-        android:textColor="@android:color/black"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
 
-    <EditText
-        android:gravity="center"
-        android:id="@+id/etPasswordLogin"
-        android:layout_width="280dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/bg_editext"
-        android:ems="10"
-        android:fontFamily="@font/instantharmony"
-        android:hint="Clave"
-        android:inputType="textPersonName"
-        android:textColor="@android:color/black"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etUserLogin" />
-
-    <TextView
-        android:id="@+id/tvRegisterLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:gravity="center"
-        android:text="@string/registrarmeLogin"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textColor="@android:color/white"
-        android:textSize="20dp"
-        app:fontFamily="@font/instantharmony"
+        android:layout_marginEnd="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_degralogin"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnIniciaSesionLog" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Button
-        android:id="@+id/btnIniciaSesionLog"
-        android:layout_width="200dp"
-        android:layout_height="45dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@drawable/bg_button"
-        android:fontFamily="@font/instantharmony"
-        android:foregroundGravity="center"
-        android:text="Iniciar Sesión"
-        android:textColor="@color/azuloscuro"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_degralogin"
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="296dp"
-        android:layout_height="182dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="6dp"
-        android:layout_marginRight="6dp"
-        android:src="@drawable/logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+
+            >
+
+            <TextView
+                android:id="@+id/tvNameReg"
+                android:layout_width="135dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="62dp"
+                android:gravity="start"
+                android:text="Nombre"
+                android:textAlignment="textStart"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="30dp"
+                app:fontFamily="@font/instantharmony"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/titleRegisterRegister" />
+
+            <TextView
+                android:textAlignment="textStart"
+                android:gravity="start"
+                android:id="@+id/tvGeneroReg"
+                android:layout_width="135dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="14dp"
+                android:text="Genero"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="30dp"
+                app:fontFamily="@font/instantharmony"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvNameReg" />
+
+            <TextView
+                android:textAlignment="textStart"
+                android:gravity="start"
+                android:id="@+id/tvUserNameReg"
+                android:layout_width="135dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:text="User Name"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="30dp"
+                app:fontFamily="@font/instantharmony"
+                app:layout_constraintEnd_toStartOf="@+id/etUserNameReg"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGeneroReg" />
+
+            <TextView
+                android:textAlignment="textStart"
+                android:gravity="start"
+                android:id="@+id/tvPassReg"
+                android:layout_width="135dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="14dp"
+                android:text="Clave"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="30dp"
+                app:fontFamily="@font/instantharmony"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvUserNameReg" />
+
+            <EditText
+                android:id="@+id/etUserReg"
+                android:layout_width="195dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="62dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/bg_editext"
+                android:ems="10"
+                android:fontFamily="@font/instantharmony"
+                android:gravity="center"
+                android:inputType="textPersonName"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvNameReg"
+                app:layout_constraintTop_toBottomOf="@+id/titleRegisterRegister" />
+
+            <EditText
+
+                android:id="@+id/etUserNameReg"
+                android:layout_width="195dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/bg_editext"
+                android:ems="10"
+                android:fontFamily="@font/instantharmony"
+                android:gravity="center"
+                android:inputType="textPersonName|numberPassword"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvUserNameReg"
+                app:layout_constraintTop_toBottomOf="@+id/rButNiniaReg" />
+
+            <EditText
+
+                android:id="@+id/etPasswordRegConfir"
+                android:layout_width="195dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:background="@drawable/bg_editext"
+                android:ems="10"
+                android:fontFamily="@font/instantharmony"
+                android:gravity="center"
+                android:inputType="textPersonName|numberPassword"
+                android:textColor="@android:color/black"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/tvPassReg"
+                app:layout_constraintTop_toBottomOf="@+id/etUserNameReg" />
+
+            <TextView
+                android:id="@+id/titleRegisterRegister"
+                android:layout_width="183dp"
+                android:layout_height="59dp"
+                android:layout_marginStart="92dp"
+                android:layout_marginLeft="92dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="92dp"
+                android:layout_marginRight="92dp"
+                android:gravity="center"
+                android:text="Registrate!"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/design_default_color_primary_dark"
+                android:textSize="40dp"
+                app:fontFamily="@font/instantharmony"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnRegistrarReg"
+                android:layout_width="200dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="85dp"
+                android:layout_marginLeft="85dp"
+                android:layout_marginTop="70dp"
+                android:layout_marginEnd="85dp"
+                android:layout_marginRight="85dp"
+                android:background="@drawable/bg_whithe"
+                android:fontFamily="@font/instantharmony"
+                android:foregroundGravity="center"
+                android:text="@string/registrarmeLogin"
+                android:textColor="@color/azuloscuro"
+                android:textSize="24sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvPassReg" />
+
+            <RadioButton
+                android:id="@+id/rButNiniaReg"
+                android:layout_width="70dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginRight="16dp"
+                android:fontFamily="@font/instantharmony"
+                android:text="Niña"
+                android:textColor="@color/design_default_color_primary_dark"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etUserReg" />
+
+            <RadioButton
+                android:id="@+id/rButNinioReg"
+                android:layout_width="70dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="14dp"
+                android:layout_marginEnd="18dp"
+                android:layout_marginRight="18dp"
+                android:fontFamily="@font/instantharmony"
+                android:text="Niño"
+                android:textColor="@color/design_default_color_primary_dark"
+                app:layout_constraintEnd_toStartOf="@+id/rButNiniaReg"
+                app:layout_constraintStart_toEndOf="@+id/tvGeneroReg"
+                app:layout_constraintTop_toBottomOf="@+id/etUserReg" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
