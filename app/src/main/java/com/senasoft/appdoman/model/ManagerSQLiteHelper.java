@@ -12,11 +12,11 @@ public class ManagerSQLiteHelper {
 
     ArrayList<Palabra> listPalabra;
     ArrayList<Usuario> listUsuario;
-    ArrayList<Categoria> listCategoria;
+    //ArrayList<Categoria> listCategoria;
 
     Usuario usuario;
     Palabra palabra;
-    Categoria categoria;
+    //Categoria categoria;
 
     //TODO CONEXIÓN A LA BD
     public ManagerSQLiteHelper(Context context) {
@@ -50,25 +50,26 @@ public class ManagerSQLiteHelper {
     public boolean insertDataWord(Palabra palabra) {
         ContentValues contenedor = new ContentValues();
         contenedor.put(Constantes.PAL_COL_2, palabra.getPalName());
-        return (db.insert(Constantes.NAME_TABLE_USER, null, contenedor)) > 0;
+        contenedor.put(Constantes.PAL_COL_3, palabra.getPalCategory());
+        return (db.insert(Constantes.NAME_TABLE_WORD, null, contenedor)) > 0;
     }
 
+    /* //TODO: SE PUEDE QUITAR YA QUE SE LAMCENA EN PALABRA
     public boolean insertDataCategory(Categoria categoria) {
         ContentValues contenedor = new ContentValues();
         contenedor.put(Constantes.CAT_COL_2, categoria.getCatName());
         return (db.insert(Constantes.NAME_TABLE_USER, null, contenedor)) > 0;
     }
 
+    */
+
     //TODO: METODO LEER/LISTAR (READs)
-    public ArrayList<Usuario> readDataUser(Usuario usuario) {
+    public ArrayList<Usuario> readDataUser() {
         return listUsuario;
     }
 
-    public ArrayList<Categoria> readDataCategory(Categoria categoria) {
-        return listCategoria;
-    }
 
-    public ArrayList<Palabra> readDataWord(Palabra palabra) {
+    public ArrayList<Palabra> readDataWord() {
         return listPalabra;
     }
 

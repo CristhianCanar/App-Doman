@@ -13,13 +13,14 @@ public class ConexionSQLiteHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(Constantes.CREATE_TABLE_USER);
-        db.execSQL(Constantes.CREATE_TABLE_CATEGORY);
         db.execSQL(Constantes.CREATE_TABLE_WORD);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int updateVersion) {
+        db.execSQL("DROP TABLE IF EXISTS "+Constantes.NAME_TABLE_WORD);
+        db.execSQL("DROP TABLE IF EXISTS "+Constantes.NAME_TABLE_USER);
 
     }
 }
