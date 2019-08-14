@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_degralogin"
+    android:background="@drawable/bg_degrainverlogin"
     android:foregroundGravity="center"
     tools:context=".control.Login">
 
@@ -53,7 +53,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView" />
+                app:layout_constraintTop_toBottomOf="@+id/ivLoglogin" />
 
             <EditText
                 android:id="@+id/etPasswordLogin"
@@ -69,7 +69,7 @@
                 android:fontFamily="@font/instantharmony"
                 android:gravity="center"
                 android:hint="Clave"
-                android:inputType="textPersonName"
+                android:inputType="textPersonName|numberPassword"
                 android:textColor="@android:color/black"
                 android:textSize="24sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +78,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/etUserLogin" />
 
             <TextView
-                android:id="@+id/tvRegisterLogin"
+                android:id="@+id/titleRegisterRegister"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
@@ -118,7 +118,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/etPasswordLogin" />
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/ivLoglogin"
                 android:layout_width="280dp"
                 android:layout_height="200dp"
                 android:layout_marginStart="8dp"
@@ -136,11 +136,6 @@
 
 
     </androidx.cardview.widget.CardView>
-
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
