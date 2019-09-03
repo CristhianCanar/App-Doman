@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@drawable/bg_degrainverlogin"
+android:foregroundGravity="center"
+tools:context=".control.SettingsAdmin">
+
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginStart="20dp"
+    android:layout_marginLeft="20dp"
+
+    android:layout_marginTop="20dp"
+    android:layout_marginEnd="20dp"
+    android:layout_marginRight="20dp"
+    android:layout_marginBottom="20dp"
+    android:background="@drawable/bg_degralogin"
+    app:cardCornerRadius="30dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_degralogin">
+
+        <TextView
+            android:id="@+id/tvNameUserSettings"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_marginStart="132dp"
+            android:layout_marginLeft="132dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="132dp"
+            android:layout_marginRight="132dp"
+            android:gravity="center"
+            android:text="@string/usern"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/design_default_color_primary_dark"
+            android:textSize="25sp"
+            app:fontFamily="@font/instantharmony"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titleBienvenidoSett" />
+
+        <TextView
+            android:id="@+id/titleBienvenidoSett"
+            android:layout_width="wrap_content"
+            android:layout_height="62dp"
+            android:layout_marginStart="95dp"
+            android:layout_marginLeft="95dp"
+            android:layout_marginTop="35dp"
+            android:layout_marginEnd="95dp"
+            android:layout_marginRight="95dp"
+            android:gravity="center"
+            android:text="Bienvenido!"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="@color/design_default_color_primary_dark"
+            android:textSize="35dp"
+            app:fontFamily="@font/instantharmony"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/btnAgregarPalFasUnoSett"
+            android:layout_width="241dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginEnd="65dp"
+            android:layout_marginRight="65dp"
+            android:background="@drawable/bg_whithe"
+            android:fontFamily="@font/instantharmony"
+            android:foregroundGravity="center"
+            android:text="Agregar Palabra: Fase 1"
+            android:textColor="@color/azuloscuro"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvNameUserSettings" />
+
+        <Button
+            android:id="@+id/btnListarUsersSett"
+            android:layout_width="241dp"
+            android:layout_height="45dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="65dp"
+            android:layout_marginRight="65dp"
+            android:background="@drawable/bg_whithe"
+            android:fontFamily="@font/instantharmony"
+            android:foregroundGravity="center"
+            android:text="Listar usuarios registrados"
+            android:textColor="@color/azuloscuro"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnCambiarCodigoRegSett" />
+
+        <Button
+            android:id="@+id/btnCambiarCodigoRegSett"
+            android:layout_width="241dp"
+            android:layout_height="65dp"
+            android:layout_marginStart="65dp"
+            android:layout_marginLeft="65dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="65dp"
+            android:layout_marginRight="65dp"
+            android:background="@drawable/bg_whithe"
+            android:fontFamily="@font/instantharmony"
+            android:foregroundGravity="center"
+            android:text="Cambiar código de seguridad para registro "
+            android:textColor="@color/azuloscuro"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAgregarPalFasUnoSett" />
+
+        <Button
+            android:id="@+id/btnCerrarSesionSett"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="162dp"
+            android:layout_marginRight="162dp"
+            android:background="@drawable/baseline_exit_to_app_white_18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:layout_editor_absoluteY="523dp" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
