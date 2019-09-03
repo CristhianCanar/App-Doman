@@ -2,58 +2,108 @@ package com.senasoft.appdoman.model;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.senasoft.appdoman.R;
 
 import java.util.ArrayList;
 
-public class AdapterCategorias extends BaseAdapter {
+public class AdapterCategorias extends RecyclerView.Adapter<AdapterCategorias.Holder>
+        implements View.OnClickListener {
 
-    Context context;
+    String[] titles = {"Familia", "Nombre compañeros", "Partes del cuerpo", "Dias semana", "Materias"};
+    int[] images = {R.drawable.car_familia, R.drawable.cat_amigos, R.drawable.cat_cuerpo, R.drawable.cat_calendario, R.drawable.cat_materias};
 
-    String[] title = {"Fase uno - Palabras", "Fase dos - Parejas de datos",
-            "Fase tres - Oraciones sencillas", "Fase cuatro - frases", "Fase cinco - Cuentos"};
+    private View.OnClickListener listener;
+    private boolean clicCard = false;
 
-    public AdapterCategorias(Context context) {
-        this.context = context;
+    @NonNull
+    @Override
+    public Holder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
+        View layout = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_categorias, parent, false);
+        Holder holder = new Holder(layout);
+
+        layout.setOnClickListener(this);
+
+        return holder;
+
     }
 
     @Override
-    public int getCount() {
-        return title.length;
+    public void onBindViewHolder(@NonNull Holder holder, int position) {
+
+        holder.initViews(titles[position], images[position]);
+
     }
 
     @Override
-    public Object getItem(int i) {
-        return title[i];
+    public int getItemCount() {
+        return titles.length;
+    }
+
+
+    public void setOnClickListener(View.OnClickListener listener){
+        this.listener=listener;
     }
 
     @Override
-    public long getItemId(int i) {
-        return 0;
+    public void onClick(View view) {
+        if (listener!=null){
+            listener.onClick(view);
+
+            Holder holder = new Holder(view);
+
+            holder.cardView.setOnClickListener(view1 -> {
+
+                if (clicCard){
+                    holder.cardView.setBackgroundResource(R.drawable.bg_carditem_normal);
+                    clicCard = false;
+                }else {
+                    holder.cardView.setBackgroundResource(R.drawable.bg_card_item);
+                    clicCard = true;
+                }
+
+            });
+
+
+        }
     }
 
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
 
-        TextView tvTitle;
+    public class Holder extends RecyclerView.ViewHolder {
 
-        view = LayoutInflater.from(context).inflate(R.layout.item_categorias, viewGroup, false);
+        private TextView tvTitle;
+        private ImageView ivImage;
+        private CardView cardView;
 
-        tvTitle = view.findViewById(R.id.tvTitleItem);
+        public Holder(@NonNull View itemView) {
+            super(itemView);
 
-        tvTitle.setText(title[i]);
+            tvTitle = itemView.findViewById(R.id.tvNameCat);
+            ivImage = itemView.findViewById(R.id.ivImageCat);
+            cardView = itemView.findViewById(R.id.cardItem);
 
-        return view;
+        }
+
+        public void initViews(String title, int imgResource) {
+            tvTitle.setText(title);
+            ivImage.setImageResource(imgResource);
+
+        }
+
     }
-
 
 }

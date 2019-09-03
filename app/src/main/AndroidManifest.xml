@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.senasoft.appdoman">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo_peq"
@@ -9,19 +13,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".control.GameActivity"
-            android:screenOrientation="landscape"
-            ></activity>
-        <activity android:name=".control.MainActivity">
-        </activity>
-        <activity android:name=".control.Register" />
-        <activity android:name=".control.Login" />
-        <activity android:name=".control.Splash">
+        <activity android:name=".control.AddWordActivity"></activity>
+        <activity
+            android:name=".control.GameActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".control.MainActivity"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".control.Register" />
+        <activity android:name=".control.Login" />
+        <activity android:name=".control.Splash">
         </activity>
     </application>
 

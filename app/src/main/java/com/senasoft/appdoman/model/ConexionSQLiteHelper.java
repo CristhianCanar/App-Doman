@@ -7,11 +7,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class ConexionSQLiteHelper extends SQLiteOpenHelper {
 
     public ConexionSQLiteHelper(Context context) {
+
         super(context, Constantes.NAME_DB, null, Constantes.VERSION_DB);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+
         db.execSQL(Constantes.CREATE_TABLE_USER);
         db.execSQL(Constantes.CREATE_TABLE_WORD);
 
@@ -19,8 +21,11 @@ public class ConexionSQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int updateVersion) {
+
         db.execSQL("DROP TABLE IF EXISTS "+Constantes.NAME_TABLE_WORD);
         db.execSQL("DROP TABLE IF EXISTS "+Constantes.NAME_TABLE_USER);
+
+        onCreate(db);
 
     }
 }

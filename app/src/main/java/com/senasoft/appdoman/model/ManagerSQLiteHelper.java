@@ -10,15 +10,13 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import java.util.ArrayList;
 
 public class ManagerSQLiteHelper {
+
     SQLiteDatabase db;
     ConexionSQLiteHelper conexionSQLiteHelper;
 
     ArrayList<Palabra> listPalabra;
     ArrayList<Usuario> listUsuario;
     //ArrayList<Categoria> listCategoria;
-
-    Usuario usuario;
-    Palabra palabra;
     //Categoria categoria;
 
     //TODO CONEXIÓN A LA BD
@@ -50,11 +48,22 @@ public class ManagerSQLiteHelper {
         return (db.insert(Constantes.NAME_TABLE_USER, null, contenedor)) > 0;
     }
 
-    public boolean insertDataWord(Palabra palabra) {
-        ContentValues contenedor = new ContentValues();
-        contenedor.put(Constantes.PAL_COL_2, palabra.getPalName());
-        contenedor.put(Constantes.PAL_COL_3, palabra.getPalCategory());
-        return (db.insert(Constantes.NAME_TABLE_WORD, null, contenedor)) > 0;
+    public long insertDataWord(Palabra palabra) {
+
+        openDB();
+
+        ContentValues values = new ContentValues();
+
+        values.put(Constantes.PAL_COL_2, palabra.getPalName());
+        values.put(Constantes.PAL_COL_3, palabra.getPalCategory());
+        values.put(Constantes.PAL_COL_4, palabra.getUriAudio());
+
+        long mInsert = db.insert(Constantes.NAME_TABLE_WORD, null, values);
+
+        closeDB();
+
+        return mInsert;
+
     }
 
     /* //TODO: SE PUEDE QUITAR YA QUE SE LAMCENA EN PALABRA
@@ -73,13 +82,16 @@ public class ManagerSQLiteHelper {
 
 
 
-    public ArrayList<Palabra> readDataWord() {
+    public ArrayList<Palabra> readDataWord(String data) {
 
         openDB();
 
         listPalabra = new ArrayList<>();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM " + Constantes.NAME_TABLE_WORD, null);
+        String[] arg = {data};
+        String[] column = {Constantes.PAL_COL_2, Constantes.PAL_COL_4};
+
+        Cursor cursor = db.query(Constantes.NAME_TABLE_WORD, column, Constantes.PAL_COL_3 + "=?", arg, null, null, null);
 
         if (cursor.moveToFirst()){
 
@@ -87,7 +99,8 @@ public class ManagerSQLiteHelper {
 
                 Palabra palabra = new Palabra();
 
-                palabra.setPalName(cursor.getString(1));
+                palabra.setPalName(cursor.getString(0));
+                palabra.setUriAudio(cursor.getString(1));
 
                 listPalabra.add(palabra);
 

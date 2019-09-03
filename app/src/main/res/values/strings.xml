@@ -26,5 +26,20 @@
     <string name="tab_text_3">Palabra 3</string>
     <string name="tab_text_4">Palabra 4</string>
     <string name="tab_text_5">Palabra 5</string>
+    <string name="registraPalabra">Registra la palabra</string>
+    <string name="ingresaLaPalabra">Ingresa la palabra</string>
+    <string name="palabra">Palabra</string>
+    <string name="categoria">Selecciona la categoria</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="guardar">Guardar</string>
+    <string name="grabaraudio">Grabar audio</string>
+
+    <array name="categoriasSp">
+        <item>Familia</item>
+        <item>Nombres</item>
+        <item>Dias</item>
+        <item>Materias</item>
+        <item>Partes del cuerpo</item>
+    </array>
 
 </resources>

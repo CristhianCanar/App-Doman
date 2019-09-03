@@ -2,81 +2,177 @@ package com.senasoft.appdoman.control;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import com.senasoft.appdoman.R;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
 import com.senasoft.appdoman.model.Palabra;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
+
+import java.util.Random;
+import java.util.stream.IntStream;
 
 public class GameActivity extends AppCompatActivity {
 
-
-    private TextView tvPalabra1, tvPalabra2, tvPalabra3, tvPalabra4, tvPalabra5;
-    private ViewFlipper vfLetras;
+    private ImageButton btnCerrar, btnPlay;
+    private TextView tvWord;
 
     private ManagerSQLiteHelper managerSQLiteHelper;
     private ArrayList<Palabra> lista;
-    int count = 0;
+
+    private MediaPlayer mediaPlayer;
+
+    private SensorManager sensorManager;
+    private Sensor sensor;
+    private SensorEventListener eventListener;
+
+    private int countWord = 0;
+    private int[] arrayGen;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
         getSupportActionBar().hide();
-
         managerSQLiteHelper = new ManagerSQLiteHelper(this);
 
+        // init all
         referent();
+        initWords();
 
-        scrollWord();
+        // init sensors
+        sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
+        startSensor();
 
     }
 
     private void referent() {
 
-        tvPalabra1 = findViewById(R.id.tvPalabra1);
-        tvPalabra2 = findViewById(R.id.tvPalabra2);
-        tvPalabra3 = findViewById(R.id.tvPalabra3);
-        tvPalabra4 = findViewById(R.id.tvPalabra4);
-        tvPalabra5 = findViewById(R.id.tvPalabra5);
+        tvWord = findViewById(R.id.tvWordGame);
 
-        vfLetras = findViewById(R.id.viewFlipperLetras);
+        btnCerrar = findViewById(R.id.btnCerrarGame);
+        btnCerrar.setOnClickListener(view -> {
 
-    }
+            Intent intent = new Intent(GameActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
 
-    private void scrollWord() {
+        });
 
-        lista = new ArrayList<>(managerSQLiteHelper.readDataWord());
-
-        String[] listaLetras = {"Palabra 1","Palabra 2","Palabra 3","Palabra 4","Palabra 5"};
-
-        tvPalabra1.setText(listaLetras[0]);
-        tvPalabra2.setText(listaLetras[1]);
-        tvPalabra3.setText(listaLetras[2]);
-        tvPalabra4.setText(listaLetras[3]);
-        tvPalabra5.setText(listaLetras[4]);
-
-        Animation in = AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left);
-        Animation out = AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right);
-
-        vfLetras.setInAnimation(in);
-        vfLetras.setOutAnimation(out);
-        vfLetras.setFlipInterval(3500);
-        vfLetras.setAutoStart(true);
-
-
+        btnPlay = findViewById(R.id.btnAudioGame);
+        btnPlay.setOnClickListener(view -> listenerWord());
 
     }
 
+    private void initWords() {
+
+        String categoria = getIntent().getStringExtra("categoria");
+        lista = new ArrayList<>(managerSQLiteHelper.readDataWord(categoria));
+        arrayGen = generarNum(lista.size());
+
+        tvWord.setText(lista.get(arrayGen[0]).getPalName());
+
+        if (lista.size() < 1){tvWord.setText("Hay pocas palabras :(");}
+
+    }
+
+    private void nextWord(int count){
+
+        mediaPlayer = new MediaPlayer();
+
+        if (count < lista.size()) {
+            tvWord.setText(lista.get(arrayGen[count]).getPalName());
+            try {
+                mediaPlayer.setDataSource(lista.get(arrayGen[count]).getUriAudio());
+                mediaPlayer.prepare();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+        }
+        else {tvWord.setText("Juego terminado");}
+    }
+
+    private void listenerWord() {
+        try {
+            mediaPlayer.start();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressLint("NewApi")
+    public int[] generarNum(int cant){
+
+        int numMin = 0;
+        int numMax = cant;
+
+        int[] array;
+
+        array = IntStream.rangeClosed(numMin, numMax-1).toArray();
+
+        Random random = new Random();
+
+        for (int i = array.length; i > 0; i--){
+
+            int pos =  random.nextInt(i);
+            int tmp = array[i-1];
+            array[i-1] = array[pos];
+            array[pos] = tmp;
+
+        }
+        return array;
+    }
+
+    private void startSensor() {
+
+        if (sensor == null) Toast.makeText(this, "Sensor null", Toast.LENGTH_SHORT).show();
+
+        eventListener = new SensorEventListener() {
+            @Override
+            public void onSensorChanged(SensorEvent sensorEvent) {
+
+                float x = sensorEvent.values[0];
+
+                if (x > 0){
+                    nextWord(countWord++);
+                }
+            }
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int i) {
+
+            }
+        };
+
+        sensorManager.registerListener(eventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (mediaPlayer != null) mediaPlayer.stop();
+        sensorManager.unregisterListener(eventListener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mediaPlayer != null) mediaPlayer.stop();
+        sensorManager.unregisterListener(eventListener);
+    }
 }

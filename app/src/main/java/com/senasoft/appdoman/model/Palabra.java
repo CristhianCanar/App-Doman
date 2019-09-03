@@ -5,14 +5,16 @@ public class Palabra {
     private String palId;
     private String palName;
     private String palCategory;
+    private String uriAudio;
 
     public Palabra() {
     }
 
-    public Palabra(String palId, String palName, String palCategory) {
+    public Palabra(String palId, String palName, String palCategory, String uriAudio) {
         this.palId = palId;
         this.palName = palName;
         this.palCategory = palCategory;
+        this.uriAudio = uriAudio;
     }
 
     public String getPalId() {
@@ -37,5 +39,14 @@ public class Palabra {
 
     public void setPalCategory(String palCategory) {
         this.palCategory = palCategory;
+    }
+
+
+    public String getUriAudio() {
+        return uriAudio;
+    }
+
+    public void setUriAudio(String uriAudio) {
+        this.uriAudio = uriAudio;
     }
 }
