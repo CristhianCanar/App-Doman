@@ -4,29 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_app"
+    android:background="@drawable/rec"
     tools:context=".control.MainActivity">
 
     <Button
         android:id="@+id/btnEmpezar"
-        android:layout_width="250dp"
-        android:layout_height="55dp"
+        android:layout_width="210dp"
+        android:layout_height="60dp"
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
+
         android:layout_marginEnd="8dp"
         android:layout_marginRight="8dp"
-
         android:layout_marginBottom="16dp"
-        android:background="@drawable/bg_button"
+        android:background="@drawable/btn_amarillo"
         android:fontFamily="@font/instantharmony"
         android:text="@string/empezar"
-        android:textColor="@color/colorWhithe"
-        android:textSize="24sp"
+        android:textColor="@color/amarillo2"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.511"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rcCategorias" />
+        app:layout_constraintTop_toBottomOf="@+id/rcCategorias"
+        app:layout_constraintVertical_bias="0.486" />
 
     <ImageButton
         android:id="@+id/btnConfig"
@@ -44,24 +44,58 @@
         android:id="@+id/btnInfo"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/logo_info"
-        app:layout_constraintBottom_toBottomOf="@+id/btnDesLog"
-        app:layout_constraintEnd_toStartOf="@+id/btnDesLog"
-        app:layout_constraintTop_toTopOf="@+id/btnDesLog" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnConfig"
+        app:layout_constraintStart_toEndOf="@+id/btnConfig"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/btnDesLog"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:onClick="onClick"
-        android:src="@drawable/logo_exit"
+        android:layout_weight="1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/baseline_clear_white_18dp" />
+
+    <ImageView
+        android:id="@+id/nubeUno"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginLeft="35dp"
+        android:layout_marginBottom="18dp"
+        app:layout_constraintBottom_toBottomOf="@+id/rcCategorias"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/nube_uno" />
+
+    <ImageView
+        android:id="@+id/nubeDos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="46dp"
+        android:layout_marginRight="46dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rcCategorias"
+        app:srcCompat="@drawable/nube_dos" />
+
+    <ImageView
+        android:id="@+id/nubeTres"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="65dp"
+        android:layout_marginRight="65dp"
+        app:layout_constraintBottom_toBottomOf="@+id/rcCategorias"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnEmpezar"
+        app:layout_constraintTop_toBottomOf="@+id/rcCategorias"
+        app:srcCompat="@drawable/nube_tres" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
@@ -104,8 +138,8 @@
         android:layout_height="200dp"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

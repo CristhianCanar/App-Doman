@@ -12,8 +12,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Trace;
 import android.service.autofill.OnClickAction;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -38,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private RecyclerView rcCategorias;
 
+    private ImageView ivNubeUno, ivNubeDos, ivNubeTres;
+
     private boolean catUno = false;
     private boolean catDos = false;
     private boolean catTres = false;
@@ -46,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private Intent intent;
     private String categoria = "";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         referent();
 
         llenarCategorias();
+
+        startAnimation();
+
     }
 
     private void referent() {
@@ -77,6 +86,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnConfig = findViewById(R.id.btnConfig);
         btnConfig.setOnClickListener(this);
 
+        ivNubeUno = findViewById(R.id.nubeUno);
+        ivNubeDos = findViewById(R.id.nubeDos);
+        ivNubeTres = findViewById(R.id.nubeTres);
+    }
+
+    private void startAnimation() {
+
+        Runnable task = () ->{
+
+            // animation 1
+
+            Animation a1 = AnimationUtils.loadAnimation(this, R.anim.anim_translate_n1);
+            ivNubeUno.startAnimation(a1);
+
+            // animation 2
+
+            Animation a2 = AnimationUtils.loadAnimation(this, R.anim.anim_translate_n2);
+            ivNubeDos.startAnimation(a2);
+
+            // animation 3
+
+            Animation a3 = AnimationUtils.loadAnimation(this, R.anim.anim_translate_n2);
+            ivNubeTres.startAnimation(a3);
+
+            // animation 4
+
+            Animation a4 = AnimationUtils.loadAnimation(this, R.anim.anim_word_game);
+            btnEmpezar.startAnimation(a4);
+
+        };
+
+        task.run();
+
+        Thread thread = new Thread(task);
+        thread.start();
+
     }
 
     @Override
@@ -92,10 +137,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
 
                     intent = new Intent(MainActivity.this, GameActivity.class);
-
                     intent.putExtra("categoria", categoria);
 
                     startActivity(intent);
+
                     finish();
                 }
 
@@ -125,33 +170,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         rcCategorias.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        adapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        adapter.setOnClickListener(view -> {
 
-                switch (rcCategorias.getChildAdapterPosition(view)) {
-                    case 0:
-                        catUno = true;
-                        categoria = "Familia";
-                        break;
-                    case 1:
-                        catDos = true;
-                        categoria = "Nombres";
-                        break;
-                    case 2:
-                        catTres = true;
-                        categoria = "Partes del cuerpo";
-                        break;
-                    case 3:
-                        catCuatro = true;
-                        categoria = "Dias";
-                        break;
-                    case 4:
-                        catCinco = true;
-                        categoria = "Materias";
-                        break;
-                }
+            switch (rcCategorias.getChildAdapterPosition(view)) {
+                case 0:
+                    catUno = true;
+                    categoria = "Familia";
+                    break;
+                case 1:
+                    catDos = true;
+                    categoria = "Nombres";
+                    break;
+                case 2:
+                    catTres = true;
+                    categoria = "Partes del cuerpo";
+                    break;
+                case 3:
+                    catCuatro = true;
+                    categoria = "Dias";
+                    break;
+                case 4:
+                    catCinco = true;
+                    categoria = "Materias";
+                    break;
             }
+
         });
 
     }
@@ -165,18 +208,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.setTitle("Cerrar sesión");
         builder.setMessage("¿Deseas cerrar sesión?");
 
-        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-
-            }
-        });
+        builder.setPositiveButton("Aceptar",(dialogInterface, i) ->  finish());
+        builder.setNegativeButton("Cancelar", ((dialogInterface, i) -> {}));
 
         builder.create();
         builder.show();

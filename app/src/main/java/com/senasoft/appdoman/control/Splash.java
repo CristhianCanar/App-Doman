@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.senasoft.appdoman.R;
+import com.senasoft.appdoman.model.ManagerSQLiteHelper;
 
 import java.sql.Time;
 import java.util.Timer;
@@ -18,6 +19,10 @@ public class Splash extends AppCompatActivity {
         getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
+
+        ManagerSQLiteHelper managerSQLiteHelper = new ManagerSQLiteHelper(this);
+        managerSQLiteHelper.openDB();
+        managerSQLiteHelper.closeDB();
 
         TimerTask tarea = new TimerTask() {
             @Override

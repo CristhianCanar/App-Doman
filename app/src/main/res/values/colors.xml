@@ -11,13 +11,13 @@
     <color name="rosa">#FF1455</color>
 
     <color name="colorWhithe">#FFFFFF</color>
-    <color name="colorGris">#ccc</color>
+    <color name="colorGris">#CCCCCC</color>
 
 
     <color name="azul">#009CFF</color>
     <color name="azulstart">#3DFFCC</color>
     <color name="azuloscuro">#3F51B5</color>
-
+    <color name="amarillo2">#E79406</color>
 
 
 </resources>

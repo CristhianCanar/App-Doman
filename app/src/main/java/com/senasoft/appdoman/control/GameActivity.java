@@ -10,6 +10,8 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,6 +41,7 @@ public class GameActivity extends AppCompatActivity {
 
     private int countWord = 0;
     private int[] arrayGen;
+    private Animation animation;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -56,6 +59,10 @@ public class GameActivity extends AppCompatActivity {
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         sensor = sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
         startSensor();
+
+        // Animation
+
+        animation = AnimationUtils.loadAnimation(this, R.anim.anim_word_game);
 
     }
 
@@ -83,9 +90,8 @@ public class GameActivity extends AppCompatActivity {
         lista = new ArrayList<>(managerSQLiteHelper.readDataWord(categoria));
         arrayGen = generarNum(lista.size());
 
-        tvWord.setText(lista.get(arrayGen[0]).getPalName());
-
-        if (lista.size() < 1){tvWord.setText("Hay pocas palabras :(");}
+        if (lista.size() < 1)tvWord.setText("Hay pocas palabras :(");
+        else tvWord.setText(lista.get(arrayGen[0]).getPalName());
 
     }
 
@@ -98,6 +104,7 @@ public class GameActivity extends AppCompatActivity {
             try {
                 mediaPlayer.setDataSource(lista.get(arrayGen[count]).getUriAudio());
                 mediaPlayer.prepare();
+                tvWord.startAnimation(animation);
             }catch (Exception e){
                 e.printStackTrace();
             }
