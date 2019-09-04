@@ -23,7 +23,8 @@
             android:screenOrientation="landscape"/>
         <activity android:name=".control.SettingsAdmin" />
 
-        <activity android:name=".control.Splash">
+        <activity android:name=".control.Splash"
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,7 +33,8 @@
         </activity>
 
         <activity android:name=".control.Register" />
-        <activity android:name=".control.Login" />
+        <activity android:name=".control.Login"
+            android:screenOrientation="landscape"/>
 
     </application>
 

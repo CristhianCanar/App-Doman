@@ -4,9 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class ManagerSQLiteHelper {
@@ -40,12 +42,17 @@ public class ManagerSQLiteHelper {
     //TODO: METODOS PARA INSERCION (INSERTs)
 
     public boolean insertDataUser(Usuario usuario) {
+
+        openDB();
         ContentValues contenedor = new ContentValues();
         contenedor.put(Constantes.USE_COL_2, usuario.getUsuName());
-        contenedor.put(Constantes.USE_COL_3, usuario.getUsuUserName());
-        contenedor.put(Constantes.USE_COL_4, usuario.getUsuGenero());
-        contenedor.put(Constantes.USE_COL_5, usuario.getUsuPassword());
-        return (db.insert(Constantes.NAME_TABLE_USER, null, contenedor)) > 0;
+        contenedor.put(Constantes.USE_COL_4, usuario.getUsuUserName());//mirar luego mejor, se esta guardandp en columna cambiada
+        contenedor.put(Constantes.USE_COL_3, usuario.getUsuPassword());
+        contenedor.put(Constantes.USE_COL_5, usuario.getUsuGenero());
+        long result=  db.insert(Constantes.NAME_TABLE_USER, null, contenedor);
+        closeDB();
+        return result > 0;
+
     }
 
     public long insertDataWord(Palabra palabra) {
@@ -80,6 +87,36 @@ public class ManagerSQLiteHelper {
         return listUsuario;
     }
 
+    public Usuario readCredentailUser(String strUsu,String strPass){
+        Usuario usuario = new Usuario();
+
+        openDB();
+
+        String[] arg = {strUsu,strPass};
+        String[] column = {Constantes.USE_COL_3, Constantes.USE_COL_4};
+        System.out.println("aquiiiiiiiiiii");
+        Cursor cursor = db.query(Constantes.NAME_TABLE_USER, column, Constantes.USE_COL_3 + "=? and "+Constantes.USE_COL_4 + "=?", arg, null, null, null);
+        //System.out.println(cursor.getString(0));
+        if (cursor.moveToFirst()){
+            System.out.println("11111111111111111111111");
+
+            do {
+                System.out.println("2222222222222222");
+                usuario.setUsuUserName(cursor.getString(0));
+                usuario.setUsuPassword(cursor.getString(1));
+
+            }while (cursor.moveToNext());
+
+        }
+        else{//no hay usuario con esas credenciales, retorno objeto
+            System.out.println("333333333333333333333333333333");
+            usuario.setUsuUserName("-1");
+            usuario.setUsuPassword("-1");
+        }
+        closeDB();
+
+        return usuario;
+    }
 
 
     public ArrayList<Palabra> readDataWord(String data) {

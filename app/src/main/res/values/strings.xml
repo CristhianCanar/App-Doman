@@ -10,6 +10,7 @@
 
 
     <string name="registrarmeLogin"><u>Registrarme</u></string>
+    <string name="errorCredenciales"><u>Usuario o contraseña incorrectas, intentalo de nuevo</u></string>
     <string name="empezar">Empezar</string>
 
     <array name="categorias">
