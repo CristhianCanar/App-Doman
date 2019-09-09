@@ -14,14 +14,16 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".control.AddWordActivity"/>
+        <activity android:name=".control.AddWordActivity"
+            android:screenOrientation="landscape"/>
 
         <activity android:name=".control.GameActivity"
             android:screenOrientation="landscape" />
 
         <activity android:name=".control.MainActivity"
             android:screenOrientation="landscape"/>
-        <activity android:name=".control.SettingsAdmin" />
+        <activity android:name=".control.SettingsAdmin"
+            android:screenOrientation="landscape"/>
 
         <activity android:name=".control.Splash"
             android:screenOrientation="landscape">
