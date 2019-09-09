@@ -90,7 +90,7 @@ public class GameActivity extends AppCompatActivity {
         lista = new ArrayList<>(managerSQLiteHelper.readDataWord(categoria));
         arrayGen = generarNum(lista.size());
 
-        if (lista.size() < 1)tvWord.setText("Hay pocas palabras :(");
+        if (lista.isEmpty())tvWord.setText("Hay pocas palabras :(");
         else tvWord.setText(lista.get(arrayGen[0]).getPalName());
 
     }
@@ -109,8 +109,11 @@ public class GameActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
+        }else if (count == lista.size() && lista.size() != 0){
+            Intent intent = new Intent(GameActivity.this, MiniGameActivity.class);
+            startActivity(intent);
+            finish();
         }
-        else {tvWord.setText("Juego terminado");}
     }
 
     private void listenerWord() {

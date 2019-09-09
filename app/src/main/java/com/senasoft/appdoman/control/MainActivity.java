@@ -1,5 +1,6 @@
 package com.senasoft.appdoman.control;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Trace;
 import android.service.autofill.OnClickAction;
+import android.speech.SpeechRecognizer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -71,6 +73,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void referent() {
 
         tvUser = findViewById(R.id.tvNombreUSer);
+        String user = getIntent().getStringExtra("user");
+        tvUser.setText(user);
+
         tvBienvenida = findViewById(R.id.tvBienvenida);
         rcCategorias = findViewById(R.id.rcCategorias);
 
@@ -205,10 +210,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         builder.setIcon(R.drawable.logo_exit);
 
-        builder.setTitle("Cerrar sesión");
-        builder.setMessage("¿Deseas cerrar sesión?");
+        builder.setTitle("Salir");
+        builder.setMessage("¿Deseas salir de la aplicación?");
 
-        builder.setPositiveButton("Aceptar",(dialogInterface, i) ->  finish());
+        builder.setPositiveButton("Aceptar",(dialogInterface, i) ->  System.exit(1));
         builder.setNegativeButton("Cancelar", ((dialogInterface, i) -> {}));
 
         builder.create();

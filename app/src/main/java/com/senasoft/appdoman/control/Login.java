@@ -20,10 +20,7 @@ import java.util.TimerTask;
 
 public class Login extends AppCompatActivity {
 
-    EditText etUserLogin,etPasswordLogin;
-    Button btnIniciaSesionLog;
-    TextView titleRegisterRegister,tvErrorCredenciales;
-    ManagerSQLiteHelper manSQLiteHelper = new ManagerSQLiteHelper(this);
+    private Button btnIniciaSesionLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,51 +28,19 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        initViews();
 
-        etPasswordLogin = findViewById(R.id.etPasswordLogin);
-        etUserLogin = findViewById(R.id.etUserLogin);
-        titleRegisterRegister = findViewById(R.id.titleRegisterRegister);
-        tvErrorCredenciales = findViewById(R.id.tvErrorCredenciales);
+    }
 
+    private void initViews() {
 
         btnIniciaSesionLog = findViewById(R.id.btnIniciaSesionLog);
-
-        //Usuario u = new Usuario();
-        //u.setUsuPassword("andy");
-        //u.setUsuUserName("111");
-        manSQLiteHelper = new ManagerSQLiteHelper(this);
-        //manSQLiteHelper.insertDataUser(u);
-
-        btnIniciaSesionLog.setOnClickListener(view -> {
-
-            //tomar datos de un srvicio o array de credenciales
-            Usuario usuario = manSQLiteHelper.readCredentailUser(etUserLogin.getText().toString(),etPasswordLogin.getText().toString());
-
-            //if(etUserLogin.getText().toString().equals(usuario.getUsuUserName().toString()) && etPasswordLogin.getText().toString().equals(usuario.getUsuPassword().toString())){//credenciales correctas
-            if(etUserLogin.getText().toString().isEmpty() || etUserLogin.getText().toString().isEmpty()){
-
-                //arreglar cuando los campos esten vacios
-            }
-            if(!usuario.getUsuUserName().equalsIgnoreCase("-1") && !usuario.getUsuPassword().equalsIgnoreCase("-1")){//credenciales correctas
-                Intent intent = new Intent(Login.this,MainActivity.class);
-                startActivity(intent);
-                finish();
-            }else{//credenciales incorrectas mensaje de error
-                tvErrorCredenciales.setVisibility(View.VISIBLE);
-                etPasswordLogin.setText("");
-                etUserLogin.setText("");
-                Timer timer = new Timer();
-                TimerTask timerTask = new TimerTask() {
-                    @Override
-                    public void run() {
-                        tvErrorCredenciales.setVisibility(View.INVISIBLE);
-                    }
-                };
-                timer.schedule(timerTask,3000);
-            }
-
+        btnIniciaSesionLog.setOnClickListener(View -> {
+            Intent intent = new Intent(Login.this, MainActivity.class);
+            intent.putExtra("user", "Pablito");
+            startActivity(intent);
+            finish();
         });
-
 
     }
 

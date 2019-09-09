@@ -22,6 +22,7 @@
 
         <activity android:name=".control.MainActivity"
             android:screenOrientation="landscape"/>
+
         <activity android:name=".control.SettingsAdmin"
             android:screenOrientation="landscape"/>
 
@@ -33,9 +34,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".control.Register" />
-        <activity android:name=".control.Login"
+        <activity
+            android:name=".control.Login"
+            android:screenOrientation="landscape">
+        </activity>
+        <activity android:name=".control.MiniGameActivity"
             android:screenOrientation="landscape"/>
 
     </application>
