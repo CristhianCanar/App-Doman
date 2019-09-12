@@ -1,15 +1,18 @@
 package com.senasoft.appdoman.control;
 
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.ImageViewCompat;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -23,6 +26,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.senasoft.appdoman.R;
@@ -34,7 +38,6 @@ import java.util.TreeMap;
 
 public class MiniGameActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private LinearLayout parentLayout;
     private ImageView globo1, globo2, globo3, globo4, globo5;
 
     // Tamaño de pantalla
@@ -62,7 +65,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
     private MediaPlayer mediaPlayer;
 
     // Control
-    public static int globosFin = 20;
+    public static int globosEnd = 20;
     private int control = 0;
 
     @Override
@@ -80,23 +83,6 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         display.getSize(size);
         screenWidth = size.x;
         screenHeight = size.y;
-
-
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        changePost1();
-                        changePost2();
-                        changePost3();
-                        changePost4();
-                        changePost5();
-                    }
-                });
-            }
-        }, 0, 20);
 
 
     }
@@ -122,15 +108,47 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        changePost1();
+                        changePost2();
+                        changePost3();
+                        changePost4();
+                        changePost5();
+                    }
+                });
+            }
+        }, 0, 20);
+
+    }
+
     private void setVisibleGlobo(ImageView imageView) {
 
         mediaPlayer.start();
         imageView.setVisibility(View.INVISIBLE);
         control++;
-        if (control == globosFin){
-            Intent intent = new Intent(MiniGameActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+
+        if (control == globosEnd) {
+            AlertDialog.Builder aler = new AlertDialog.Builder(MiniGameActivity.this);
+            aler.setTitle("Felicitaciones!");
+            aler.setMessage("Haz terminado la fase");
+            aler.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent = new Intent(MiniGameActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+            });
+            aler.show();
         }
 
         timer.schedule(new TimerTask() {
@@ -144,6 +162,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
                 });
             }
         }, 400);
+
 
     }
 
@@ -160,6 +179,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         globo1.setY(globoDownY);
 
     }
+
     private void changePost2() {
         globoDownY2 -= 10;
 
@@ -171,6 +191,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         globo2.setX(globoDownX2);
         globo2.setY(globoDownY2);
     }
+
     private void changePost3() {
         globoDownY3 -= 10;
 
@@ -182,6 +203,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         globo3.setX(globoDownX3);
         globo3.setY(globoDownY3);
     }
+
     private void changePost4() {
         globoDownY4 -= 10;
 
@@ -193,6 +215,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         globo4.setX(globoDownX4);
         globo4.setY(globoDownY4);
     }
+
     private void changePost5() {
         globoDownY5 -= 6;
 
@@ -207,7 +230,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.globo1:
                 setVisibleGlobo(globo1);
                 break;
