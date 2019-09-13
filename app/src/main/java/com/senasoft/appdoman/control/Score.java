@@ -97,6 +97,7 @@ public class Score extends AppCompatActivity {
             starThree.setImageResource(R.drawable.starllenita);
         }
 
+
         textScore.setText("Tú califiacación fue "+text+" de "+sizeList);
     }
 }
