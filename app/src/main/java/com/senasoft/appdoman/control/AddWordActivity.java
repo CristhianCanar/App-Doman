@@ -1,5 +1,6 @@
 package com.senasoft.appdoman.control;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
@@ -74,6 +75,7 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     public void onClick(View view) {
 
@@ -89,6 +91,8 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
 
                 if (clicRecord && recorder != null) {
                     recorder.stop();
+
+                    btnRecordAudio.setTextColor(getColor(R.color.colorWhithe));
                     btnRecordAudio.setText(getResources().getString(R.string.grabaraudio));
                     btnRecordAudio.setBackgroundResource(R.drawable.bg_button);
 
@@ -122,6 +126,7 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void recordAudio() {
 
         if (editWord.getText().toString().isEmpty()) {
@@ -146,8 +151,9 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             recorder.start();
+            btnRecordAudio.setTextColor(getColor(R.color.azuloscuro));
             btnRecordAudio.setText("Grabando...");
-            btnRecordAudio.setBackgroundResource(R.drawable.bg_azul);
+            btnRecordAudio.setBackgroundResource(R.drawable.grabandoback);
             clicRecord = true;
 
         }

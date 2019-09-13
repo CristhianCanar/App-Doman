@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -18,6 +21,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +29,7 @@ import com.senasoft.appdoman.R;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
 import com.senasoft.appdoman.model.Palabra;
 
+import java.text.Normalizer;
 import java.util.ArrayList;
 
 import java.util.Locale;
@@ -33,7 +38,7 @@ import java.util.stream.IntStream;
 
 public class GameActivity extends AppCompatActivity {
 
-    private ImageButton btnCerrar, btnPlay;
+    private ImageButton btnCerrar, btnPlay, btnMicrophone;
     private TextView tvWord;
 
     private ManagerSQLiteHelper managerSQLiteHelper;
@@ -53,6 +58,14 @@ public class GameActivity extends AppCompatActivity {
     private final int RED_COUNT_SPEED_INPUT = 1;
     public static ArrayList<String> resultadoVoz;
     public int bandera=0;
+
+    //share preferences
+    public static final String SHARED_PREF = "puntaje";
+    //declarations for Score
+
+    public int sizeList;
+    public int puntos = 0;
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -75,10 +88,16 @@ public class GameActivity extends AppCompatActivity {
 
         animation = AnimationUtils.loadAnimation(this, R.anim.anim_word_game);
 
+
+        //save share
+        sizeList = lista.size();
+        Log.e("tamanio",""+sizeList);
+
+
+
     }
 
     private void referent() {
-
         tvWord = findViewById(R.id.tvWordGame);
 
         btnCerrar = findViewById(R.id.btnCerrarGame);
@@ -90,9 +109,10 @@ public class GameActivity extends AppCompatActivity {
 
         });
 
-
+        btnMicrophone = findViewById(R.id.btnMicrophoneGame);
+        btnMicrophone.setOnClickListener(view -> listenerWord());
         btnPlay = findViewById(R.id.btnAudioGame);
-        btnPlay.setOnClickListener(view -> listenerWord());
+        btnPlay.setOnClickListener(view -> playWord());
 
     }
 
@@ -100,6 +120,7 @@ public class GameActivity extends AppCompatActivity {
 
         String categoria = getIntent().getStringExtra("categoria");
         lista = new ArrayList<>(managerSQLiteHelper.readDataWord(categoria));
+        sizeList = lista.size();
         arrayGen = generarNum(lista.size());
 
         if (lista.isEmpty())tvWord.setText("Hay pocas palabras :(");
@@ -124,8 +145,17 @@ public class GameActivity extends AppCompatActivity {
 
         }else if (count == lista.size() && lista.size() != 0){
             Intent intent = new Intent(GameActivity.this, MiniGameActivity.class);
+            intent.putExtra("size",sizeList);
             startActivity(intent);
             finish();
+        }
+    }
+
+    private void playWord() {
+        try {
+            mediaPlayer.start();
+        }catch (Exception e){
+            e.printStackTrace();
         }
     }
 
@@ -151,7 +181,6 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -162,14 +191,19 @@ public class GameActivity extends AppCompatActivity {
             case RED_COUNT_SPEED_INPUT:
                 if (resultCode == RESULT_OK && null != data) {
                     resultadoVoz = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                    String cadenaNormalize = Normalizer.normalize(resultadoVoz.get(0), Normalizer.Form.NFD);
+                    String cadenaSinAcentos = cadenaNormalize.replaceAll("[^\\p{ASCII}]", "");
+
                     switch (requestCode){
                         case 1:
-                            if (resultadoVoz.get(0).equalsIgnoreCase(palabra)){
+                            if (cadenaSinAcentos.equalsIgnoreCase(palabra)){
                                 View toast = GameActivity.this.getLayoutInflater().inflate(R.layout.toast_correct,null);
                                 Toast correctToast = new Toast(getApplicationContext());
                                 correctToast.setView(toast);
                                 correctToast.setDuration(Toast.LENGTH_LONG);
                                 correctToast.show();
+                                saveScore(puntos = puntos +1);
+                                startSensor();
                             }else{
                                 View toast = GameActivity.this.getLayoutInflater().inflate(R.layout.toast_incorrect,null);
                                 Toast incorrectToast = new Toast(getApplicationContext());
@@ -183,6 +217,15 @@ public class GameActivity extends AppCompatActivity {
                 break;
         }
 
+    }
+
+    public void saveScore(int puntos){
+        String texto = Integer.toString(puntos);
+        Log.e("Text",""+texto);
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("puntaje",texto);
+        editor.commit();
     }
 
     @SuppressLint("NewApi")
