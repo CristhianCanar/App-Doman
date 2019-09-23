@@ -1,4 +1,4 @@
-package com.senasoft.appdoman.control;
+package com.senasoft.appdoman.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 

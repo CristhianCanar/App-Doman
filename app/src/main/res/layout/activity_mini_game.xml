@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/cielo"
-    tools:context=".control.MiniGameActivity">
+    tools:context=".controller.MiniGameActivity">
 
     <ImageView
         android:id="@+id/globo3"

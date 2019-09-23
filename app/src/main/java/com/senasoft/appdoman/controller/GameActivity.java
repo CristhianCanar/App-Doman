@@ -1,4 +1,4 @@
-package com.senasoft.appdoman.control;
+package com.senasoft.appdoman.controller;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,7 +8,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -21,7 +20,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,7 +55,7 @@ public class GameActivity extends AppCompatActivity {
     //Listener
     private final int RED_COUNT_SPEED_INPUT = 1;
     public static ArrayList<String> resultadoVoz;
-    public int bandera=0;
+    public int bandera = 0;
 
     //share preferences
     public static final String SHARED_PREF = "puntaje";
@@ -91,8 +89,7 @@ public class GameActivity extends AppCompatActivity {
 
         //save share
         tamanioListaPasar = lista.size();
-        Log.e("tamanio",""+tamanioListaPasar);
-
+        Log.e("tamanio", "" + tamanioListaPasar);
 
 
     }
@@ -123,12 +120,12 @@ public class GameActivity extends AppCompatActivity {
         tamanioListaPasar = lista.size();
         arrayGen = generarNum(lista.size());
 
-        if (lista.isEmpty())tvWord.setText("Hay pocas palabras :(");
+        if (lista.isEmpty()) tvWord.setText("Hay pocas palabras :(");
         else tvWord.setText(lista.get(arrayGen[0]).getPalName());
 
     }
 
-    private void nextWord(int count){
+    private void nextWord(int count) {
 
         mediaPlayer = new MediaPlayer();
         bandera = count;
@@ -139,11 +136,11 @@ public class GameActivity extends AppCompatActivity {
                 mediaPlayer.setDataSource(lista.get(arrayGen[count]).getUriAudio());
                 mediaPlayer.prepare();
                 tvWord.startAnimation(animation);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
-        }else if (count == lista.size() && lista.size() != 0){
+        } else if (count == lista.size() && lista.size() != 0) {
             Intent intent = new Intent(GameActivity.this, MiniGameActivity.class);
             startActivity(intent);
             finish();
@@ -153,7 +150,7 @@ public class GameActivity extends AppCompatActivity {
     private void playWord() {
         try {
             mediaPlayer.start();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -161,7 +158,7 @@ public class GameActivity extends AppCompatActivity {
     private void listenerWord() {
         try {
             iniciarEntradaVoz();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -171,11 +168,11 @@ public class GameActivity extends AppCompatActivity {
 
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,"Te escucho...");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Te escucho...");
 
         try {
-            startActivityForResult(intent,1);
-        }catch (ActivityNotFoundException e){
+            startActivityForResult(intent, 1);
+        } catch (ActivityNotFoundException e) {
             Toast.makeText(this, "No se puede hacer el proceso", Toast.LENGTH_SHORT).show();
         }
     }
@@ -186,27 +183,27 @@ public class GameActivity extends AppCompatActivity {
         String palabra = lista.get(arrayGen[bandera]).getPalName();
         String palabraNormalize = Normalizer.normalize(palabra, Normalizer.Form.NFD);
         String palabraSinAcentos = palabraNormalize.replaceAll("[^\\p{ASCII}]", "");
-        Log.e("Palabra",""+palabraSinAcentos);
+        Log.e("Palabra", "" + palabraSinAcentos);
 
-        switch (requestCode){
+        switch (requestCode) {
             case RED_COUNT_SPEED_INPUT:
                 if (resultCode == RESULT_OK && null != data) {
                     resultadoVoz = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String cadenaNormalize = Normalizer.normalize(resultadoVoz.get(0), Normalizer.Form.NFD);
                     String cadenaSinAcentos = cadenaNormalize.replaceAll("[^\\p{ASCII}]", "");
-                    Log.e("Palabra",""+cadenaSinAcentos);
-                    switch (requestCode){
+                    Log.e("Palabra", "" + cadenaSinAcentos);
+                    switch (requestCode) {
                         case 1:
-                            if (palabraSinAcentos.equals(cadenaSinAcentos)){
-                                View toast = GameActivity.this.getLayoutInflater().inflate(R.layout.toast_correct,null);
+                            if (palabraSinAcentos.equals(cadenaSinAcentos)) {
+                                View toast = GameActivity.this.getLayoutInflater().inflate(R.layout.toast_correct, null);
                                 Toast correctToast = new Toast(getApplicationContext());
                                 correctToast.setView(toast);
                                 correctToast.setDuration(Toast.LENGTH_LONG);
                                 correctToast.show();
-                                puntos = puntos +1;
+                                puntos = puntos + 1;
                                 startSensor();
-                            }else{
-                                View toast = GameActivity.this.getLayoutInflater().inflate(R.layout.toast_incorrect,null);
+                            } else {
+                                View toast = GameActivity.this.getLayoutInflater().inflate(R.layout.toast_incorrect, null);
                                 Toast incorrectToast = new Toast(getApplicationContext());
                                 incorrectToast.setView(toast);
                                 incorrectToast.setDuration(Toast.LENGTH_SHORT);
@@ -224,32 +221,32 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-    public void saveScore(int puntos){
+    public void saveScore(int puntos) {
         String texto = Integer.toString(puntos);
-        Log.e("Text",""+texto);
+        Log.e("Text", "" + texto);
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("puntaje",texto);
+        editor.putString("puntaje", texto);
         editor.commit();
     }
 
     @SuppressLint("NewApi")
-    public int[] generarNum(int cant){
+    public int[] generarNum(int cant) {
 
         int numMin = 0;
         int numMax = cant;
 
         int[] array;
 
-        array = IntStream.rangeClosed(numMin, numMax-1).toArray();
+        array = IntStream.rangeClosed(numMin, numMax - 1).toArray();
 
         Random random = new Random();
 
-        for (int i = array.length; i > 0; i--){
+        for (int i = array.length; i > 0; i--) {
 
-            int pos =  random.nextInt(i);
-            int tmp = array[i-1];
-            array[i-1] = array[pos];
+            int pos = random.nextInt(i);
+            int tmp = array[i - 1];
+            array[i - 1] = array[pos];
             array[pos] = tmp;
 
         }
@@ -266,7 +263,7 @@ public class GameActivity extends AppCompatActivity {
 
                 float x = sensorEvent.values[0];
 
-                if (x > 0){
+                if (x > 0) {
                     nextWord(countWord++);
                 }
             }

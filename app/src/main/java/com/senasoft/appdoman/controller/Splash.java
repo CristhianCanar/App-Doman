@@ -1,4 +1,4 @@
-package com.senasoft.appdoman.control;
+package com.senasoft.appdoman.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,7 +8,6 @@ import android.os.Bundle;
 import com.senasoft.appdoman.R;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
 
-import java.sql.Time;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -34,7 +33,6 @@ public class Splash extends AppCompatActivity {
         };
 
         Timer timer = new Timer();
-
         timer.schedule(tarea, 3000);
     }
 }

@@ -1,36 +1,23 @@
-package com.senasoft.appdoman.control;
+package com.senasoft.appdoman.controller;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Dialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Trace;
-import android.service.autofill.OnClickAction;
-import android.speech.SpeechRecognizer;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
 import com.senasoft.appdoman.model.AdapterCategorias;
-import com.senasoft.appdoman.model.ManagerSQLiteHelper;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -213,8 +200,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.setTitle("Salir");
         builder.setMessage("¿Deseas salir de la aplicación?");
 
-        builder.setPositiveButton("Aceptar",(dialogInterface, i) ->  System.exit(1));
-        builder.setNegativeButton("Cancelar", ((dialogInterface, i) -> {}));
+        builder.setPositiveButton("Aceptar",(dialogInterface, i) ->  System.exit(0));
+        builder.setNegativeButton("Cancelar", ((dialogInterface, i) -> builder.setCancelable(true)));
 
         builder.create();
         builder.show();

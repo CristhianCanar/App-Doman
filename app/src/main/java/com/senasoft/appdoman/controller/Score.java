@@ -1,4 +1,4 @@
-package com.senasoft.appdoman.control;
+package com.senasoft.appdoman.controller;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,13 +8,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
-import com.senasoft.appdoman.model.ManagerSQLiteHelper;
-import com.senasoft.appdoman.model.Palabra;
 
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,7 +23,7 @@ public class Score extends AppCompatActivity {
     //share preferences
     public static final String SHARED_PREF = "puntaje";
 
-    public  String text;
+    public String text;
 
     private int sizeList = 0;
 
@@ -38,7 +34,11 @@ public class Score extends AppCompatActivity {
         setContentView(R.layout.activity_score);
 
         referent();
-        sizeList = GameActivity.tamanioListaPasar;
+        try {
+            sizeList = GameActivity.tamanioListaPasar;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
         loadScore();
         updateViews();
@@ -46,18 +46,18 @@ public class Score extends AppCompatActivity {
         TimerTask tarea = new TimerTask() {
             @Override
             public void run() {
-                Intent intent = new Intent(Score.this,MainActivity.class);
+                Intent intent = new Intent(Score.this, MainActivity.class);
                 startActivity(intent);
                 finish();
             }
         };
         Timer timer = new Timer();
-        timer.schedule(tarea,5000);
+        timer.schedule(tarea, 4000);
 
 
     }
 
-    public void referent (){
+    public void referent() {
         textScore = findViewById(R.id.tvScore);
         starOne = findViewById(R.id.ivStarOne);
         starTwo = findViewById(R.id.ivStarTwo);
@@ -67,33 +67,39 @@ public class Score extends AppCompatActivity {
     }
 
 
-
-    public void loadScore(){
-        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF,MODE_PRIVATE);
-        text = sharedPreferences.getString("puntaje","No existe puntaje");
+    public void loadScore() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, MODE_PRIVATE);
+        text = sharedPreferences.getString("puntaje", "No existe puntaje");
         textScore.setText(text);
 
     }
 
-    public void updateViews(){
-        int puntos = Integer.parseInt(text);
-        Log.e("puntos",""+puntos);
+    public void updateViews() {
 
-        if (puntos< sizeList/2){
+        int puntos = 0;
+
+        try {
+            puntos = Integer.parseInt(text);
+            Log.e("puntos", "" + puntos);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        if (puntos < sizeList / 2) {
             starOne.setImageResource(R.drawable.starllenita);
             starTwo.setImageResource(R.drawable.emptystar);
             starThree.setImageResource(R.drawable.emptystar);
-        }else if (puntos >= sizeList/2 && puntos < sizeList){
+        } else if (puntos >= sizeList / 2 && puntos < sizeList) {
             starOne.setImageResource(R.drawable.starllenita);
             starTwo.setImageResource(R.drawable.starllenita);
             starThree.setImageResource(R.drawable.emptystar);
-        }else if (puntos>=sizeList){
+        } else if (puntos >= sizeList) {
             starOne.setImageResource(R.drawable.starllenita);
             starTwo.setImageResource(R.drawable.starllenita);
             starThree.setImageResource(R.drawable.starllenita);
         }
 
-
-        textScore.setText("Tú califiacación fue "+text+" de "+sizeList);
+        textScore.setText("Tú calificación fue " + text + " de " + sizeList);
     }
 }

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_degrainverlogin"
     android:foregroundGravity="center"
-    tools:context=".control.Register">
+    tools:context=".controller.Register">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

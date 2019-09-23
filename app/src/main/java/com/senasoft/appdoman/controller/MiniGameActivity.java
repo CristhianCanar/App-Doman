@@ -1,46 +1,25 @@
-package com.senasoft.appdoman.control;
+package com.senasoft.appdoman.controller;
 
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.ImageViewCompat;
 
-import android.content.DialogInterface;
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.graphics.Point;
-import android.graphics.PorterDuff;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
-import android.util.Log;
 import android.view.Display;
-import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Scroller;
-import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.senasoft.appdoman.R;
 
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.TreeMap;
 
 public class MiniGameActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private LinearLayout parentLayout;
     private ImageView globo1, globo2, globo3, globo4, globo5;
 
     // Tamaño de pantalla
@@ -68,7 +47,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
     private MediaPlayer mediaPlayer;
 
     // Control
-    public static int globosFin = 20;
+    public static int globosFin = 15;
     private int control = 0;
 
     int sizeList = 0;
@@ -105,8 +84,6 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
                 });
             }
         }, 0, 20);
-
-
 
 
     }
@@ -159,7 +136,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         mediaPlayer.start();
         imageView.setVisibility(View.INVISIBLE);
         control++;
-        if (control == globosFin){
+        if (control == globosFin) {
             Intent intent = new Intent(MiniGameActivity.this, Score.class);
             //intent.putExtra("size", sizeList);
             startActivity(intent);
@@ -176,7 +153,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
                     }
                 });
             }
-        }, 400);
+        }, 600);
 
     }
 
@@ -193,6 +170,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         globo1.setY(globoDownY);
 
     }
+
     private void changePost2() {
         globoDownY2 -= 10;
 
@@ -204,17 +182,19 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         globo2.setX(globoDownX2);
         globo2.setY(globoDownY2);
     }
+
     private void changePost3() {
         globoDownY3 -= 10;
 
         if (globo3.getY() + globo3.getHeight() < 0) {
             globoDownX3 = (float) Math.floor(Math.random() * (screenWidth - globo3.getWidth()));
-            globoDownY3 = screenHeight + 100.0f;
+            globoDownY3 = screenHeight + 103.0f;
         }
 
         globo3.setX(globoDownX3);
         globo3.setY(globoDownY3);
     }
+
     private void changePost4() {
         globoDownY4 -= 10;
 
@@ -226,12 +206,13 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         globo4.setX(globoDownX4);
         globo4.setY(globoDownY4);
     }
+
     private void changePost5() {
         globoDownY5 -= 6;
 
         if (globo5.getY() + globo5.getHeight() < 0) {
             globoDownX5 = (float) Math.floor(Math.random() * (screenWidth - globo5.getWidth()));
-            globoDownY5 = screenHeight + 100.0f;
+            globoDownY5 = screenHeight + 102.0f;
         }
 
         globo5.setX(globoDownX5);
@@ -240,7 +221,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.globo1:
                 setVisibleGlobo(globo1);
                 break;

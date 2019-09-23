@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_degrainverlogin"
-    tools:context=".control.AddWordActivity">
+    tools:context=".controller.AddWordActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"

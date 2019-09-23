@@ -1,4 +1,4 @@
-package com.senasoft.appdoman.control;
+package com.senasoft.appdoman.controller;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,13 +16,11 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.senasoft.appdoman.R;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
 import com.senasoft.appdoman.model.Palabra;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 
 public class AddWordActivity extends AppCompatActivity implements View.OnClickListener {
 
