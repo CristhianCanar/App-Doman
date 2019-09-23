@@ -63,7 +63,7 @@ public class GameActivity extends AppCompatActivity {
     public static final String SHARED_PREF = "puntaje";
     //declarations for Score
 
-    public int sizeList;
+    public static int tamanioListaPasar;
     public int puntos = 0;
 
 
@@ -90,8 +90,8 @@ public class GameActivity extends AppCompatActivity {
 
 
         //save share
-        sizeList = lista.size();
-        Log.e("tamanio",""+sizeList);
+        tamanioListaPasar = lista.size();
+        Log.e("tamanio",""+tamanioListaPasar);
 
 
 
@@ -120,7 +120,7 @@ public class GameActivity extends AppCompatActivity {
 
         String categoria = getIntent().getStringExtra("categoria");
         lista = new ArrayList<>(managerSQLiteHelper.readDataWord(categoria));
-        sizeList = lista.size();
+        tamanioListaPasar = lista.size();
         arrayGen = generarNum(lista.size());
 
         if (lista.isEmpty())tvWord.setText("Hay pocas palabras :(");
@@ -145,7 +145,6 @@ public class GameActivity extends AppCompatActivity {
 
         }else if (count == lista.size() && lista.size() != 0){
             Intent intent = new Intent(GameActivity.this, MiniGameActivity.class);
-            intent.putExtra("size",sizeList);
             startActivity(intent);
             finish();
         }
@@ -185,7 +184,9 @@ public class GameActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         String palabra = lista.get(arrayGen[bandera]).getPalName();
-        Log.e("Errr",""+palabra);
+        String palabraNormalize = Normalizer.normalize(palabra, Normalizer.Form.NFD);
+        String palabraSinAcentos = palabraNormalize.replaceAll("[^\\p{ASCII}]", "");
+        Log.e("Palabra",""+palabraSinAcentos);
 
         switch (requestCode){
             case RED_COUNT_SPEED_INPUT:
@@ -193,24 +194,28 @@ public class GameActivity extends AppCompatActivity {
                     resultadoVoz = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String cadenaNormalize = Normalizer.normalize(resultadoVoz.get(0), Normalizer.Form.NFD);
                     String cadenaSinAcentos = cadenaNormalize.replaceAll("[^\\p{ASCII}]", "");
-
+                    Log.e("Palabra",""+cadenaSinAcentos);
                     switch (requestCode){
                         case 1:
-                            if (cadenaSinAcentos.equalsIgnoreCase(palabra)){
+                            if (palabraSinAcentos.equals(cadenaSinAcentos)){
                                 View toast = GameActivity.this.getLayoutInflater().inflate(R.layout.toast_correct,null);
                                 Toast correctToast = new Toast(getApplicationContext());
                                 correctToast.setView(toast);
                                 correctToast.setDuration(Toast.LENGTH_LONG);
                                 correctToast.show();
-                                saveScore(puntos = puntos +1);
+                                puntos = puntos +1;
                                 startSensor();
                             }else{
                                 View toast = GameActivity.this.getLayoutInflater().inflate(R.layout.toast_incorrect,null);
                                 Toast incorrectToast = new Toast(getApplicationContext());
                                 incorrectToast.setView(toast);
-                                incorrectToast.setDuration(Toast.LENGTH_LONG);
+                                incorrectToast.setDuration(Toast.LENGTH_SHORT);
                                 incorrectToast.show();
+                                puntos = puntos;
+                                startSensor();
                             }
+                            saveScore(puntos);
+
                             break;
                     }
                 }

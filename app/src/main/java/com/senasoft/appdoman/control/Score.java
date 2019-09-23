@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,27 +24,21 @@ public class Score extends AppCompatActivity {
     TextView textScore;
     ImageView starOne, starTwo, starThree;
 
-    ManagerSQLiteHelper managerSQLiteHelper;
-    private ArrayList<Palabra> lista;
     //share preferences
     public static final String SHARED_PREF = "puntaje";
 
     public  String text;
 
-    GameActivity gameActivity;
-
-    int sizeList = 0;
+    private int sizeList = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getSupportActionBar().hide();
         setContentView(R.layout.activity_score);
 
         referent();
-        Bundle datos = this.getIntent().getExtras();
-        sizeList = datos.getInt("size");
+        sizeList = GameActivity.tamanioListaPasar;
 
         loadScore();
         updateViews();
@@ -82,6 +77,7 @@ public class Score extends AppCompatActivity {
 
     public void updateViews(){
         int puntos = Integer.parseInt(text);
+        Log.e("puntos",""+puntos);
 
         if (puntos< sizeList/2){
             starOne.setImageResource(R.drawable.starllenita);

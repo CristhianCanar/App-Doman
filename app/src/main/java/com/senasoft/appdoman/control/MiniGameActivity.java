@@ -106,8 +106,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
             }
         }, 0, 20);
 
-        Bundle datos = this.getIntent().getExtras();
-        sizeList = datos.getInt("size");
+
 
 
     }
@@ -162,7 +161,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         control++;
         if (control == globosFin){
             Intent intent = new Intent(MiniGameActivity.this, Score.class);
-            intent.putExtra("size", sizeList);
+            //intent.putExtra("size", sizeList);
             startActivity(intent);
             finish();
         }
