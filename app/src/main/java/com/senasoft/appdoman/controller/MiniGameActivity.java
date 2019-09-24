@@ -22,11 +22,12 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
 
     private ImageView globo1, globo2, globo3, globo4, globo5;
 
-    // Tamaño de pantalla
+    // Screen size
+
     private int screenWidth;
     private int screenHeight;
 
-    // Posición
+    // Position
 
     private float globoDownX;
     private float globoDownX2;
@@ -40,13 +41,14 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
     private float globoDownY4;
     private float globoDownY5;
 
-    // Inicializacion de clases
+    // init of objects
 
     private Handler handler = new Handler();
     private Timer timer = new Timer();
     private MediaPlayer mediaPlayer;
 
     // Control
+
     public static int globosFin = 15;
     private int control = 0;
 
@@ -60,7 +62,8 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
 
         initViews();
 
-        // Obtener tamaño de pantalla
+        // Get Screen size
+
         WindowManager wm = getWindowManager();
         Display display = wm.getDefaultDisplay();
         Point size = new Point();
@@ -68,6 +71,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         screenWidth = size.x;
         screenHeight = size.y;
 
+        // Execute view movement
 
         timer.schedule(new TimerTask() {
             @Override
@@ -156,6 +160,9 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         }, 600);
 
     }
+
+    /* Method to change positions of views
+     *  by: David Argote */
 
     private void changePost1() {
 

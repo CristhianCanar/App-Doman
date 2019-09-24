@@ -4,11 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 
 public class ManagerSQLiteHelper {
@@ -16,10 +12,10 @@ public class ManagerSQLiteHelper {
     SQLiteDatabase db;
     ConexionSQLiteHelper conexionSQLiteHelper;
 
-    ArrayList<Palabra> listPalabra;
-    ArrayList<Usuario> listUsuario;
-    //ArrayList<Categoria> listCategoria;
-    //Categoria categoria;
+    ArrayList<Word> listWord;
+    ArrayList<User> listUser;
+    //ArrayList<Category> listCategoria;
+    //Category categoria;
 
     //TODO CONEXIÓN A LA BD
     public ManagerSQLiteHelper(Context context) {
@@ -41,29 +37,29 @@ public class ManagerSQLiteHelper {
 
     //TODO: METODOS PARA INSERCION (INSERTs)
 
-    public boolean insertDataUser(Usuario usuario) {
+    public boolean insertDataUser(User user) {
 
         openDB();
         ContentValues contenedor = new ContentValues();
-        contenedor.put(Constantes.USE_COL_2, usuario.getUsuName());
-        contenedor.put(Constantes.USE_COL_4, usuario.getUsuUserName());//mirar luego mejor, se esta guardandp en columna cambiada
-        contenedor.put(Constantes.USE_COL_3, usuario.getUsuPassword());
-        contenedor.put(Constantes.USE_COL_5, usuario.getUsuGenero());
+        contenedor.put(Constantes.USE_COL_2, user.getUsuName());
+        contenedor.put(Constantes.USE_COL_4, user.getUsuUserName());//mirar luego mejor, se esta guardandp en columna cambiada
+        contenedor.put(Constantes.USE_COL_3, user.getUsuPassword());
+        contenedor.put(Constantes.USE_COL_5, user.getUsuGenero());
         long result=  db.insert(Constantes.NAME_TABLE_USER, null, contenedor);
         closeDB();
         return result > 0;
 
     }
 
-    public long insertDataWord(Palabra palabra) {
+    public long insertDataWord(Word word) {
 
         openDB();
 
         ContentValues values = new ContentValues();
 
-        values.put(Constantes.PAL_COL_2, palabra.getPalName());
-        values.put(Constantes.PAL_COL_3, palabra.getPalCategory());
-        values.put(Constantes.PAL_COL_4, palabra.getUriAudio());
+        values.put(Constantes.PAL_COL_2, word.getPalName());
+        values.put(Constantes.PAL_COL_3, word.getPalCategory());
+        values.put(Constantes.PAL_COL_4, word.getUriAudio());
 
         long mInsert = db.insert(Constantes.NAME_TABLE_WORD, null, values);
 
@@ -74,7 +70,7 @@ public class ManagerSQLiteHelper {
     }
 
     /* //TODO: SE PUEDE QUITAR YA QUE SE LAMCENA EN PALABRA
-    public boolean insertDataCategory(Categoria categoria) {
+    public boolean insertDataCategory(Category categoria) {
         ContentValues contenedor = new ContentValues();
         contenedor.put(Constantes.CAT_COL_2, categoria.getCatName());
         return (db.insert(Constantes.NAME_TABLE_USER, null, contenedor)) > 0;
@@ -83,12 +79,12 @@ public class ManagerSQLiteHelper {
     */
 
     //TODO: METODO LEER/LISTAR (READs)
-    public ArrayList<Usuario> readDataUser() {
-        return listUsuario;
+    public ArrayList<User> readDataUser() {
+        return listUser;
     }
 
-    public Usuario readCredentailUser(String strUsu,String strPass){
-        Usuario usuario = new Usuario();
+    public User readCredentailUser(String strUsu, String strPass){
+        User user = new User();
 
         openDB();
 
@@ -102,28 +98,28 @@ public class ManagerSQLiteHelper {
 
             do {
                 System.out.println("2222222222222222");
-                usuario.setUsuUserName(cursor.getString(0));
-                usuario.setUsuPassword(cursor.getString(1));
+                user.setUsuUserName(cursor.getString(0));
+                user.setUsuPassword(cursor.getString(1));
 
             }while (cursor.moveToNext());
 
         }
-        else{//no hay usuario con esas credenciales, retorno objeto
+        else{//no hay user con esas credenciales, retorno objeto
             System.out.println("333333333333333333333333333333");
-            usuario.setUsuUserName("-1");
-            usuario.setUsuPassword("-1");
+            user.setUsuUserName("-1");
+            user.setUsuPassword("-1");
         }
         closeDB();
 
-        return usuario;
+        return user;
     }
 
 
-    public ArrayList<Palabra> readDataWord(String data) {
+    public ArrayList<Word> readDataWord(String data) {
 
         openDB();
 
-        listPalabra = new ArrayList<>();
+        listWord = new ArrayList<>();
 
         String[] arg = {data};
         String[] column = {Constantes.PAL_COL_2, Constantes.PAL_COL_4};
@@ -134,18 +130,18 @@ public class ManagerSQLiteHelper {
 
             do {
 
-                Palabra palabra = new Palabra();
+                Word word = new Word();
 
-                palabra.setPalName(cursor.getString(0));
-                palabra.setUriAudio(cursor.getString(1));
+                word.setPalName(cursor.getString(0));
+                word.setUriAudio(cursor.getString(1));
 
-                listPalabra.add(palabra);
+                listWord.add(word);
 
             }while (cursor.moveToNext());
 
         }
 
-        return listPalabra;
+        return listWord;
     }
 
 }

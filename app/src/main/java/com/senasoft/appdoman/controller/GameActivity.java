@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
-import com.senasoft.appdoman.model.Palabra;
+import com.senasoft.appdoman.model.Word;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -40,27 +40,26 @@ public class GameActivity extends AppCompatActivity {
     private TextView tvWord;
 
     private ManagerSQLiteHelper managerSQLiteHelper;
-    private ArrayList<Palabra> lista;
+    private ArrayList<Word> lista;
 
     private MediaPlayer mediaPlayer;
-
     private SensorManager sensorManager;
     private Sensor sensor;
     private SensorEventListener eventListener;
-
-    private int countWord = 0;
-    private int[] arrayGen;
     private Animation animation;
 
-    //Listener
+    // Variables of game
+
+    private int[] arrayGen;
+    private int countWord = 0;
     private final int RED_COUNT_SPEED_INPUT = 1;
     public static ArrayList<String> resultadoVoz;
     public int bandera = 0;
 
-    //share preferences
+    // Share preferences
     public static final String SHARED_PREF = "puntaje";
-    //declarations for Score
 
+    //declarations for Score
     public static int tamanioListaPasar;
     public int puntos = 0;
 
@@ -74,7 +73,7 @@ public class GameActivity extends AppCompatActivity {
         managerSQLiteHelper = new ManagerSQLiteHelper(this);
 
         // init all
-        referent();
+        initViews();
         initWords();
 
         // init sensors
@@ -83,18 +82,16 @@ public class GameActivity extends AppCompatActivity {
         startSensor();
 
         // Animation
-
         animation = AnimationUtils.loadAnimation(this, R.anim.anim_word_game);
-
 
         //save share
         tamanioListaPasar = lista.size();
         Log.e("tamanio", "" + tamanioListaPasar);
 
-
     }
 
-    private void referent() {
+    private void initViews() {
+
         tvWord = findViewById(R.id.tvWordGame);
 
         btnCerrar = findViewById(R.id.btnCerrarGame);
@@ -113,6 +110,9 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    /* Method to init words
+    *  by: David Argote*/
+
     private void initWords() {
 
         String categoria = getIntent().getStringExtra("categoria");
@@ -124,6 +124,9 @@ public class GameActivity extends AppCompatActivity {
         else tvWord.setText(lista.get(arrayGen[0]).getPalName());
 
     }
+
+    /*Method to change words
+    * by: David Argote*/
 
     private void nextWord(int count) {
 
@@ -183,7 +186,7 @@ public class GameActivity extends AppCompatActivity {
         String palabra = lista.get(arrayGen[bandera]).getPalName();
         String palabraNormalize = Normalizer.normalize(palabra, Normalizer.Form.NFD);
         String palabraSinAcentos = palabraNormalize.replaceAll("[^\\p{ASCII}]", "");
-        Log.e("Palabra", "" + palabraSinAcentos);
+        Log.e("Word", "" + palabraSinAcentos);
 
         switch (requestCode) {
             case RED_COUNT_SPEED_INPUT:
@@ -191,7 +194,7 @@ public class GameActivity extends AppCompatActivity {
                     resultadoVoz = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                     String cadenaNormalize = Normalizer.normalize(resultadoVoz.get(0), Normalizer.Form.NFD);
                     String cadenaSinAcentos = cadenaNormalize.replaceAll("[^\\p{ASCII}]", "");
-                    Log.e("Palabra", "" + cadenaSinAcentos);
+                    Log.e("Word", "" + cadenaSinAcentos);
                     switch (requestCode) {
                         case 1:
                             if (palabraSinAcentos.equals(cadenaSinAcentos)) {
@@ -229,6 +232,10 @@ public class GameActivity extends AppCompatActivity {
         editor.putString("puntaje", texto);
         editor.commit();
     }
+
+
+    /* Method to init array of number randoms
+    *  by: David Argote */
 
     @SuppressLint("NewApi")
     public int[] generarNum(int cant) {

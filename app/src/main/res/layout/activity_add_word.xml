@@ -69,7 +69,7 @@
                 android:layout_marginRight="8dp"
                 android:background="@drawable/bg_editext"
                 android:ems="10"
-                android:hint="@string/palabra"
+                android:hint="@string/word"
                 android:inputType="textPersonName"
                 android:paddingLeft="15dp"
                 app:layout_constraintEnd_toEndOf="parent"

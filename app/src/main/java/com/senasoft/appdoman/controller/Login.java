@@ -23,6 +23,7 @@ public class Login extends AppCompatActivity {
     }
 
     private void initViews() {
+
         btnIniciaSesionLog = findViewById(R.id.btnIniciaSesionLog);
         btnIniciaSesionLog.setOnClickListener(View -> {
             Intent intent = new Intent(Login.this, MainActivity.class);
@@ -31,6 +32,7 @@ public class Login extends AppCompatActivity {
             finish();
         });
         tvName = findViewById(R.id.tvUserLogin);
+
     }
 
 }

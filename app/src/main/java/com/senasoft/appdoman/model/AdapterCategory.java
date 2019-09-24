@@ -1,14 +1,8 @@
 package com.senasoft.appdoman.model;
 
-import android.content.Context;
-import android.graphics.Color;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,9 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.senasoft.appdoman.R;
 
-import java.util.ArrayList;
-
-public class AdapterCategorias extends RecyclerView.Adapter<AdapterCategorias.Holder>
+public class AdapterCategory extends RecyclerView.Adapter<AdapterCategory.Holder>
         implements View.OnClickListener {
 
     String[] titles = {"Familia", "Nombre compañeros", "Partes del cuerpo", "Dias semana", "Materias"};

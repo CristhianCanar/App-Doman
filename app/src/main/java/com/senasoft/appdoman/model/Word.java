@@ -1,16 +1,16 @@
 package com.senasoft.appdoman.model;
 
-public class Palabra {
+public class Word {
 
     private String palId;
     private String palName;
     private String palCategory;
     private String uriAudio;
 
-    public Palabra() {
+    public Word() {
     }
 
-    public Palabra(String palId, String palName, String palCategory, String uriAudio) {
+    public Word(String palId, String palName, String palCategory, String uriAudio) {
         this.palId = palId;
         this.palName = palName;
         this.palCategory = palCategory;

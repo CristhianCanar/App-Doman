@@ -1,15 +1,15 @@
 package com.senasoft.appdoman.model;
 
-public class Categoria {
+public class Category {
     private String catId;
     private String catName;
 
-    public Categoria(String catId, String catName) {
+    public Category(String catId, String catName) {
         this.catId = catId;
         this.catName = catName;
     }
 
-    public Categoria() {
+    public Category() {
     }
 
     public String getCatId() {

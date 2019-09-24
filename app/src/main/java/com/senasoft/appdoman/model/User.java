@@ -1,13 +1,13 @@
 package com.senasoft.appdoman.model;
 
-public class Usuario {
+public class User {
     private String usuId;
     private String usuName;
     private String usuUserName;
     private String usuPassword;
     private String usuGenero;
 
-    public Usuario(String usuId, String usuName, String usuUserName, String usuPassword, String usuGenero) {
+    public User(String usuId, String usuName, String usuUserName, String usuPassword, String usuGenero) {
         this.usuId = usuId;
         this.usuName = usuName;
         this.usuUserName = usuUserName;
@@ -15,7 +15,7 @@ public class Usuario {
         this.usuGenero = usuGenero;
     }
 
-    public Usuario() {
+    public User() {
     }
 
     public String getUsuId() {

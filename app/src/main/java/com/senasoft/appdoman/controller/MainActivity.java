@@ -17,19 +17,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
-import com.senasoft.appdoman.model.AdapterCategorias;
+import com.senasoft.appdoman.model.AdapterCategory;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private TextView tvUser, tvBienvenida;
     private Button btnEmpezar;
-
     private ImageButton btnConfig;
-
     private ImageView btnInfo, btnDesLog;
-
     private RecyclerView rcCategorias;
-
     private ImageView ivNubeUno, ivNubeDos, ivNubeTres;
 
     private boolean catUno = false;
@@ -48,18 +44,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         getSupportActionBar().hide();
-
-        referent();
-
+        initViews();
         llenarCategorias();
-
         startAnimation();
 
     }
 
-    private void referent() {
+    private void initViews() {
 
         tvUser = findViewById(R.id.tvNombreUSer);
+
+        // Find user and fill
         String user = getIntent().getStringExtra("user");
         tvUser.setText(user);
 
@@ -85,25 +80,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void startAnimation() {
 
-        Runnable task = () ->{
+        // Runnable for animations
+        Runnable task = () -> {
 
-            // animation 1
-
+            // Animation 1
             Animation a1 = AnimationUtils.loadAnimation(this, R.anim.anim_translate_n1);
             ivNubeUno.startAnimation(a1);
 
-            // animation 2
-
+            // Animation 2
             Animation a2 = AnimationUtils.loadAnimation(this, R.anim.anim_translate_n2);
             ivNubeDos.startAnimation(a2);
 
-            // animation 3
-
+            // Animation 3
             Animation a3 = AnimationUtils.loadAnimation(this, R.anim.anim_translate_n2);
             ivNubeTres.startAnimation(a3);
 
-            // animation 4
-
+            // Animation 4
             Animation a4 = AnimationUtils.loadAnimation(this, R.anim.anim_word_game);
             btnEmpezar.startAnimation(a4);
 
@@ -123,43 +115,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btnEmpezar:
 
-
+                // Validation for select category
                 if (catUno == false && catDos == false && catTres == false && catCuatro == false && catCinco == false) {
                     Toast.makeText(this, "Selecciona una categoria", Toast.LENGTH_SHORT).show();
                 } else {
-
                     intent = new Intent(MainActivity.this, GameActivity.class);
                     intent.putExtra("categoria", categoria);
-
                     startActivity(intent);
-
                     finish();
                 }
 
                 break;
             case R.id.btnInfo:
-                // intent hacia la pantalla de info
+                //todo Falta implementar la pantalla info
                 break;
             case R.id.btnDesLog:
                 createDialog();
                 break;
 
             case R.id.btnConfig:
-
                 intent = new Intent(MainActivity.this, AddWordActivity.class);
                 startActivity(intent);
-
                 break;
         }
 
     }
 
+    /* Method to fill categories
+     *  by: David Argote */
+
     private void llenarCategorias() {
 
-        final AdapterCategorias adapter = new AdapterCategorias();
-
+        final AdapterCategory adapter = new AdapterCategory();
         rcCategorias.setAdapter(adapter);
-
         rcCategorias.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
 
         adapter.setOnClickListener(view -> {
@@ -191,6 +179,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+
+    /* Method to create AlertDialog
+     *  by: David Argote */
+
     private void createDialog() {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
@@ -200,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.setTitle("Salir");
         builder.setMessage("¿Deseas salir de la aplicación?");
 
-        builder.setPositiveButton("Aceptar",(dialogInterface, i) ->  System.exit(0));
+        builder.setPositiveButton("Aceptar", (dialogInterface, i) -> System.exit(0));
         builder.setNegativeButton("Cancelar", ((dialogInterface, i) -> builder.setCancelable(true)));
 
         builder.create();

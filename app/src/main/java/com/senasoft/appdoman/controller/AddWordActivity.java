@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
-import com.senasoft.appdoman.model.Palabra;
+import com.senasoft.appdoman.model.Word;
 
 import java.io.IOException;
 
@@ -108,19 +108,19 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
     private void saveWord() {
 
         ManagerSQLiteHelper managerSQLiteHelper = new ManagerSQLiteHelper(AddWordActivity.this);
-        Palabra palabra = new Palabra();
+        Word word = new Word();
 
-        palabra.setPalName(editWord.getText().toString());
-        palabra.setPalCategory(spCatWord.getSelectedItem().toString());
-        palabra.setUriAudio(fichero);
+        word.setPalName(editWord.getText().toString());
+        word.setPalCategory(spCatWord.getSelectedItem().toString());
+        word.setUriAudio(fichero);
 
-        long mInsert = managerSQLiteHelper.insertDataWord(palabra);
+        long mInsert = managerSQLiteHelper.insertDataWord(word);
 
         if (mInsert > 0) {
             clear();
-            Toast.makeText(this, "Palabra registrada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Word registrada", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(this, "Palabra no registrada", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Word no registrada", Toast.LENGTH_SHORT).show();
         }
     }
 
