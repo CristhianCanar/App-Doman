@@ -78,13 +78,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user = preferences.getString("userPref", "Default");
         tvUser.setText(user);
 
-        ArrayList<Fase> list = managerSQLiteHelper.searchPhase(user);
-
-        int acum = 0;
-        for (int i = 0; i < list.size(); i++) {
-            acum += list.get(i).getScore();
+        try {
+            ArrayList<Fase> list = managerSQLiteHelper.searchPhase(user);
+            int acum = 0;
+            for (int i = 0; i < list.size(); i++) {
+                acum += list.get(i).getScore();
+            }
+            tvScoreGlobal.setText(String.valueOf(acum));
+        } catch (Exception e) {
+            e.printStackTrace();
+            tvScoreGlobal.setText("0");
         }
-        tvScoreGlobal.setText(String.valueOf(acum));
 
         rcCategorias = findViewById(R.id.rcCategorias);
 
@@ -94,10 +98,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnDesLog = findViewById(R.id.btnDesLog);
         btnDesLog.setOnClickListener(this);
 
-
         ivNubeUno = findViewById(R.id.nubeUno);
         ivNubeDos = findViewById(R.id.nubeDos);
         ivNubeTres = findViewById(R.id.nubeTres);
+
     }
 
     private void startAnimation() {

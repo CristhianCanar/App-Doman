@@ -187,7 +187,7 @@ public class ManagerSQLiteHelper {
         String[] params = {param};
         String[] comluns = {Constantes.FASE_COL_2};
 
-        Cursor cursor = db.query(Constantes.NAME_TABLE_FASE, comluns, Constantes.FASE_COL_2 + "=?", params, null,null, null);
+        Cursor cursor = db.query(Constantes.NAME_TABLE_FASE, comluns, Constantes.FASE_COL_1 + "=?", params, null,null, null);
 
         if (cursor.moveToFirst()){
 
