@@ -1,10 +1,4 @@
 <resources>
-    <array name="categorias">
-        <item>Fase uno - Palabras</item>
-        <item>Fase dos - Parejas de palabras</item>
-        <item>Fase tres - Fase cuato - Frases</item>
-        <item>Fase cinco - Cuentos</item>
-    </array>
     <array name="categoriasSp">
         <item>Familia</item>
         <item>Nombres</item>
@@ -12,7 +6,8 @@
         <item>Materias</item>
         <item>Partes del cuerpo</item>
     </array>
-    <string name="app_name">App Doman</string>
+
+    <string name="app_name">FlashWord</string>
     <string name="bienvenido">Bienvenido</string>
     <string name="usern">{userName}</string>
     <string name="empecemos">Empecemos!</string>
@@ -31,8 +26,8 @@
     <string name="tab_text_3">Palabra 3</string>
     <string name="tab_text_4">Palabra 4</string>
     <string name="tab_text_5">Palabra 5</string>
-    <string name="registraPalabra">Registra la word</string>
-    <string name="ingresaLaPalabra">Ingresa la word</string>
+    <string name="registraPalabra">Registra la palabra</string>
+    <string name="ingresaLaPalabra">Ingresa la palabra</string>
     <string name="word">Palabra</string>
     <string name="categoria">Selecciona la categoria</string>
     <string name="cancelar">Volver</string>
@@ -40,5 +35,11 @@
 
     <string name="grabaraudio">Grabar audio</string>
     <string name="mensaje1">¿Quién quiere jugar hoy?</string>
+    <string name="nombre">Nombre</string>
+    <string name="registrar">Registrar</string>
+
+    <string name="genero1">Masculino</string>
+    <string name="genero2">Femenino</string>
+    <string name="addword">Añadir palabras</string>
 
 </resources>

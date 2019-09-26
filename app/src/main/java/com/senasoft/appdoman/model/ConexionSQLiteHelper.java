@@ -16,6 +16,7 @@ public class ConexionSQLiteHelper extends SQLiteOpenHelper {
 
         db.execSQL(Constantes.CREATE_TABLE_USER);
         db.execSQL(Constantes.CREATE_TABLE_WORD);
+        db.execSQL(Constantes.CREATE_TABLE_FASE);
 
     }
 
@@ -24,7 +25,7 @@ public class ConexionSQLiteHelper extends SQLiteOpenHelper {
 
         db.execSQL("DROP TABLE IF EXISTS "+Constantes.NAME_TABLE_WORD);
         db.execSQL("DROP TABLE IF EXISTS "+Constantes.NAME_TABLE_USER);
-
+        db.execSQL("DROP TABLE IF EXISTS "+Constantes.NAME_TABLE_FASE);
         onCreate(db);
 
     }

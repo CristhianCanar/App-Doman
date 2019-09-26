@@ -9,13 +9,15 @@ import java.util.ArrayList;
 
 public class ManagerSQLiteHelper {
 
-    SQLiteDatabase db;
-    ConexionSQLiteHelper conexionSQLiteHelper;
+    private SQLiteDatabase db;
+    private ConexionSQLiteHelper conexionSQLiteHelper;
 
-    ArrayList<Word> listWord;
-    ArrayList<User> listUser;
-    //ArrayList<Category> listCategoria;
-    //Category categoria;
+    private ContentValues values;
+    private long insert = 0;
+
+    private ArrayList<Word> listWord;
+    private ArrayList<User> listUser;
+
 
     //TODO CONEXIÓN A LA BD
     public ManagerSQLiteHelper(Context context) {
@@ -37,18 +39,22 @@ public class ManagerSQLiteHelper {
 
     //TODO: METODOS PARA INSERCION (INSERTs)
 
-    public boolean insertDataUser(User user) {
-
+    public long insertDataUser(User user) {
         openDB();
-        ContentValues contenedor = new ContentValues();
-        contenedor.put(Constantes.USE_COL_2, user.getUsuName());
-        contenedor.put(Constantes.USE_COL_4, user.getUsuUserName());//mirar luego mejor, se esta guardandp en columna cambiada
-        contenedor.put(Constantes.USE_COL_3, user.getUsuPassword());
-        contenedor.put(Constantes.USE_COL_5, user.getUsuGenero());
-        long result=  db.insert(Constantes.NAME_TABLE_USER, null, contenedor);
-        closeDB();
-        return result > 0;
 
+        values = new ContentValues();
+        values.put(Constantes.USE_COL_2, user.getUsuName());
+        values.put(Constantes.USE_COL_3, user.getUsuGenero());
+        values.put(Constantes.USE_COL_4, user.getUrlAvatar());
+
+        try {
+            insert = db.insert(Constantes.NAME_TABLE_USER, null, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        closeDB();
+        return insert;
     }
 
     public long insertDataWord(Word word) {
@@ -80,40 +86,50 @@ public class ManagerSQLiteHelper {
 
     //TODO: METODO LEER/LISTAR (READs)
     public ArrayList<User> readDataUser() {
-        return listUser;
-    }
-
-    public User readCredentailUser(String strUsu, String strPass){
-        User user = new User();
 
         openDB();
 
-        String[] arg = {strUsu,strPass};
-        String[] column = {Constantes.USE_COL_3, Constantes.USE_COL_4};
-        System.out.println("aquiiiiiiiiiii");
-        Cursor cursor = db.query(Constantes.NAME_TABLE_USER, column, Constantes.USE_COL_3 + "=? and "+Constantes.USE_COL_4 + "=?", arg, null, null, null);
-        //System.out.println(cursor.getString(0));
+        listUser = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Constantes.NAME_TABLE_USER, null);
+
         if (cursor.moveToFirst()){
-            System.out.println("11111111111111111111111");
 
             do {
-                System.out.println("2222222222222222");
-                user.setUsuUserName(cursor.getString(0));
-                user.setUsuPassword(cursor.getString(1));
+
+                User user = new User();
+                user.setUsuName(cursor.getString(1));
+                user.setUsuGenero(cursor.getString(2));
+                user.setUrlAvatar(cursor.getString(3));
+                listUser.add(user);
 
             }while (cursor.moveToNext());
 
         }
-        else{//no hay user con esas credenciales, retorno objeto
-            System.out.println("333333333333333333333333333333");
-            user.setUsuUserName("-1");
-            user.setUsuPassword("-1");
-        }
-        closeDB();
 
-        return user;
+        closeDB();
+        return listUser;
     }
 
+
+    public ArrayList<User> searchUser(String data){
+
+        openDB();
+
+        ArrayList<User> list = new ArrayList<>();
+        String[] arg = {data};
+        String[] column = {Constantes.USE_COL_2, Constantes.USE_COL_3, Constantes.USE_COL_4};
+
+        Cursor cursor = db.query(Constantes.NAME_TABLE_USER, column, Constantes.USE_COL_2+"=?", arg, null, null, null);
+
+        if (cursor.moveToFirst()){
+            do {
+
+            }while (cursor.moveToNext());
+        }
+
+        return list;
+    }
 
     public ArrayList<Word> readDataWord(String data) {
 
@@ -142,6 +158,53 @@ public class ManagerSQLiteHelper {
         }
 
         return listWord;
+    }
+
+    public long insertFase(Fase fase){
+
+        openDB();
+
+        values = new ContentValues();
+        values.put(Constantes.FASE_COL_1, fase.getUserName());
+        values.put(Constantes.FASE_COL_2, fase.getScore());
+        values.put(Constantes.FASE_COL_3, fase.getLevel());
+
+        try {
+            insert = db.insert(Constantes.NAME_TABLE_FASE, null, values);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        closeDB();
+        return insert;
+    }
+
+    public ArrayList<Fase> searchPhase(String param) {
+
+        openDB();
+
+        ArrayList<Fase> list = new ArrayList<>();
+        String[] params = {param};
+        String[] comluns = {Constantes.FASE_COL_2};
+
+        Cursor cursor = db.query(Constantes.NAME_TABLE_FASE, comluns, Constantes.FASE_COL_2 + "=?", params, null,null, null);
+
+        if (cursor.moveToFirst()){
+
+            do {
+
+                Fase fase = new Fase();
+                fase.setScore(cursor.getInt(0));
+                list.add(fase);
+
+            }while (cursor.moveToNext());
+
+        }
+
+        closeDB();
+
+        return list;
+
     }
 
 }

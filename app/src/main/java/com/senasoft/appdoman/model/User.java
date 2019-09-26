@@ -3,19 +3,17 @@ package com.senasoft.appdoman.model;
 public class User {
     private String usuId;
     private String usuName;
-    private String usuUserName;
-    private String usuPassword;
     private String usuGenero;
-
-    public User(String usuId, String usuName, String usuUserName, String usuPassword, String usuGenero) {
-        this.usuId = usuId;
-        this.usuName = usuName;
-        this.usuUserName = usuUserName;
-        this.usuPassword = usuPassword;
-        this.usuGenero = usuGenero;
-    }
+    private String urlAvatar;
 
     public User() {
+    }
+
+    public User(String usuId, String usuName, String usuGenero, String urlAvatar) {
+        this.usuId = usuId;
+        this.usuName = usuName;
+        this.usuGenero = usuGenero;
+        this.urlAvatar = urlAvatar;
     }
 
     public String getUsuId() {
@@ -34,27 +32,19 @@ public class User {
         this.usuName = usuName;
     }
 
-    public String getUsuUserName() {
-        return usuUserName;
-    }
-
-    public void setUsuUserName(String usuUserName) {
-        this.usuUserName = usuUserName;
-    }
-
-    public String getUsuPassword() {
-        return usuPassword;
-    }
-
-    public void setUsuPassword(String usuPassword) {
-        this.usuPassword = usuPassword;
-    }
-
     public String getUsuGenero() {
         return usuGenero;
     }
 
     public void setUsuGenero(String usuGenero) {
         this.usuGenero = usuGenero;
+    }
+
+    public String getUrlAvatar() {
+        return urlAvatar;
+    }
+
+    public void setUrlAvatar(String urlAvatar) {
+        this.urlAvatar = urlAvatar;
     }
 }

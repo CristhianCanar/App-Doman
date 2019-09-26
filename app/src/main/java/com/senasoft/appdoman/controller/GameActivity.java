@@ -24,7 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
+import com.senasoft.appdoman.model.Fase;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
+import com.senasoft.appdoman.model.User;
 import com.senasoft.appdoman.model.Word;
 
 import java.text.Normalizer;
@@ -62,6 +64,7 @@ public class GameActivity extends AppCompatActivity {
     //declarations for Score
     public static int tamanioListaPasar;
     public int puntos = 0;
+    private String user;
 
 
     @Override
@@ -111,7 +114,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /* Method to init words
-    *  by: David Argote*/
+     *  by: David Argote*/
 
     private void initWords() {
 
@@ -126,7 +129,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /*Method to change words
-    * by: David Argote*/
+     * by: David Argote*/
 
     private void nextWord(int count) {
 
@@ -144,10 +147,25 @@ public class GameActivity extends AppCompatActivity {
             }
 
         } else if (count == lista.size() && lista.size() != 0) {
+
+            saveFase();
+
             Intent intent = new Intent(GameActivity.this, MiniGameActivity.class);
             startActivity(intent);
             finish();
         }
+    }
+
+    private void saveFase() {
+
+        Fase fase = new Fase();
+        user = getIntent().getStringExtra("user");
+        ManagerSQLiteHelper managerSQLiteHelper = new ManagerSQLiteHelper(GameActivity.this);
+
+        fase.setUserName(user);
+        fase.setScore(puntos);
+        managerSQLiteHelper.insertFase(fase);
+
     }
 
     private void playWord() {
@@ -167,8 +185,8 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void iniciarEntradaVoz() {
-        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Te escucho...");
@@ -235,7 +253,7 @@ public class GameActivity extends AppCompatActivity {
 
 
     /* Method to init array of number randoms
-    *  by: David Argote */
+     *  by: David Argote */
 
     @SuppressLint("NewApi")
     public int[] generarNum(int cant) {
