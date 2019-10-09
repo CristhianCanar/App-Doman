@@ -3,7 +3,9 @@ package com.senasoft.appdoman.controller;
 import androidx.annotation.Nullable;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.BitmapFactory;
@@ -11,29 +13,30 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
+import com.senasoft.appdoman.model.Boy;
+import com.senasoft.appdoman.model.DatePickerFragment;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
-import com.senasoft.appdoman.model.User;
 
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SettingsAdmin extends AppCompatActivity implements View.OnClickListener {
+public class AddUserActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
-    private ImageView btnTakeAvatar, btnAddWord;
+    private ImageView btnTakeAvatar;
     private CircleImageView imgAvatar;
     private Button btnRegistrar;
-    private EditText editName;
+    private EditText editName, editDateBirth;
     private RadioButton rbGeneroUno, rbGeneroDos;
 
     public int RESULT_LOAD_IMAGE = 101;
@@ -45,7 +48,7 @@ public class SettingsAdmin extends AppCompatActivity implements View.OnClickList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings_admin);
+        setContentView(R.layout.activity_add_user);
         getSupportActionBar().hide();
 
         initViews();
@@ -61,8 +64,8 @@ public class SettingsAdmin extends AppCompatActivity implements View.OnClickList
         btnRegistrar = findViewById(R.id.btnRegistrar);
         btnRegistrar.setOnClickListener(this::onClick);
 
-        btnAddWord = findViewById(R.id.btnAddWord);
-        btnAddWord.setOnClickListener(this::onClick);
+        editDateBirth = findViewById(R.id.editDateBirth);
+        editDateBirth.setOnClickListener(this::onClick);
 
         editName = findViewById(R.id.editName);
         imgAvatar = findViewById(R.id.imgAvatarReg);
@@ -96,8 +99,11 @@ public class SettingsAdmin extends AppCompatActivity implements View.OnClickList
                 }
                 break;
 
-            case R.id.btnAddWord:
-                 startActivity(new Intent(SettingsAdmin.this, AddWordActivity.class));
+            case R.id.editDateBirth:
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getSupportFragmentManager(), "Fecha de nacimiento");
+                break;
+
         }
     }
 
@@ -115,25 +121,28 @@ public class SettingsAdmin extends AppCompatActivity implements View.OnClickList
             cursor.close();
             imgAvatar.setImageBitmap(BitmapFactory.decodeFile(picturePath));
         } else {
-            Toast.makeText(this, "No se selleciono una imagen", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "No se selecciono una imagen", Toast.LENGTH_SHORT).show();
         }
 
     }
 
     private void saveUser() {
 
-        User user = new User();
+        Boy boy = new Boy();
 
         if (picturePath != null) {
             if (editName.getText().toString().equals("")) {
                 editName.setError("Digita un nombre");
-            } else {
+            } else if (editDateBirth.getText().toString().isEmpty()){
+                editDateBirth.setError("Digita la fecha de nacimiento");
+            }else {
 
-                user.setUsuName(editName.getText().toString());
-                user.setUsuGenero(genero);
-                user.setUrlAvatar(picturePath);
+                boy.setName(editName.getText().toString());
+                boy.setGenero(genero);
+                boy.setFecha_nacimiento(editDateBirth.getText().toString());
+                boy.setUrl_avatar(picturePath);
 
-                long insert = managerSQLiteHelper.insertDataUser(user);
+                long insert = managerSQLiteHelper.insertDataUser(boy);
 
                 if (insert > 0) {
                     Toast.makeText(this, "Usuario registrado", Toast.LENGTH_SHORT).show();
@@ -150,6 +159,23 @@ public class SettingsAdmin extends AppCompatActivity implements View.OnClickList
 
     public void clear() {
         editName.setText("");
+        editDateBirth.setText("");
         imgAvatar.setImageResource(R.drawable.btn_img_plus);
     }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        String currentDateString = format.format(calendar.getTime());
+
+        editDateBirth.setText(currentDateString);
+
+    }
+
 }

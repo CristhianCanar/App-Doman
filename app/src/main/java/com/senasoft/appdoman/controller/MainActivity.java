@@ -12,16 +12,14 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
 import com.senasoft.appdoman.model.AdapterCategory;
-import com.senasoft.appdoman.model.Fase;
+import com.senasoft.appdoman.model.Category;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
-import com.senasoft.appdoman.model.User;
 
 import java.util.ArrayList;
 
@@ -33,18 +31,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private RecyclerView rcCategorias;
     private ImageView ivNubeUno, ivNubeDos, ivNubeTres;
 
-    private boolean catUno = false;
-    private boolean catDos = false;
-    private boolean catTres = false;
-    private boolean catCuatro = false;
-    private boolean catCinco = false;
-
+    private boolean control = false;
     private Intent intent;
-    private String categoria = "";
+    private int idCategoria;
     private String user;
 
-    public static String MY_PREFRS_USER = "PREFERENTS_USET";
+    public static String MY_PREFRS_USER = "PREFERENTS_USER";
+    public static String MY_KEY_USER = "userPref";
+
     private SharedPreferences preferences;
+    private ManagerSQLiteHelper managerSQLiteHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,12 +49,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         if (getIntent().getStringExtra("user") != null) {
+
             preferences = getSharedPreferences(MY_PREFRS_USER, MODE_PRIVATE);
-            preferences.getString("userPref", getIntent().getStringExtra("user"));
+            preferences.getString(MY_KEY_USER, getIntent().getStringExtra("user"));
+
             SharedPreferences.Editor editor = preferences.edit();
-            editor.putString("userPref", getIntent().getStringExtra("user"));
+            editor.putString(MY_KEY_USER, getIntent().getStringExtra("user"));
             editor.apply();
+
         }
+
+        managerSQLiteHelper = new ManagerSQLiteHelper(this);
 
         getSupportActionBar().hide();
         initViews();
@@ -72,13 +73,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tvUser = findViewById(R.id.tvNombreUSer);
         tvScoreGlobal = findViewById(R.id.tvScoreGlobal);
 
-        ManagerSQLiteHelper managerSQLiteHelper = new ManagerSQLiteHelper(MainActivity.this);
-
         preferences = getSharedPreferences(MY_PREFRS_USER, MODE_PRIVATE);
-        user = preferences.getString("userPref", "Default");
+        user = preferences.getString(MY_KEY_USER, "Default");
         tvUser.setText(user);
 
-        try {
+        /*try {
             ArrayList<Fase> list = managerSQLiteHelper.searchPhase(user);
             int acum = 0;
             for (int i = 0; i < list.size(); i++) {
@@ -88,9 +87,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (Exception e) {
             e.printStackTrace();
             tvScoreGlobal.setText("0");
-        }
+        }*/
 
         rcCategorias = findViewById(R.id.rcCategorias);
+        rcCategorias.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
 
         btnEmpezar = findViewById(R.id.btnEmpezar);
         btnEmpezar.setOnClickListener(this);
@@ -141,12 +141,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.btnEmpezar:
                 // Validation for select category
-                if (catUno == false && catDos == false && catTres == false && catCuatro == false && catCinco == false) {
+                if (control == false) {
                     Toast.makeText(this, "Selecciona una categoria", Toast.LENGTH_SHORT).show();
                 } else {
                     intent = new Intent(MainActivity.this, GameActivity.class);
-                    intent.putExtra("categoria", categoria);
+                    intent.putExtra("categoria", idCategoria);
                     intent.putExtra("user", user);
+                    intent.putExtra("idUser", getIntent().getIntExtra("idUser", 0));
                     startActivity(intent);
                     finish();
                 }
@@ -164,37 +165,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void llenarCategorias() {
 
-        final AdapterCategory adapter = new AdapterCategory();
+        ArrayList<Category> list = new ArrayList<>(managerSQLiteHelper.readCategory());
+        AdapterCategory adapter = new AdapterCategory(list);
         rcCategorias.setAdapter(adapter);
-        rcCategorias.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
 
         adapter.setOnClickListener(view -> {
-
-            switch (rcCategorias.getChildAdapterPosition(view)) {
-                case 0:
-                    catUno = true;
-                    categoria = "Familia";
-                    break;
-                case 1:
-                    catDos = true;
-                    categoria = "Nombres";
-                    break;
-                case 2:
-                    catTres = true;
-                    categoria = "Partes del cuerpo";
-                    break;
-                case 3:
-                    catCuatro = true;
-                    categoria = "Dias";
-                    break;
-                case 4:
-                    catCinco = true;
-                    categoria = "Materias";
-                    break;
-            }
-
+            int id = rcCategorias.getChildAdapterPosition(view);
+            idCategoria = list.get((id)).getId();
+            control = true;
         });
-
     }
 
 
@@ -209,7 +188,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         builder.setTitle("Salir");
         builder.setMessage("¿Deseas salir de la aplicación?");
         builder.setPositiveButton("Aceptar", (dialogInterface, i) -> System.exit(0));
-        builder.setNegativeButton("Cancelar", ((dialogInterface, i) -> builder.setCancelable(true)));
+        builder.setNegativeButton("Ir al login", ((dialogInterface, i) -> startActivity(new Intent(MainActivity.this, Login.class))));
 
         builder.create();
         builder.show();

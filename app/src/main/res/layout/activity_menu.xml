@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".controller.MenuActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="65dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btnAddUSer"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo_item_1_menu" />
+
+        <ImageView
+            android:id="@+id/btnAddWord"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnAddUSer"
+            app:srcCompat="@drawable/logo_item_1" />
+
+        <ImageView
+            android:id="@+id/btnListUser"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:layout_constraintBottom_toTopOf="@+id/btnAddUSer"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/logo_item_2" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.gridlayout.widget.GridLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:columnCount="2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btnIrFase"
+            android:layout_width="180dp"
+            android:layout_height="150dp"
+            android:layout_margin="12dp"
+            android:background="@drawable/bg_azul"
+            android:text="@string/verFase"
+            android:textColor="@color/colorWhithe"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnIrEditarUsuario"
+            android:layout_width="180dp"
+            android:layout_height="150dp"
+            android:layout_margin="12dp"
+            android:background="@drawable/bg_azul"
+            android:text="@string/editarUsuarios"
+            android:textColor="@color/colorWhithe"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnIrEditarPalabras"
+            android:layout_width="180dp"
+            android:layout_height="150dp"
+            android:layout_margin="12dp"
+            android:background="@drawable/bg_azul"
+            android:text="@string/editarPalabras"
+            android:textColor="@color/colorWhithe"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btnIrAddCateg"
+            android:layout_width="180dp"
+            android:layout_height="150dp"
+            android:layout_margin="12dp"
+            android:background="@drawable/bg_azul"
+            android:text="@string/anadirCategorias"
+            android:textColor="@color/colorWhithe"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </androidx.gridlayout.widget.GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

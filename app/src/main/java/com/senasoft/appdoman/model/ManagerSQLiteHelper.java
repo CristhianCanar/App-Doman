@@ -6,6 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
+
 
 public class ManagerSQLiteHelper {
 
@@ -13,198 +19,276 @@ public class ManagerSQLiteHelper {
     private ConexionSQLiteHelper conexionSQLiteHelper;
 
     private ContentValues values;
-    private long insert = 0;
+    private ArrayList<Boy> listBoys;
+    private ArrayList<Word> listWords;
+    private ArrayList<Category> listCategory;
+    private ArrayList<Prueba> listPrueba;
+    private long insert;
 
-    private ArrayList<Word> listWord;
-    private ArrayList<User> listUser;
-
-
-    //TODO CONEXIÓN A LA BD
     public ManagerSQLiteHelper(Context context) {
-        conexionSQLiteHelper = new ConexionSQLiteHelper(context);
+        this.conexionSQLiteHelper = new ConexionSQLiteHelper(context);
     }
+
 
     public void openDB() {
         db = conexionSQLiteHelper.getWritableDatabase();
     }
 
-    //TODO CIERRE DE DB
-
-    public void closeDB() {
-        if (db != null) {
-            db.close();
-        }
+    public void openDbRead() {
+        db = conexionSQLiteHelper.getReadableDatabase();
     }
 
+    public void closeDB() {
+        if (db != null) db.close();
+    }
 
-    //TODO: METODOS PARA INSERCION (INSERTs)
+    public ArrayList<Boy> readDataUser() {
 
-    public long insertDataUser(User user) {
-        openDB();
+        openDbRead();
 
-        values = new ContentValues();
-        values.put(Constantes.USE_COL_2, user.getUsuName());
-        values.put(Constantes.USE_COL_3, user.getUsuGenero());
-        values.put(Constantes.USE_COL_4, user.getUrlAvatar());
+        listBoys = new ArrayList<>();
 
-        try {
-            insert = db.insert(Constantes.NAME_TABLE_USER, null, values);
-        } catch (Exception e) {
-            e.printStackTrace();
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Constantes.NAME_TABLE_USER, null);
+
+        if (cursor.moveToFirst()) {
+
+            do {
+
+                Boy boy = new Boy();
+
+                boy.setId(cursor.getInt(0));
+                boy.setName(cursor.getString(1));
+                boy.setFecha_nacimiento(cursor.getString(2));
+                boy.setGenero(cursor.getString(3));
+                boy.setUrl_avatar(cursor.getString(4));
+
+                listBoys.add(boy);
+
+            } while (cursor.moveToNext());
+
         }
 
         closeDB();
+
+        return listBoys;
+
+    }
+
+    public long insertDataUser(Boy boy) {
+
+        openDB();
+
+        values = new ContentValues();
+
+        values.put(Constantes.USE_COL_2, boy.getName());
+        values.put(Constantes.USE_COL_3, boy.getGenero());
+        values.put(Constantes.USE_COL_4, String.valueOf(boy.getFecha_nacimiento()));
+        values.put(Constantes.USE_COL_5, boy.getUrl_avatar());
+
+        long insert = db.insert(Constantes.NAME_TABLE_USER, null, values);
+
+        closeDB();
+
         return insert;
+
     }
 
     public long insertDataWord(Word word) {
 
         openDB();
 
-        ContentValues values = new ContentValues();
+        values = new ContentValues();
 
-        values.put(Constantes.PAL_COL_2, word.getPalName());
-        values.put(Constantes.PAL_COL_3, word.getPalCategory());
-        values.put(Constantes.PAL_COL_4, word.getUriAudio());
+        values.put(Constantes.WORD_COL_2, word.getName());
+        values.put(Constantes.WORD_COL_3, word.getId_categoriy());
+        values.put(Constantes.WORD_COL_4, word.getUrl_auidio());
 
-        long mInsert = db.insert(Constantes.NAME_TABLE_WORD, null, values);
-
-        closeDB();
-
-        return mInsert;
-
-    }
-
-    /* //TODO: SE PUEDE QUITAR YA QUE SE LAMCENA EN PALABRA
-    public boolean insertDataCategory(Category categoria) {
-        ContentValues contenedor = new ContentValues();
-        contenedor.put(Constantes.CAT_COL_2, categoria.getCatName());
-        return (db.insert(Constantes.NAME_TABLE_USER, null, contenedor)) > 0;
-    }
-
-    */
-
-    //TODO: METODO LEER/LISTAR (READs)
-    public ArrayList<User> readDataUser() {
-
-        openDB();
-
-        listUser = new ArrayList<>();
-
-        Cursor cursor = db.rawQuery("SELECT * FROM " + Constantes.NAME_TABLE_USER, null);
-
-        if (cursor.moveToFirst()){
-
-            do {
-
-                User user = new User();
-                user.setUsuName(cursor.getString(1));
-                user.setUsuGenero(cursor.getString(2));
-                user.setUrlAvatar(cursor.getString(3));
-                listUser.add(user);
-
-            }while (cursor.moveToNext());
-
-        }
+        insert = db.insert(Constantes.NAME_TABLE_WORD, null, values);
 
         closeDB();
-        return listUser;
+
+        return insert;
+
     }
 
-
-    public ArrayList<User> searchUser(String data){
+    public ArrayList<Word> readDataWord(int categoria) {
 
         openDB();
 
-        ArrayList<User> list = new ArrayList<>();
-        String[] arg = {data};
-        String[] column = {Constantes.USE_COL_2, Constantes.USE_COL_3, Constantes.USE_COL_4};
+        listWords = new ArrayList<>();
+        String[] param = {String.valueOf(categoria)};
+        String[] comulumns = {Constantes.WORD_COL_1, Constantes.WORD_COL_2, Constantes.WORD_COL_3, Constantes.WORD_COL_4};
 
-        Cursor cursor = db.query(Constantes.NAME_TABLE_USER, column, Constantes.USE_COL_2+"=?", arg, null, null, null);
+        Cursor cursor = db.query(Constantes.NAME_TABLE_WORD, comulumns, Constantes.WORD_COL_3 + "=?", param, null, null, null);
 
-        if (cursor.moveToFirst()){
-            do {
-
-            }while (cursor.moveToNext());
-        }
-
-        return list;
-    }
-
-    public ArrayList<Word> readDataWord(String data) {
-
-        openDB();
-
-        listWord = new ArrayList<>();
-
-        String[] arg = {data};
-        String[] column = {Constantes.PAL_COL_2, Constantes.PAL_COL_4};
-
-        Cursor cursor = db.query(Constantes.NAME_TABLE_WORD, column, Constantes.PAL_COL_3 + "=?", arg, null, null, null);
-
-        if (cursor.moveToFirst()){
-
+        if (cursor.moveToFirst()) {
             do {
 
                 Word word = new Word();
+                word.setId(cursor.getInt(0));
+                word.setName(cursor.getString(1));
+                word.setId_categoriy(cursor.getInt(2));
+                word.setUrl_auidio(cursor.getString(3));
+                listWords.add(word);
 
-                word.setPalName(cursor.getString(0));
-                word.setUriAudio(cursor.getString(1));
-
-                listWord.add(word);
-
-            }while (cursor.moveToNext());
-
+            } while (cursor.moveToNext());
         }
 
-        return listWord;
+        closeDB();
+        return listWords;
+
     }
 
-    public long insertFase(Fase fase){
+    public long insertCategory(Category category) {
 
         openDB();
 
         values = new ContentValues();
-        values.put(Constantes.FASE_COL_1, fase.getUserName());
-        values.put(Constantes.FASE_COL_2, fase.getScore());
-        values.put(Constantes.FASE_COL_3, fase.getLevel());
 
-        try {
-            insert = db.insert(Constantes.NAME_TABLE_FASE, null, values);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        values.put(Constantes.CATE_COL_2, category.getName());
+        values.put(Constantes.CATE_COL_3, category.getUrl_image());
+
+        insert = db.insert(Constantes.NAME_TABLE_CATEGORY, null, values);
 
         closeDB();
+
         return insert;
     }
 
-    public ArrayList<Fase> searchPhase(String param) {
+    public ArrayList<Category> readCategory() {
+
+        openDbRead();
+
+        listCategory = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Constantes.NAME_TABLE_CATEGORY, null);
+
+
+        if (cursor.moveToFirst()) {
+            do {
+
+                Category category = new Category();
+
+                category.setId(cursor.getInt(0));
+                category.setName(cursor.getString(1));
+                category.setUrl_image(cursor.getString(2));
+
+                listCategory.add(category);
+
+            } while (cursor.moveToNext());
+        }
+
+        closeDB();
+
+        return listCategory;
+
+    }
+
+    public long insertPrueba(Prueba prueba) {
 
         openDB();
 
-        ArrayList<Fase> list = new ArrayList<>();
-        String[] params = {param};
-        String[] comluns = {Constantes.FASE_COL_2};
+        values = new ContentValues();
 
-        Cursor cursor = db.query(Constantes.NAME_TABLE_FASE, comluns, Constantes.FASE_COL_1 + "=?", params, null,null, null);
+        values.put(Constantes.PRUEBA_COL_2, prueba.getNum_words());
+        values.put(Constantes.PRUEBA_COL_3, prueba.getId_boy());
 
-        if (cursor.moveToFirst()){
+        insert = db.insert(Constantes.NAME_TABLE_PRUEBA, null, values);
+
+        closeDB();
+
+        return insert;
+
+    }
+
+    public ArrayList<Prueba> readPrueba(int id) {
+
+        openDbRead();
+
+        listPrueba = new ArrayList<>();
+
+        String[] param = {String.valueOf(id)};
+        String[] columns = {Constantes.PRUEBA_COL_1, Constantes.PRUEBA_COL_2, Constantes.PRUEBA_COL_3};
+
+        Cursor cursor = db.query(Constantes.NAME_TABLE_PRUEBA, columns, Constantes.PRUEBA_COL_3 + "=?", param, null, null, null);
+
+
+        if (cursor.moveToFirst()) {
 
             do {
 
-                Fase fase = new Fase();
-                fase.setScore(cursor.getInt(0));
-                list.add(fase);
+                Prueba prueba = new Prueba();
 
-            }while (cursor.moveToNext());
+                prueba.setId(cursor.getInt(0));
+                prueba.setNum_words(cursor.getInt(1));
+                prueba.setId_boy(cursor.getInt(2));
+
+                listPrueba.add(prueba);
+
+            } while (cursor.moveToNext());
 
         }
 
         closeDB();
 
-        return list;
+        return listPrueba;
 
     }
+
+    public Prueba listRevertPrueba(int id) {
+
+        openDbRead();
+
+        listPrueba = new ArrayList<>();
+
+        String[] param = {String.valueOf(id)};
+        String[] columns = {Constantes.PRUEBA_COL_1, Constantes.PRUEBA_COL_2, Constantes.PRUEBA_COL_3};
+
+        Cursor cursor = db.query(Constantes.NAME_TABLE_PRUEBA, columns, Constantes.PRUEBA_COL_3 + "=?", param, null, null, null);
+
+
+        if (cursor.moveToFirst()) {
+
+            do {
+
+                Prueba prueba = new Prueba();
+
+                prueba.setId(cursor.getInt(0));
+                prueba.setNum_words(cursor.getInt(1));
+                prueba.setId_boy(cursor.getInt(2));
+
+                listPrueba.add(prueba);
+
+            } while (cursor.moveToNext());
+
+        }
+
+        closeDB();
+
+        Collections.reverse(listPrueba);
+
+        return listPrueba.get(0);
+
+    }
+
+
+    public long insertWordPrueba(WordPrueba wordPrueba) {
+
+        openDB();
+
+        values = new ContentValues();
+
+        values.put(Constantes.PP_COL_2, wordPrueba.getId_prueba());
+        values.put(Constantes.PP_COL_3, wordPrueba.getId_word());
+        values.put(Constantes.PP_COL_4, wordPrueba.getEs_correcta());
+
+        insert = db.insert(Constantes.NAME_TABLE_GENERATE, null, values);
+
+        closeDB();
+
+        return insert;
+
+    }
+
 
 }

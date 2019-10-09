@@ -24,10 +24,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
-import com.senasoft.appdoman.model.Fase;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
-import com.senasoft.appdoman.model.User;
+import com.senasoft.appdoman.model.Prueba;
 import com.senasoft.appdoman.model.Word;
+import com.senasoft.appdoman.model.WordPrueba;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
@@ -64,8 +64,8 @@ public class GameActivity extends AppCompatActivity {
     //declarations for Score
     public static int tamanioListaPasar;
     public int puntos = 0;
-    private String user;
-
+    private int numWords = 5;
+    private int idUser;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
@@ -88,8 +88,10 @@ public class GameActivity extends AppCompatActivity {
         animation = AnimationUtils.loadAnimation(this, R.anim.anim_word_game);
 
         //save share
-        tamanioListaPasar = lista.size();
-        Log.e("tamanio", "" + tamanioListaPasar);
+        if (lista != null) {
+            tamanioListaPasar = lista.size();
+            Log.e("tamanio", "" + tamanioListaPasar);
+        }
 
     }
 
@@ -118,13 +120,51 @@ public class GameActivity extends AppCompatActivity {
 
     private void initWords() {
 
-        String categoria = getIntent().getStringExtra("categoria");
-        lista = new ArrayList<>(managerSQLiteHelper.readDataWord(categoria));
-        tamanioListaPasar = lista.size();
-        arrayGen = generarNum(lista.size());
+        try {
 
-        if (lista.isEmpty()) tvWord.setText("Hay pocas palabras :(");
-        else tvWord.setText(lista.get(arrayGen[0]).getPalName());
+            int categoria = getIntent().getIntExtra("categoria", 0);
+            idUser = getIntent().getIntExtra("idUser", 0);
+
+            lista = new ArrayList<>(managerSQLiteHelper.readDataWord(categoria));
+
+            if (lista.size() != 0) {
+
+                savePrueba(); // guardar prueba
+
+                int prueba = managerSQLiteHelper.listRevertPrueba(getIntent().getIntExtra("idUser", 0)).getId();
+
+                if (prueba == 1){
+                    numWords = 5;
+                    btnMicrophone.setVisibility(View.INVISIBLE);
+                    btnPlay.setVisibility(View.VISIBLE);
+                }else if (prueba >= 2){
+                    numWords = 10;
+                    btnMicrophone.setVisibility(View.VISIBLE);
+                    btnPlay.setVisibility(View.INVISIBLE);
+                }
+
+            }
+
+            tamanioListaPasar = numWords;
+
+            arrayGen = generarNum(numWords); // números aleatoreos
+            tvWord.setText(lista.get(arrayGen[0]).getName());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            tvWord.setText("No hay palabras");
+        }
+
+    }
+
+    private void savePrueba() {
+
+        Prueba prueba = new Prueba();
+
+        prueba.setNum_words(numWords);
+        prueba.setId_boy(getIntent().getIntExtra("idUser", 0));
+
+        managerSQLiteHelper.insertPrueba(prueba);
 
     }
 
@@ -136,37 +176,32 @@ public class GameActivity extends AppCompatActivity {
         mediaPlayer = new MediaPlayer();
         bandera = count;
 
-        if (count < lista.size()) {
-            tvWord.setText(lista.get(arrayGen[count]).getPalName());
-            try {
-                mediaPlayer.setDataSource(lista.get(arrayGen[count]).getUriAudio());
-                mediaPlayer.prepare();
-                tvWord.startAnimation(animation);
-            } catch (Exception e) {
-                e.printStackTrace();
+        if (lista != null) {
+            if (count < numWords) {
+                try {
+
+                    tvWord.setText(lista.get(arrayGen[count]).getName());
+
+                    mediaPlayer.setDataSource(lista.get(arrayGen[count]).getUrl_auidio());
+
+                    mediaPlayer.prepare();
+
+                    tvWord.startAnimation(animation);
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            } else if (count == numWords && lista.size() != 0) {
+
+                Intent intent = new Intent(GameActivity.this, MiniGameActivity.class);
+                startActivity(intent);
+                finish();
+
             }
-
-        } else if (count == lista.size() && lista.size() != 0) {
-
-            saveFase();
-
-            Intent intent = new Intent(GameActivity.this, MiniGameActivity.class);
-            startActivity(intent);
-            finish();
         }
     }
 
-    private void saveFase() {
-
-        Fase fase = new Fase();
-        user = getIntent().getStringExtra("user");
-        ManagerSQLiteHelper managerSQLiteHelper = new ManagerSQLiteHelper(GameActivity.this);
-
-        fase.setUserName(user);
-        fase.setScore(puntos);
-        managerSQLiteHelper.insertFase(fase);
-
-    }
 
     private void playWord() {
         try {
@@ -187,9 +222,10 @@ public class GameActivity extends AppCompatActivity {
     private void iniciarEntradaVoz() {
 
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Te escucho...");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Te escucho");
 
         try {
             startActivityForResult(intent, 1);
@@ -201,7 +237,13 @@ public class GameActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        String palabra = lista.get(arrayGen[bandera]).getPalName();
+
+        String palabra = "";
+
+        if (lista != null) {
+            palabra = lista.get(arrayGen[bandera]).getName();
+        }
+
         String palabraNormalize = Normalizer.normalize(palabra, Normalizer.Form.NFD);
         String palabraSinAcentos = palabraNormalize.replaceAll("[^\\p{ASCII}]", "");
         Log.e("Word", "" + palabraSinAcentos);
@@ -209,29 +251,45 @@ public class GameActivity extends AppCompatActivity {
         switch (requestCode) {
             case RED_COUNT_SPEED_INPUT:
                 if (resultCode == RESULT_OK && null != data) {
+
                     resultadoVoz = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+
                     String cadenaNormalize = Normalizer.normalize(resultadoVoz.get(0), Normalizer.Form.NFD);
                     String cadenaSinAcentos = cadenaNormalize.replaceAll("[^\\p{ASCII}]", "");
-                    Log.e("Word", "" + cadenaSinAcentos);
+
                     switch (requestCode) {
                         case 1:
+
                             if (palabraSinAcentos.equals(cadenaSinAcentos)) {
+
                                 View toast = GameActivity.this.getLayoutInflater().inflate(R.layout.toast_correct, null);
+
                                 Toast correctToast = new Toast(getApplicationContext());
+
                                 correctToast.setView(toast);
                                 correctToast.setDuration(Toast.LENGTH_LONG);
                                 correctToast.show();
                                 puntos = puntos + 1;
+
                                 startSensor();
+
+                                registerWordInFase(idUser, lista.get(arrayGen[bandera]).getId(), 1);
+
                             } else {
+
                                 View toast = GameActivity.this.getLayoutInflater().inflate(R.layout.toast_incorrect, null);
                                 Toast incorrectToast = new Toast(getApplicationContext());
+
                                 incorrectToast.setView(toast);
                                 incorrectToast.setDuration(Toast.LENGTH_SHORT);
                                 incorrectToast.show();
                                 puntos = puntos;
                                 startSensor();
+
+                                registerWordInFase(idUser, lista.get(arrayGen[bandera]).getId(), 0);
+
                             }
+
                             saveScore(puntos);
 
                             break;
@@ -251,6 +309,20 @@ public class GameActivity extends AppCompatActivity {
         editor.commit();
     }
 
+
+    private void registerWordInFase(int idUser, int idWord, int isCorrect) {
+
+        int idPrueba = managerSQLiteHelper.listRevertPrueba(idUser).getId();
+
+        WordPrueba wordPrueba = new WordPrueba();
+
+        wordPrueba.setId_prueba(idPrueba);
+        wordPrueba.setId_word(idWord);
+        wordPrueba.setEs_correcta(isCorrect);
+
+        managerSQLiteHelper.insertWordPrueba(wordPrueba);
+
+    }
 
     /* Method to init array of number randoms
      *  by: David Argote */
@@ -316,4 +388,6 @@ public class GameActivity extends AppCompatActivity {
         if (mediaPlayer != null) mediaPlayer.stop();
         sensorManager.unregisterListener(eventListener);
     }
+
+
 }

@@ -2,51 +2,50 @@ package com.senasoft.appdoman.model;
 
 public class Word {
 
-    private String palId;
-    private String palName;
-    private String palCategory;
-    private String uriAudio;
+    private int id;
+    private String name;
+    private int id_categoriy;
+    private String url_auidio;
 
     public Word() {
     }
 
-    public Word(String palId, String palName, String palCategory, String uriAudio) {
-        this.palId = palId;
-        this.palName = palName;
-        this.palCategory = palCategory;
-        this.uriAudio = uriAudio;
+    public Word(int id, String name, int id_categoriy, String url_auidio) {
+        this.id = id;
+        this.name = name;
+        this.id_categoriy = id_categoriy;
+        this.url_auidio = url_auidio;
     }
 
-    public String getPalId() {
-        return palId;
+    public int getId() {
+        return id;
     }
 
-    public void setPalId(String palId) {
-        this.palId = palId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getPalName() {
-        return palName;
+    public String getName() {
+        return name;
     }
 
-    public void setPalName(String palName) {
-        this.palName = palName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getPalCategory() {
-        return palCategory;
+    public int getId_categoriy() {
+        return id_categoriy;
     }
 
-    public void setPalCategory(String palCategory) {
-        this.palCategory = palCategory;
+    public void setId_categoriy(int id_categoriy) {
+        this.id_categoriy = id_categoriy;
     }
 
-
-    public String getUriAudio() {
-        return uriAudio;
+    public String getUrl_auidio() {
+        return url_auidio;
     }
 
-    public void setUriAudio(String uriAudio) {
-        this.uriAudio = uriAudio;
+    public void setUrl_auidio(String url_auidio) {
+        this.url_auidio = url_auidio;
     }
 }

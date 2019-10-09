@@ -7,7 +7,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class ConexionSQLiteHelper extends SQLiteOpenHelper {
 
     public ConexionSQLiteHelper(Context context) {
-
         super(context, Constantes.NAME_DB, null, Constantes.VERSION_DB);
     }
 
@@ -16,17 +15,21 @@ public class ConexionSQLiteHelper extends SQLiteOpenHelper {
 
         db.execSQL(Constantes.CREATE_TABLE_USER);
         db.execSQL(Constantes.CREATE_TABLE_WORD);
-        db.execSQL(Constantes.CREATE_TABLE_FASE);
+        db.execSQL(Constantes.CREATE_TABLE_PRUEBA);
+        db.execSQL(Constantes.CREATE_TABLE_CATEGORY);
+        db.execSQL(Constantes.CREATE_TABLE_GENERATE);
 
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int updateVersion) {
 
-        db.execSQL("DROP TABLE IF EXISTS "+Constantes.NAME_TABLE_WORD);
-        db.execSQL("DROP TABLE IF EXISTS "+Constantes.NAME_TABLE_USER);
-        db.execSQL("DROP TABLE IF EXISTS "+Constantes.NAME_TABLE_FASE);
-        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS " + Constantes.NAME_TABLE_WORD);
+        db.execSQL("DROP TABLE IF EXISTS " + Constantes.NAME_TABLE_USER);
+        db.execSQL("DROP TABLE IF EXISTS " + Constantes.NAME_TABLE_PRUEBA);
+        db.execSQL("DROP TABLE IF EXISTS " + Constantes.NAME_TABLE_CATEGORY);
+        db.execSQL("DROP TABLE IF EXISTS " + Constantes.NAME_TABLE_GENERATE);
 
+        onCreate(db);
     }
 }

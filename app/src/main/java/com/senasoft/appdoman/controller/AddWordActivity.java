@@ -11,12 +11,17 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.view.View;
+import android.widget.Adapter;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SimpleAdapter;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
+import com.senasoft.appdoman.model.Category;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
 import com.senasoft.appdoman.model.Word;
 
@@ -38,6 +43,7 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
             Manifest.permission.RECORD_AUDIO};
 
     private int CODE_PERMISSONS = 111;
+    private ManagerSQLiteHelper managerSQLiteHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +65,13 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initViews() {
 
+        ManagerSQLiteHelper managerSQLiteHelper = new ManagerSQLiteHelper(getApplicationContext());
+
         editWord = findViewById(R.id.editPalabraReg);
         spCatWord = findViewById(R.id.spCategoriaReg);
+
+        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(AddWordActivity.this, android.R.layout.simple_dropdown_item_1line, managerSQLiteHelper.readCategory());
+        spCatWord.setAdapter(adapter);
 
         btnSave = findViewById(R.id.btnGuardarReg);
         btnSave.setOnClickListener(this);
@@ -107,20 +118,26 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
 
     private void saveWord() {
 
-        ManagerSQLiteHelper managerSQLiteHelper = new ManagerSQLiteHelper(AddWordActivity.this);
+        managerSQLiteHelper = new ManagerSQLiteHelper(AddWordActivity.this);
         Word word = new Word();
 
-        word.setPalName(editWord.getText().toString());
-        word.setPalCategory(spCatWord.getSelectedItem().toString());
-        word.setUriAudio(fichero);
-
-        long mInsert = managerSQLiteHelper.insertDataWord(word);
-
-        if (mInsert > 0) {
-            clear();
-            Toast.makeText(this, "Word registrada", Toast.LENGTH_SHORT).show();
+        if (editWord.getText().toString().isEmpty() || editWord.getText().toString().equals("")) {
+            editWord.setError("Digite la palabra");
         } else {
-            Toast.makeText(this, "Word no registrada", Toast.LENGTH_SHORT).show();
+
+            word.setName(editWord.getText().toString());
+            word.setId_categoriy(spCatWord.getSelectedItemPosition()+1);
+            word.setUrl_auidio(fichero);
+
+            long mInsert = managerSQLiteHelper.insertDataWord(word);
+
+            if (mInsert > 0) {
+                clear();
+                Toast.makeText(this, "Palabra registrada", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Palabra no registrada", Toast.LENGTH_SHORT).show();
+            }
+
         }
     }
 

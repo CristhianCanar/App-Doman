@@ -6,26 +6,21 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Environment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
+import com.senasoft.appdoman.model.Boy;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
-import com.senasoft.appdoman.model.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -41,11 +36,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private int count = 0;
     private boolean ban = false;
+    private int idUser;
 
     public static String[] PERMISSONS = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE,
             Manifest.permission.RECORD_AUDIO};
 
     public static int REQUEST_CODE = 111;
+    private ArrayList<Boy> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,15 +57,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             }
         }
 
+        managerSQLiteHelper = new ManagerSQLiteHelper(this);
+
         initViews();
 
         btnBack.setVisibility(View.INVISIBLE);
-        managerSQLiteHelper = new ManagerSQLiteHelper(this);
         viewUser();
 
     }
 
     private void initViews() {
+
+        try {
+            list = managerSQLiteHelper.readDataUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         tvName = findViewById(R.id.tvUserLogin);
         imgAvatar = findViewById(R.id.imgAvatarUser);
@@ -94,6 +98,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 if (ban) {
                     intent = new Intent(Login.this, MainActivity.class);
                     intent.putExtra("user", tvName.getText().toString());
+                    intent.putExtra("idUser", idUser);
                     startActivity(intent);
                     finish();
                 } else {
@@ -114,7 +119,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case R.id.btnConfig:
-                startActivity(new Intent(Login.this, SettingsAdmin.class));
+                startActivity(new Intent(Login.this, MenuActivity.class));
                 break;
         }
     }
@@ -122,13 +127,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private void viewUser() {
 
         if (managerSQLiteHelper.readDataUser() != null) {
-            ArrayList<User> list = managerSQLiteHelper.readDataUser();
 
-            if (count == 0){
+            if (count == 0) {
 
                 try {
-                    decodeAvatar(list.get(0).getUrlAvatar());
-                    tvName.setText(list.get(0).getUsuName());
+                    decodeAvatar(list.get(0).getUrl_avatar());
+                    tvName.setText(list.get(0).getName());
+                    idUser = list.get(0).getId();
                     ban = true;
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -137,20 +142,19 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     btnNext.setVisibility(View.INVISIBLE);
                 }
 
-            }else if (count < list.size()){
+            } else if (count < list.size()) {
 
-                decodeAvatar(list.get(count).getUrlAvatar());
-                tvName.setText(list.get(count).getUsuName());
+                decodeAvatar(list.get(count).getUrl_avatar());
+                tvName.setText(list.get(count).getName());
+                idUser = list.get(count).getId();
                 ban = true;
 
-            }else {
-                Toast.makeText(this, "No hay mas registros", Toast.LENGTH_SHORT).show();
+            } else {
                 btnNext.setVisibility(View.INVISIBLE);
                 ban = false;
             }
 
         } else {
-            Toast.makeText(this, "No hay registros de usuarios en la base de datos", Toast.LENGTH_SHORT).show();
             imgAvatar.setImageResource(R.drawable.avataaars);
             tvName.setText("Registra un usuario");
         }
@@ -163,4 +167,18 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             imgAvatar.setImageResource(R.drawable.avataaars);
         }
     }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        viewUser();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        viewUser();
+    }
 }
+
+
