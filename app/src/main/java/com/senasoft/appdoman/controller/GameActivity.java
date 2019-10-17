@@ -23,7 +23,9 @@ import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
+import com.senasoft.appdoman.model.Prueba;
 import com.senasoft.appdoman.model.Word;
+import com.senasoft.appdoman.model.WordPrueba;
 
 import java.sql.Time;
 import java.text.Normalizer;
@@ -111,6 +113,7 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
 
             int categoria = getIntent().getIntExtra("categoria", 0);
             idUser = getIntent().getIntExtra("idUser", 0);
+            Prueba prueba = new Prueba();
 
             lista = new ArrayList<>(managerSQLiteHelper.readDataWord(categoria));
 
@@ -119,8 +122,34 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
 
             nextWord(countWord);
 
+            if (lista.size() > numWords) {
+
+                prueba.setId_boy(idUser);
+                prueba.setNum_words(numWords);
+
+                managerSQLiteHelper.insertPrueba(prueba);
+
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+    }
+
+    private void saveWordCalification(int calification, int idWord){
+
+        int idPrueba = managerSQLiteHelper.listRevertPrueba(idUser).getId();
+
+        if (idPrueba > 1) {
+            WordPrueba wordPrueba = new WordPrueba();
+
+            wordPrueba.setId_word(idWord);
+            wordPrueba.setId_prueba(idPrueba);
+            wordPrueba.setEs_correcta(calification);
+
+            managerSQLiteHelper.insertWordPrueba(wordPrueba);
+
         }
 
     }
@@ -167,9 +196,11 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
                 }
 
             } else if (count == numWords && lista.size() != 0) {
+
                 Intent intent = new Intent(GameActivity.this, MiniGameActivity.class);
                 startActivity(intent);
                 finish();
+
             }
         }
     }
@@ -260,8 +291,10 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
                             if (palabraSinAcentos.equals(cadenaSinAcentos)) {
                                 toastCorrect();
                                 puntos = puntos + 1;
+                                saveWordCalification(1, lista.get(arrayGen[countWord]).getId());
                             } else {
                                 toastIncorrect();
+                                saveWordCalification(0, lista.get(arrayGen[countWord]).getId());
                             }
 
                             saveScore(puntos);
