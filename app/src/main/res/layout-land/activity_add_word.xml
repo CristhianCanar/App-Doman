@@ -13,35 +13,23 @@
         android:background="@drawable/bg_white_app"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <Button
-            android:id="@+id/btnCancelarReg"
-            android:layout_width="140dp"
-            android:layout_height="45dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/bg_editext"
-            android:text="@string/cancelar"
-            android:textColor="@color/amarillo"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toStartOf="@+id/guideline3"
-            app:layout_constraintStart_toStartOf="@+id/btnRecordAudio"
-            app:layout_constraintTop_toBottomOf="@+id/btnRecordAudio" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <Button
             android:id="@+id/btnGuardarReg"
-            android:layout_width="140dp"
-            android:layout_height="45dp"
+            android:layout_width="300dp"
+            android:layout_height="55dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/bg_azul"
             android:text="@string/guardar"
-            android:textColor="@color/colorWhithe"
+            android:textColor="@color/azul"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/btnRecordAudio"
-            app:layout_constraintStart_toStartOf="@+id/guideline3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btnRecordAudio" />
 
         <Button
@@ -96,7 +84,9 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/editPalabraReg"
-            app:layout_constraintStart_toStartOf="@+id/editPalabraReg" />
+            app:layout_constraintStart_toStartOf="@+id/editPalabraReg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/textView3"
@@ -108,26 +98,9 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/spCategoriaReg"
-            app:layout_constraintStart_toStartOf="@+id/spCategoriaReg" />
-
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
-            android:text="@string/registraPalabra"
-            android:textColor="@color/azul"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="@+id/spCategoriaReg"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline3"
@@ -142,6 +115,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.5" />
+
+        <ImageView
+            android:id="@+id/btnCancelarReg"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="16dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

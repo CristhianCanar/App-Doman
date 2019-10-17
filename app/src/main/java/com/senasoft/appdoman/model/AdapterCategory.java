@@ -1,5 +1,6 @@
 package com.senasoft.appdoman.model;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;

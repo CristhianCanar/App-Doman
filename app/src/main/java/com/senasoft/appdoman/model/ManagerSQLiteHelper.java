@@ -29,7 +29,6 @@ public class ManagerSQLiteHelper {
         this.conexionSQLiteHelper = new ConexionSQLiteHelper(context);
     }
 
-
     public void openDB() {
         db = conexionSQLiteHelper.getWritableDatabase();
     }
@@ -271,15 +270,14 @@ public class ManagerSQLiteHelper {
 
     }
 
-
     public long insertWordPrueba(WordPrueba wordPrueba) {
 
         openDB();
 
         values = new ContentValues();
 
-        values.put(Constantes.PP_COL_2, wordPrueba.getId_prueba());
-        values.put(Constantes.PP_COL_3, wordPrueba.getId_word());
+        values.put(Constantes.PP_COL_2, wordPrueba.getId_word());
+        values.put(Constantes.PP_COL_3, wordPrueba.getId_prueba());
         values.put(Constantes.PP_COL_4, wordPrueba.getEs_correcta());
 
         insert = db.insert(Constantes.NAME_TABLE_GENERATE, null, values);
@@ -290,5 +288,90 @@ public class ManagerSQLiteHelper {
 
     }
 
+    public ArrayList<WordPrueba> searchFase(int id) {
+
+        openDbRead();
+
+        ArrayList<WordPrueba> list = new ArrayList<>();
+
+        String[] param = {String.valueOf(id)};
+        String[] columns = {Constantes.PP_COL_1, Constantes.PP_COL_2, Constantes.PP_COL_3, Constantes.PP_COL_4};
+
+        Cursor cursor = db.query(Constantes.NAME_TABLE_GENERATE, columns, Constantes.PP_COL_1 + "=?", param, null, null, null);
+
+        if (cursor.moveToFirst()) {
+
+            do {
+
+                WordPrueba wordPrueba = new WordPrueba();
+
+                wordPrueba.setId(cursor.getInt(0));
+                wordPrueba.setId_word(cursor.getInt(1));
+                wordPrueba.setId_prueba(cursor.getInt(2));
+                wordPrueba.setEs_correcta(cursor.getInt(3));
+
+                list.add(wordPrueba);
+
+            } while (cursor.moveToNext());
+
+        }
+
+        closeDB();
+
+        return list;
+    }
+
+    public String searchWordById(int id) {
+
+        openDbRead();
+
+        String word = "";
+        String[] param = {String.valueOf(id)};
+        String[] column = {Constantes.WORD_COL_2};
+
+        Cursor cursor = db.query(Constantes.NAME_TABLE_WORD, column, Constantes.WORD_COL_1 + "=?", param, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            word = cursor.getString(0);
+        }
+
+        closeDB();
+        return word;
+
+    }
+
+    public ArrayList<Boy> searchUser(int id) {
+
+        openDbRead();
+
+        listBoys = new ArrayList<>();
+        String[] param = {String.valueOf(id)};
+        String[] column = {Constantes.USE_COL_1, Constantes.USE_COL_2, Constantes.USE_COL_3, Constantes.USE_COL_4, Constantes.USE_COL_5};
+
+        Cursor cursor = db.query(Constantes.NAME_TABLE_USER, column, Constantes.USE_COL_1 + "=?", param, null, null, null);
+
+        if (cursor.moveToFirst()) {
+
+            do {
+
+                Boy boy = new Boy();
+
+                boy.setId(cursor.getInt(0));
+                boy.setName(cursor.getString(1));
+                boy.setFecha_nacimiento(cursor.getString(2));
+                boy.setGenero(cursor.getString(3));
+                boy.setUrl_avatar(cursor.getString(4));
+
+                listBoys.add(boy);
+
+            } while (cursor.moveToNext());
+
+        }
+
+        closeDB();
+
+        return listBoys;
+
+    }
 
 }

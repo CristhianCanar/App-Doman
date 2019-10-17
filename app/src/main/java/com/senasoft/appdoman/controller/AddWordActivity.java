@@ -15,11 +15,13 @@ import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.Toast;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.senasoft.appdoman.R;
 import com.senasoft.appdoman.model.Category;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
@@ -32,12 +34,14 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
     private EditText editWord;
     private Spinner spCatWord;
 
-    private Button btnSave, btnCancel, btnRecordAudio;
+    private Button btnSave,  btnRecordAudio;
+    private ImageView btnCancel;
 
-    private MediaRecorder recorder;
+    private MediaRecorder recorder = null;
     private String fichero;
 
     private boolean clicRecord = false;
+    private boolean controlAudioSave = false;
 
     private String[] MY_PERMISSONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.RECORD_AUDIO};
@@ -49,7 +53,6 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_word);
-        getSupportActionBar().hide();
 
         initViews();
 
@@ -109,6 +112,7 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
 
                 } else {
                     recordAudio();
+                    controlAudioSave = true;
                 }
 
                 break;
@@ -124,18 +128,23 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
         if (editWord.getText().toString().isEmpty() || editWord.getText().toString().equals("")) {
             editWord.setError("Digite la palabra");
         } else {
+            if (controlAudioSave) {
 
-            word.setName(editWord.getText().toString());
-            word.setId_categoriy(spCatWord.getSelectedItemPosition()+1);
-            word.setUrl_auidio(fichero);
+                word.setName(editWord.getText().toString());
+                word.setId_categoriy(spCatWord.getSelectedItemPosition() + 1);
+                word.setUrl_auidio(fichero);
 
-            long mInsert = managerSQLiteHelper.insertDataWord(word);
+                long mInsert = managerSQLiteHelper.insertDataWord(word);
 
-            if (mInsert > 0) {
-                clear();
-                Toast.makeText(this, "Palabra registrada", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Palabra no registrada", Toast.LENGTH_SHORT).show();
+                if (mInsert > 0) {
+                    clear();
+                    Toast.makeText(this, "Palabra registrada", Toast.LENGTH_SHORT).show();
+                    controlAudioSave = false;
+                } else {
+                    Toast.makeText(this, "Palabra no registrada", Toast.LENGTH_SHORT).show();
+                }
+            }else {
+                Toast.makeText(this, "Graba primero un audio", Toast.LENGTH_SHORT).show();
             }
 
         }

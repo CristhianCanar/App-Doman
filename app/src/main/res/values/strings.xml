@@ -55,5 +55,7 @@
     <string name="editarPalabras">Editar Palabras</string>
     <string name="anadirCategorias">Añadir categorias</string>
     <string name="nameCategoria">Nombre de la categoria</string>
+    <string name="title_add_user">Añadir usuario</string>
+    <string name="title_list_user">Listar usuarios</string>
 
 </resources>

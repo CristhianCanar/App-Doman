@@ -11,9 +11,11 @@
         android:id="@+id/tvWordGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:foregroundGravity="center"
+        android:gravity="center"
         android:text="TextView"
         android:textColor="@android:color/background_dark"
-        android:textSize="120sp"
+        android:textSize="100sp"
         android:textStyle="bold"
         app:fontFamily="sans-serif-light"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -25,41 +27,13 @@
         android:id="@+id/btnCerrarGame"
         android:layout_width="60dp"
         android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
         android:background="@color/colorWhithe"
         android:tint="@color/colorGris"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_highlight_off_black_24dp" />
-
-    <ImageButton
-        android:id="@+id/btnAudioGame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginLeft="40dp"
-        android:background="@color/colorWhithe"
-        android:tint="@color/colorGris"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWordGame"
-        app:layout_constraintVertical_bias="0.567"
-        app:srcCompat="@drawable/baseline_volume_up_white_18dp" />
-
-    <ImageButton
-        android:id="@+id/btnMicrophoneGame"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:background="@color/colorWhithe"
-        android:tint="@color/colorGris"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvWordGame"
-        app:layout_constraintVertical_bias="0.56"
-        app:srcCompat="@drawable/microphone" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

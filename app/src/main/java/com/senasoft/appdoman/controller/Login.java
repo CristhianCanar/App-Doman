@@ -46,7 +46,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -58,21 +57,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
 
         managerSQLiteHelper = new ManagerSQLiteHelper(this);
-
         initViews();
-
-        btnBack.setVisibility(View.INVISIBLE);
         viewUser();
 
     }
 
     private void initViews() {
-
-        try {
-            list = managerSQLiteHelper.readDataUser();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         tvName = findViewById(R.id.tvUserLogin);
         imgAvatar = findViewById(R.id.imgAvatarUser);
@@ -81,13 +71,25 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         btnIniciaSesionLog.setOnClickListener(this::onClick);
 
         btnBack = findViewById(R.id.btnBackUser);
+        btnBack.setVisibility(View.INVISIBLE);
         btnBack.setOnClickListener(this::onClick);
 
         btnNext = findViewById(R.id.btnNextUser);
+        btnNext.setVisibility(View.INVISIBLE);
         btnNext.setOnClickListener(this::onClick);
 
         btnConfig = findViewById(R.id.btnConfig);
         btnConfig.setOnClickListener(this::onClick);
+
+        try {
+            list = managerSQLiteHelper.readDataUser();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (list.size() > 1) {
+            btnNext.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -95,31 +97,40 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnIniciaSesionLog:
+
                 if (ban) {
-                    intent = new Intent(Login.this, MainActivity.class);
-                    intent.putExtra("user", tvName.getText().toString());
-                    intent.putExtra("idUser", idUser);
-                    startActivity(intent);
-                    finish();
+                    sendUser(idUser);
                 } else {
-                    Toast.makeText(this, "No sabemos quien quiere jugar", Toast.LENGTH_SHORT).show();
+                    sendUser(idUser-1);
                 }
+
                 break;
+
             case R.id.btnBackUser:
+
                 count--;
-                if (count < 0) count = 0;
+
+                if (count < 0) {
+                    count = 0;
+                    btnBack.setVisibility(View.INVISIBLE);
+                    btnNext.setVisibility(View.VISIBLE);
+                }
                 viewUser();
-                if (count == 0) btnNext.setVisibility(View.VISIBLE);
+
                 break;
 
             case R.id.btnNextUser:
+
                 count++;
+
                 btnBack.setVisibility(View.VISIBLE);
                 viewUser();
+
                 break;
 
             case R.id.btnConfig:
                 startActivity(new Intent(Login.this, MenuActivity.class));
+                finish();
                 break;
         }
     }
@@ -131,15 +142,18 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             if (count == 0) {
 
                 try {
+
                     decodeAvatar(list.get(0).getUrl_avatar());
                     tvName.setText(list.get(0).getName());
                     idUser = list.get(0).getId();
                     ban = true;
+
                 } catch (Exception e) {
+
                     e.printStackTrace();
                     imgAvatar.setImageResource(R.drawable.avataaars);
                     tvName.setText("No hay registros");
-                    btnNext.setVisibility(View.INVISIBLE);
+
                 }
 
             } else if (count < list.size()) {
@@ -168,17 +182,16 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        viewUser();
+    public void sendUser(int id){
+
+        intent = new Intent(Login.this, MainActivity.class);
+        intent.putExtra("user", tvName.getText().toString());
+        intent.putExtra("idUser", id);
+        startActivity(intent);
+        finish();
+
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        viewUser();
-    }
 }
 
 

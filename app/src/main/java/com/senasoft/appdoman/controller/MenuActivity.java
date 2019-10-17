@@ -12,14 +12,13 @@ import com.senasoft.appdoman.R;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private ImageView btnAddWord, btnAddUser, btnListUser;
-    private Button btnIrFase, btnIrEditUser, btnIrEditWord, btnAddCateg;
+    private Button btnAddWord, btnAddUser, btnListUser, btnAddCateg;
+    private ImageView btnCloseMenuAdmin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        getSupportActionBar().hide();
 
         initViews();
 
@@ -36,17 +35,11 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         btnListUser = findViewById(R.id.btnListUser);
         btnListUser.setOnClickListener(this::onClick);
 
-        btnIrFase = findViewById(R.id.btnIrFase);
-        btnIrFase.setOnClickListener(this::onClick);
-
-        btnIrEditUser = findViewById(R.id.btnIrEditarUsuario);
-        btnIrEditUser.setOnClickListener(this::onClick);
-
-        btnIrEditWord = findViewById(R.id.btnIrEditarPalabras);
-        btnIrEditWord.setOnClickListener(this::onClick);
-
         btnAddCateg = findViewById(R.id.btnIrAddCateg);
         btnAddCateg.setOnClickListener(this::onClick);
+
+        btnCloseMenuAdmin = findViewById(R.id.btnCloseMenuAdmin);
+        btnCloseMenuAdmin.setOnClickListener(this::onClick);
 
     }
 
@@ -65,17 +58,12 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(new Intent(MenuActivity.this, ListUserActivity.class));
                 break;
 
-            case R.id.btnIrFase:
-                break;
-
-            case R.id.btnIrEditarUsuario:
-                break;
-
-            case R.id.btnIrEditarPalabras:
-                break;
-
             case R.id.btnIrAddCateg:
                 startActivity(new Intent(MenuActivity.this, AddCategoryActivity.class));
+                break;
+
+            case R.id.btnCloseMenuAdmin:
+                startActivity(new Intent(MenuActivity.this, Login.class));
                 break;
 
         }

@@ -52,13 +52,10 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
     public static int globosFin = 15;
     private int control = 0;
 
-    int sizeList = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mini_game);
-        getSupportActionBar().hide();
 
         initViews();
 
@@ -109,7 +106,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         globo5 = findViewById(R.id.globo5);
         globo5.setOnClickListener(this::onClick);
 
-        mediaPlayer = MediaPlayer.create(MiniGameActivity.this, R.raw.pinchazo_globo);
+        mediaPlayer = MediaPlayer.create(MiniGameActivity.this, R.raw.sonido_globo_dos);
 
     }
 
@@ -142,7 +139,6 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         control++;
         if (control == globosFin) {
             Intent intent = new Intent(MiniGameActivity.this, Score.class);
-            //intent.putExtra("size", sizeList);
             startActivity(intent);
             finish();
         }

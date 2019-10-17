@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -33,7 +34,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AddUserActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener {
 
-    private ImageView btnTakeAvatar;
+    private ImageView btnTakeAvatar, btnExitUser;
     private CircleImageView imgAvatar;
     private Button btnRegistrar;
     private EditText editName, editDateBirth;
@@ -43,13 +44,12 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     private String picturePath;
     private ManagerSQLiteHelper managerSQLiteHelper;
 
-    private String genero;
+    private String genero = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_user);
-        getSupportActionBar().hide();
 
         initViews();
         managerSQLiteHelper = new ManagerSQLiteHelper(this);
@@ -67,12 +67,15 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         editDateBirth = findViewById(R.id.editDateBirth);
         editDateBirth.setOnClickListener(this::onClick);
 
+        btnExitUser = findViewById(R.id.btnExitUser);
+        btnExitUser.setOnClickListener(this::onClick);
+
         editName = findViewById(R.id.editName);
         imgAvatar = findViewById(R.id.imgAvatarReg);
 
         rbGeneroUno = findViewById(R.id.rbGeneroUno);
-        rbGeneroDos = findViewById(R.id.rbGeneroDos);
 
+        rbGeneroDos = findViewById(R.id.rbGeneroDos);
 
     }
 
@@ -88,21 +91,15 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
                 saveUser();
                 break;
 
-            case R.id.rbGeneroUno:
-                if (rbGeneroUno.isChecked()) {
-                    genero = getResources().getString(R.string.genero1);
-                }
-                break;
-            case R.id.rbGeneroDos:
-                if (rbGeneroDos.isChecked()) {
-                    genero = getResources().getString(R.string.genero2);
-                }
-                break;
-
             case R.id.editDateBirth:
                 DialogFragment datePicker = new DatePickerFragment();
                 datePicker.show(getSupportFragmentManager(), "Fecha de nacimiento");
                 break;
+
+            case R.id.btnExitUser:
+                finish();
+                break;
+
 
         }
     }
@@ -133,11 +130,20 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         if (picturePath != null) {
             if (editName.getText().toString().equals("")) {
                 editName.setError("Digita un nombre");
-            } else if (editDateBirth.getText().toString().isEmpty()){
+            } else if (editDateBirth.getText().toString().isEmpty()) {
                 editDateBirth.setError("Digita la fecha de nacimiento");
-            }else {
+            } else {
 
                 boy.setName(editName.getText().toString());
+
+                if (rbGeneroUno.isChecked()) {
+                    genero = "Masculino";
+                }
+
+                if (rbGeneroDos.isChecked()) {
+                    genero = "Femenino";
+                }
+
                 boy.setGenero(genero);
                 boy.setFecha_nacimiento(editDateBirth.getText().toString());
                 boy.setUrl_avatar(picturePath);

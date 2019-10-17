@@ -1,6 +1,5 @@
 package com.senasoft.appdoman.controller;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,6 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        managerSQLiteHelper = new ManagerSQLiteHelper(this);
 
         if (getIntent().getStringExtra("user") != null) {
 
@@ -59,9 +59,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
 
-        managerSQLiteHelper = new ManagerSQLiteHelper(this);
-
-        getSupportActionBar().hide();
         initViews();
         llenarCategorias();
         startAnimation();
@@ -76,18 +73,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         preferences = getSharedPreferences(MY_PREFRS_USER, MODE_PRIVATE);
         user = preferences.getString(MY_KEY_USER, "Default");
         tvUser.setText(user);
-
-        /*try {
-            ArrayList<Fase> list = managerSQLiteHelper.searchPhase(user);
-            int acum = 0;
-            for (int i = 0; i < list.size(); i++) {
-                acum += list.get(i).getScore();
-            }
-            tvScoreGlobal.setText(String.valueOf(acum));
-        } catch (Exception e) {
-            e.printStackTrace();
-            tvScoreGlobal.setText("0");
-        }*/
 
         rcCategorias = findViewById(R.id.rcCategorias);
         rcCategorias.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -104,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     }
 
+    /*Method to start animations
+    * by: David Argote */
     private void startAnimation() {
 
         // Runnable for animations
@@ -154,7 +141,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.btnDesLog:
-                createDialog();
+                startActivity(new Intent(MainActivity.this, Login.class));
+                finish();
                 break;
         }
 
@@ -174,25 +162,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             idCategoria = list.get((id)).getId();
             control = true;
         });
-    }
-
-
-    /* Method to create AlertDialog
-     *  by: David Argote */
-
-    private void createDialog() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-
-        builder.setIcon(R.drawable.logo_exit);
-        builder.setTitle("Salir");
-        builder.setMessage("¿Deseas salir de la aplicación?");
-        builder.setPositiveButton("Aceptar", (dialogInterface, i) -> System.exit(0));
-        builder.setNegativeButton("Ir al login", ((dialogInterface, i) -> startActivity(new Intent(MainActivity.this, Login.class))));
-
-        builder.create();
-        builder.show();
-
     }
 
 }
