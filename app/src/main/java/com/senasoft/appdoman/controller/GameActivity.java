@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.senasoft.appdoman.R;
+import com.senasoft.appdoman.model.Boy;
 import com.senasoft.appdoman.model.ManagerSQLiteHelper;
 import com.senasoft.appdoman.model.Prueba;
 import com.senasoft.appdoman.model.Word;
@@ -45,7 +46,10 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
 
     private ManagerSQLiteHelper managerSQLiteHelper;
     private ArrayList<Word> lista;
+    //Puntos
+    private int punt = 0;
 
+    private ArrayList<Boy> listBoy;
     private MediaPlayer mediaPlayer;
     private Animation animation;
 
@@ -262,6 +266,21 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
         return array;
     }
 
+    public int traerPuntos(){
+        listBoy = new ArrayList<>(managerSQLiteHelper.readDataUser());
+        punt = listBoy.get(0).getScore() ;
+        return punt;
+    }
+
+    public void insertScoreInBD(int puntos){
+        int id = 0;
+        listBoy = new ArrayList<>(managerSQLiteHelper.readDataUser());
+        id = listBoy.get(0).getId();
+
+        managerSQLiteHelper.insertScore(id,puntos);
+
+    }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -290,8 +309,12 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
 
                             if (palabraSinAcentos.equals(cadenaSinAcentos)) {
                                 toastCorrect();
+                                puntos = traerPuntos();
                                 puntos = puntos + 1;
+                                insertScoreInBD(puntos);
                                 saveWordCalification(1, lista.get(arrayGen[countWord]).getId());
+
+
                             } else {
                                 toastIncorrect();
                                 saveWordCalification(0, lista.get(arrayGen[countWord]).getId());

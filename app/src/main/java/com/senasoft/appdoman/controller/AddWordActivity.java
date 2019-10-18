@@ -184,7 +184,7 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void clear() {
-        editWord.setText("");
+        editWord.setText("x|");
     }
 
 }

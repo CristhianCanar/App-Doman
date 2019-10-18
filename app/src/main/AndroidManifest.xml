@@ -25,7 +25,15 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".controller.Score"
-            android:screenOrientation="landscape" />
+            android:screenOrientation="landscape">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity
             android:name=".controller.AddWordActivity"
             android:screenOrientation="landscape" />
@@ -41,11 +49,8 @@
         <activity
             android:name=".controller.Splash"
             android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".controller.Login"

@@ -11,9 +11,10 @@ public class Constantes {
     public static String USE_COL_3 = "USE_GENERO";
     public static String USE_COL_4 = "USE_FECHA_NACIMIENTO";
     public static String USE_COL_5 = "USE_AVATAR";
+    public static String USE_COL_6 = "USE_SCORE";
 
     public static String CREATE_TABLE_USER = "CREATE TABLE " + NAME_TABLE_USER + " ( " + USE_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            USE_COL_2 + " TEXT, " + USE_COL_3 + " TEXT, " + USE_COL_4 + " TEXT," + USE_COL_5 + " TEXT)";
+            USE_COL_2 + " TEXT, " + USE_COL_3 + " TEXT, " + USE_COL_4 + " TEXT," + USE_COL_5 + " TEXT, "+USE_COL_6+" INTEGER)";
 
     public static String NAME_TABLE_PRUEBA = "PRUEBA";
     public static String PRUEBA_COL_1 = "PRUEBA_ID";
@@ -51,5 +52,7 @@ public class Constantes {
     public static String CREATE_TABLE_GENERATE = "CREATE TABLE " + NAME_TABLE_GENERATE + "(" + PP_COL_1 + " INTEGER PRIMARY KEY AUTOINCREMENT," + PP_COL_2 + " INTEGER, " +
             PP_COL_3 + " INTEGER, " + PP_COL_4 + " INTEGER, " + "FOREIGN KEY (" + PP_COL_2 + ") REFERENCES " + NAME_TABLE_WORD + "(" + WORD_COL_1 + "), " +
             "FOREIGN KEY (" + PP_COL_3 + ") REFERENCES " + NAME_TABLE_PRUEBA + "(" + PRUEBA_COL_1 + "))";
+
+
 
 }

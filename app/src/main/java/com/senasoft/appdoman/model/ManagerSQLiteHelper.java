@@ -60,6 +60,7 @@ public class ManagerSQLiteHelper {
                 boy.setFecha_nacimiento(cursor.getString(2));
                 boy.setGenero(cursor.getString(3));
                 boy.setUrl_avatar(cursor.getString(4));
+                boy.setScore(cursor.getInt(5));
 
                 listBoys.add(boy);
 
@@ -70,6 +71,18 @@ public class ManagerSQLiteHelper {
         closeDB();
 
         return listBoys;
+
+    }
+
+    public void insertScore(int idUser, int score){
+        openDB();
+
+        String [] id = {String.valueOf(idUser)};
+        ContentValues values = new ContentValues();
+        values.put(Constantes.USE_COL_6,score);
+
+        db.update(Constantes.NAME_TABLE_USER,values,Constantes.USE_COL_1+" =? ",id);
+
 
     }
 
@@ -361,6 +374,7 @@ public class ManagerSQLiteHelper {
                 boy.setFecha_nacimiento(cursor.getString(2));
                 boy.setGenero(cursor.getString(3));
                 boy.setUrl_avatar(cursor.getString(4));
+                boy.setScore(cursor.getInt(5));
 
                 listBoys.add(boy);
 

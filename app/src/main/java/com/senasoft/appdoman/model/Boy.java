@@ -8,16 +8,19 @@ public class Boy {
     private String genero;
     private String fecha_nacimiento;
     private String url_avatar;
+    private int score;
+
 
     public Boy() {
     }
 
-    public Boy(int id, String name, String genero, String fecha_nacimiento, String url_avatar) {
+    public Boy(int id, String name, String genero, String fecha_nacimiento, String url_avatar, int score) {
         this.id = id;
         this.name = name;
         this.genero = genero;
         this.fecha_nacimiento = fecha_nacimiento;
         this.url_avatar = url_avatar;
+        this.score = score;
     }
 
     public int getId() {
@@ -58,5 +61,13 @@ public class Boy {
 
     public void setUrl_avatar(String url_avatar) {
         this.url_avatar = url_avatar;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }
