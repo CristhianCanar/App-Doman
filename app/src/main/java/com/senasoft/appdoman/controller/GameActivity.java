@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.util.Log;
@@ -135,13 +136,19 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
 
             }
 
+            if (lista.size() == 0 || lista == null) {
+
+                tvWord.setText("No hay palabras :(");
+
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
-    private void saveWordCalification(int calification, int idWord){
+    private void saveWordCalification(int calification, int idWord) {
 
         int idPrueba = managerSQLiteHelper.listRevertPrueba(idUser).getId();
 
@@ -243,41 +250,56 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
 
     }
 
-    @SuppressLint("NewApi")
+
     public int[] generarNum(int cant) {
 
         int numMin = 0;
         int numMax = cant;
 
-        int[] array;
+        int[] array = new int[0];
 
-        array = IntStream.rangeClosed(numMin, numMax - 1).toArray();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            array = IntStream.rangeClosed(numMin, numMax - 1).toArray();
 
-        Random random = new Random();
+            Random random = new Random();
 
-        for (int i = array.length; i > 0; i--) {
+            for (int i = array.length; i > 0; i--) {
 
-            int pos = random.nextInt(i);
-            int tmp = array[i - 1];
-            array[i - 1] = array[pos];
-            array[pos] = tmp;
+                int pos = random.nextInt(i);
+                int tmp = array[i - 1];
+                array[i - 1] = array[pos];
+                array[pos] = tmp;
+
+            }
+
+            return array;
+
+        } else {
+
+            Random rnd = new Random();
+
+            for (int i = 0; i < array.length; i++) {
+                array[i] = rnd.nextInt(cant - 0 ) + cant;
+            }
+
+            return array;
 
         }
-        return array;
+
     }
 
-    public int traerPuntos(){
+    public int traerPuntos() {
         listBoy = new ArrayList<>(managerSQLiteHelper.readDataUser());
-        punt = listBoy.get(0).getScore() ;
+        punt = listBoy.get(0).getScore();
         return punt;
     }
 
-    public void insertScoreInBD(int puntos){
+    public void insertScoreInBD(int puntos) {
         int id = 0;
         listBoy = new ArrayList<>(managerSQLiteHelper.readDataUser());
         id = listBoy.get(0).getId();
 
-        managerSQLiteHelper.insertScore(id,puntos);
+        managerSQLiteHelper.insertScore(id, puntos);
 
     }
 

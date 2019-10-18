@@ -9,14 +9,9 @@
 
     <Button
         android:id="@+id/btnEmpezar"
-        android:layout_width="220dp"
-        android:layout_height="65dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
+        android:layout_width="300dp"
+        android:layout_height="70dp"
 
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="16dp"
         android:background="@drawable/btn_amarillo"
         android:fontFamily="@font/instantharmony"
         android:text="@string/empezar"
@@ -25,13 +20,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rcCategorias"
-        app:layout_constraintVertical_bias="0.486" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.925" />
 
     <ImageView
         android:id="@+id/btnDesLog"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
@@ -45,44 +40,49 @@
         android:id="@+id/nubeUno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="35dp"
-        android:layout_marginLeft="35dp"
-        android:layout_marginBottom="18dp"
-        app:layout_constraintBottom_toBottomOf="@+id/rcCategorias"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.12"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.348"
         app:srcCompat="@drawable/nube_uno" />
 
     <ImageView
         android:id="@+id/nubeDos"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="46dp"
-        android:layout_marginRight="46dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rcCategorias"
+        app:layout_constraintHorizontal_bias="0.91"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.431"
         app:srcCompat="@drawable/nube_dos" />
 
     <ImageView
         android:id="@+id/nubeTres"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="65dp"
-        android:layout_marginRight="65dp"
-        app:layout_constraintBottom_toBottomOf="@+id/rcCategorias"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/btnEmpezar"
-        app:layout_constraintTop_toBottomOf="@+id/rcCategorias"
+        app:layout_constraintHorizontal_bias="0.794"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.79"
         app:srcCompat="@drawable/nube_tres" />
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
         android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.119">
 
         <TextView
             android:id="@+id/tvBienvenida"
@@ -93,7 +93,7 @@
             android:gravity="right"
             android:text="@string/bienvenido"
             android:textColor="@android:color/background_light"
-            android:textSize="36sp"
+            android:textSize="46sp"
             android:textStyle="bold"
             app:fontFamily="@font/instantharmony" />
 
@@ -105,7 +105,7 @@
             android:layout_weight="1"
             android:text="@string/usern"
             android:textColor="@color/amarillo"
-            android:textSize="36sp"
+            android:textSize="46sp"
             app:fontFamily="@font/instantharmony" />
 
     </LinearLayout>
@@ -113,15 +113,18 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcCategorias"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="24dp"
+        android:layout_height="300dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.546" />
 
     <ImageView
         android:id="@+id/btnGoRanking"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         app:layout_constraintStart_toStartOf="parent"

@@ -24,9 +24,9 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView tvUser, tvScoreGlobal;
+    private TextView tvUser;
     private Button btnEmpezar;
-    private ImageView btnDesLog;
+    private ImageView btnDesLog, btnGoRanking;
     private RecyclerView rcCategorias;
     private ImageView ivNubeUno, ivNubeDos, ivNubeTres;
 
@@ -68,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void initViews() {
 
         tvUser = findViewById(R.id.tvNombreUSer);
-        tvScoreGlobal = findViewById(R.id.tvScoreGlobal);
 
         preferences = getSharedPreferences(MY_PREFRS_USER, MODE_PRIVATE);
         user = preferences.getString(MY_KEY_USER, "Default");
@@ -82,6 +81,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btnDesLog = findViewById(R.id.btnDesLog);
         btnDesLog.setOnClickListener(this);
+
+        btnGoRanking = findViewById(R.id.btnGoRanking);
+        btnGoRanking.setOnClickListener(this::onClick);
 
         ivNubeUno = findViewById(R.id.nubeUno);
         ivNubeDos = findViewById(R.id.nubeDos);
@@ -143,6 +145,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnDesLog:
                 startActivity(new Intent(MainActivity.this, Login.class));
                 finish();
+                break;
+
+            case R.id.btnGoRanking:
+                startActivity(new Intent(MainActivity.this, Score.class));
                 break;
         }
 

@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.media.MediaRecorder;
 import android.os.Build;
 import android.os.Bundle;
@@ -104,7 +105,7 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
                 if (clicRecord && recorder != null) {
                     recorder.stop();
 
-                    btnRecordAudio.setTextColor(getColor(R.color.colorWhithe));
+                    btnRecordAudio.setTextColor(Color.BLACK);
                     btnRecordAudio.setText(getResources().getString(R.string.grabaraudio));
                     btnRecordAudio.setBackgroundResource(R.drawable.bg_button);
 
@@ -175,7 +176,7 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             recorder.start();
-            btnRecordAudio.setTextColor(getColor(R.color.azuloscuro));
+            btnRecordAudio.setTextColor(Color.CYAN);
             btnRecordAudio.setText("Grabando...");
             btnRecordAudio.setBackgroundResource(R.drawable.grabandoback);
             clicRecord = true;
@@ -184,7 +185,7 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void clear() {
-        editWord.setText("x|");
+        editWord.setText("");
     }
 
 }
