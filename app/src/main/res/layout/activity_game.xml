@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:foregroundGravity="center"
         android:gravity="center"
-        android:text="TextView"
+        android:text="@string/title_start_game"
         android:textColor="@android:color/background_dark"
         android:textSize="100sp"
         android:textStyle="bold"

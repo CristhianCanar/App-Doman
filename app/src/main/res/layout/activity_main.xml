@@ -128,5 +128,18 @@
         app:layout_constraintTop_toTopOf="@+id/btnDesLog"
         app:srcCompat="@drawable/icono_ranking" />
 
+    <TextView
+        android:id="@+id/tvIrRegistroCategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/title_error_one"
+        android:textColor="@color/colorWhithe"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

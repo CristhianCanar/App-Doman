@@ -3,7 +3,6 @@ package com.senasoft.appdoman.controller;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -29,7 +27,6 @@ import com.senasoft.appdoman.model.Prueba;
 import com.senasoft.appdoman.model.Word;
 import com.senasoft.appdoman.model.WordPrueba;
 
-import java.sql.Time;
 import java.text.Normalizer;
 import java.util.ArrayList;
 
@@ -73,6 +70,7 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
     private int controlFase = 0;
     public int puntos = 0;
     public int countWord = 0;
+    private int idPrueba = 0;
 
     private GestureDetector gestureDetector;
     private Timer timer;
@@ -86,6 +84,14 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
         this.gestureDetector = new GestureDetector(this, this);
 
         managerSQLiteHelper = new ManagerSQLiteHelper(this);
+
+        try {
+            idPrueba = managerSQLiteHelper.listRevertPrueba(idUser).get(0).getId();
+            controlFase = idPrueba;
+        } catch (Exception e) {
+            e.printStackTrace();
+            idPrueba = 1;
+        }
 
         // Animation
         animation = AnimationUtils.loadAnimation(this, R.anim.anim_word_game);
@@ -150,9 +156,8 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
 
     private void saveWordCalification(int calification, int idWord) {
 
-        int idPrueba = managerSQLiteHelper.listRevertPrueba(idUser).getId();
+        if (idPrueba >= 0) {
 
-        if (idPrueba > 1) {
             WordPrueba wordPrueba = new WordPrueba();
 
             wordPrueba.setId_word(idWord);
@@ -208,6 +213,9 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
 
             } else if (count == numWords && lista.size() != 0) {
 
+                saveScore(puntos);
+                insertScoreInBD(traerPuntos() + puntos);
+
                 Intent intent = new Intent(GameActivity.this, MiniGameActivity.class);
                 startActivity(intent);
                 finish();
@@ -242,23 +250,20 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
 
     public void saveScore(int puntos) {
 
-        String texto = Integer.toString(puntos);
         SharedPreferences sharedPreferences = getSharedPreferences(SHARED_PREF, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("puntaje", texto);
+        editor.putInt("puntaje", puntos);
         editor.commit();
 
     }
-
 
     public int[] generarNum(int cant) {
 
         int numMin = 0;
         int numMax = cant;
-
-        int[] array = new int[0];
-
+        int[] array = new int[cant];
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
             array = IntStream.rangeClosed(numMin, numMax - 1).toArray();
 
             Random random = new Random();
@@ -271,17 +276,22 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
                 array[pos] = tmp;
 
             }
-
             return array;
 
         } else {
 
+            for (int i = 0; i < array.length; i++) {
+                array[i] = i;
+            }
             Random rnd = new Random();
 
-            for (int i = 0; i < array.length; i++) {
-                array[i] = rnd.nextInt(cant - 0 ) + cant;
-            }
+            for (int i = array.length; i > 0; i--) {
 
+                int pos = rnd.nextInt(i);
+                int tmp = array[i - 1];
+                array[i - 1] = array[pos];
+                array[pos] = tmp;
+            }
             return array;
 
         }
@@ -331,19 +341,13 @@ public class GameActivity extends AppCompatActivity implements GestureDetector.O
 
                             if (palabraSinAcentos.equals(cadenaSinAcentos)) {
                                 toastCorrect();
-                                puntos = traerPuntos();
-                                puntos = puntos + 1;
-                                insertScoreInBD(puntos);
+                                puntos+=1;
                                 saveWordCalification(1, lista.get(arrayGen[countWord]).getId());
-
 
                             } else {
                                 toastIncorrect();
                                 saveWordCalification(0, lista.get(arrayGen[countWord]).getId());
                             }
-
-                            saveScore(puntos);
-
                             break;
                     }
                 }

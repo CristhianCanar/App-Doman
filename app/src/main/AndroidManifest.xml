@@ -15,8 +15,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar.FullScreen">
-        <activity android:name=".controller.AddCategoryActivity"
+        <activity android:name=".controller.ScoreFinalActivity"
             android:screenOrientation="landscape"></activity>
+        <activity
+            android:name=".controller.AddCategoryActivity"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".controller.ListUserActivity"
             android:screenOrientation="landscape" />
@@ -25,7 +28,7 @@
             android:screenOrientation="landscape" />
         <activity
             android:name=".controller.Score"
-            android:screenOrientation="landscape"> </activity>
+            android:screenOrientation="landscape"></activity>
         <activity
             android:name=".controller.AddWordActivity"
             android:screenOrientation="landscape" />

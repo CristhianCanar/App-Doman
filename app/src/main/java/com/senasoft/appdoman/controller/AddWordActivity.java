@@ -1,10 +1,14 @@
 package com.senasoft.appdoman.controller;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.media.MediaRecorder;
@@ -29,6 +33,7 @@ import com.senasoft.appdoman.model.ManagerSQLiteHelper;
 import com.senasoft.appdoman.model.Word;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class AddWordActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -43,6 +48,7 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
 
     private boolean clicRecord = false;
     private boolean controlAudioSave = false;
+    private ArrayList<Category> list;
 
     private String[] MY_PERMISSONS = {Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.RECORD_AUDIO};
@@ -65,6 +71,27 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
                 ActivityCompat.requestPermissions(this, MY_PERMISSONS, CODE_PERMISSONS);
             }
         }
+
+        if (list == null || list.size() == 0){
+            buildDialog();
+        }
+
+    }
+
+    private void buildDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(AddWordActivity.this);
+        builder.setTitle("Info");
+        builder.setMessage("No hay categorias registradas");
+        builder.setPositiveButton("Ir a registrar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startActivity(new Intent(AddWordActivity.this, AddCategoryActivity.class));
+                finish();
+            }
+        });
+
+        builder.show();
     }
 
     private void initViews() {
@@ -74,7 +101,9 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
         editWord = findViewById(R.id.editPalabraReg);
         spCatWord = findViewById(R.id.spCategoriaReg);
 
-        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(AddWordActivity.this, android.R.layout.simple_dropdown_item_1line, managerSQLiteHelper.readCategory());
+        list = new ArrayList<>(managerSQLiteHelper.readCategory());
+
+        ArrayAdapter<Category> adapter = new ArrayAdapter<Category>(AddWordActivity.this, android.R.layout.simple_dropdown_item_1line, list);
         spCatWord.setAdapter(adapter);
 
         btnSave = findViewById(R.id.btnGuardarReg);
@@ -105,7 +134,7 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
                 if (clicRecord && recorder != null) {
                     recorder.stop();
 
-                    btnRecordAudio.setTextColor(Color.BLACK);
+                    btnRecordAudio.setTextColor(Color.WHITE);
                     btnRecordAudio.setText(getResources().getString(R.string.grabaraudio));
                     btnRecordAudio.setBackgroundResource(R.drawable.bg_button);
 
@@ -176,7 +205,7 @@ public class AddWordActivity extends AppCompatActivity implements View.OnClickLi
             }
 
             recorder.start();
-            btnRecordAudio.setTextColor(Color.CYAN);
+            btnRecordAudio.setTextColor(Color.RED);
             btnRecordAudio.setText("Grabando...");
             btnRecordAudio.setBackgroundResource(R.drawable.grabandoback);
             clicRecord = true;

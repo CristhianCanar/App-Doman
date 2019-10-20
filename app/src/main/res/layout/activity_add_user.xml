@@ -12,10 +12,11 @@
         android:id="@+id/btnRegistrar"
         android:layout_width="220dp"
         android:layout_height="50dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="4dp"
         android:background="@drawable/bg_button"
         android:text="@string/registrar"
         android:textColor="@color/colorWhithe"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/editName"
         app:layout_constraintStart_toStartOf="@+id/editName"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
@@ -36,7 +37,7 @@
     <RadioGroup
         android:id="@+id/radioGroup"
         android:layout_width="300dp"
-        android:layout_height="45dp"
+        android:layout_height="40dp"
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal|center_vertical"
         android:orientation="horizontal"
@@ -68,8 +69,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgAvatarReg"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="8dp"
@@ -116,7 +117,6 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:tint="@color/amarillo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/ic_keyboard_arrow_left_black_24dp" />

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private TextView tvUser;
+    private TextView tvUser, tvIrRegistroCategoria;
     private Button btnEmpezar;
     private ImageView btnDesLog, btnGoRanking;
     private RecyclerView rcCategorias;
@@ -83,7 +83,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btnDesLog.setOnClickListener(this);
 
         btnGoRanking = findViewById(R.id.btnGoRanking);
-        btnGoRanking.setOnClickListener(this::onClick);
+        btnGoRanking.setOnClickListener(this);
+
+        tvIrRegistroCategoria = findViewById(R.id.tvIrRegistroCategoria);
+//        tvIrRegistroCategoria.setOnClickListener(this);
+//        tvIrRegistroCategoria.setVisibility(View.VISIBLE);
 
         ivNubeUno = findViewById(R.id.nubeUno);
         ivNubeDos = findViewById(R.id.nubeDos);
@@ -150,6 +154,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btnGoRanking:
                 startActivity(new Intent(MainActivity.this, Score.class));
                 break;
+
+            case R.id.tvIrRegistroCategoria:
+                startActivity(new Intent(MainActivity.this, AddCategoryActivity.class));
+                finish();
+                break;
         }
 
     }
@@ -163,10 +172,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         AdapterCategory adapter = new AdapterCategory(list);
         rcCategorias.setAdapter(adapter);
 
+        if (list != null && list.size() > 0) tvIrRegistroCategoria.setVisibility(View.INVISIBLE);
+
         adapter.setOnClickListener(view -> {
+
             int id = rcCategorias.getChildAdapterPosition(view);
             idCategoria = list.get((id)).getId();
             control = true;
+
         });
     }
 

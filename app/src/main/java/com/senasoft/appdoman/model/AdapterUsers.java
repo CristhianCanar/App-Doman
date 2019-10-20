@@ -63,9 +63,11 @@ public class AdapterUsers extends RecyclerView.Adapter<AdapterUsers.Holder> {
         public void findUser(Boy boy) {
 
             try {
-                ivAvatar.setImageBitmap(BitmapFactory.decodeFile(boy.getUrl_avatar()));
-                tvName.setText(boy.getName());
-            } catch (Exception e) {
+                if (boy != null) {
+                    ivAvatar.setImageBitmap(BitmapFactory.decodeFile(boy.getUrl_avatar()));
+                    tvName.setText(boy.getName());
+                }
+            } catch (OutOfMemoryError e) {
                 e.printStackTrace();
             }
 

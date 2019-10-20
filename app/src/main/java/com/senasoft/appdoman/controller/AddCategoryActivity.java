@@ -53,7 +53,10 @@ public class AddCategoryActivity extends AppCompatActivity {
         });
 
         btnVolver = findViewById(R.id.btnVolverAddCat);
-        btnVolver.setOnClickListener(View -> finish());
+        btnVolver.setOnClickListener(View -> {
+            startActivity(new Intent(AddCategoryActivity.this, MenuActivity.class));
+            finish();
+        });
 
         btnRegister = findViewById(R.id.btnRegistrarCate);
         btnRegister.setOnClickListener(View -> save());

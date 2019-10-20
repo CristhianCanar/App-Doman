@@ -74,14 +74,14 @@ public class ManagerSQLiteHelper {
 
     }
 
-    public void insertScore(int idUser, int score){
+    public void insertScore(int idUser, int score) {
         openDB();
 
-        String [] id = {String.valueOf(idUser)};
+        String[] id = {String.valueOf(idUser)};
         ContentValues values = new ContentValues();
-        values.put(Constantes.USE_COL_6,score);
+        values.put(Constantes.USE_COL_6, score);
 
-        db.update(Constantes.NAME_TABLE_USER,values,Constantes.USE_COL_1+" =? ",id);
+        db.update(Constantes.NAME_TABLE_USER, values, Constantes.USE_COL_1 + " =? ", id);
 
 
     }
@@ -247,7 +247,7 @@ public class ManagerSQLiteHelper {
 
     }
 
-    public Prueba listRevertPrueba(int id) {
+    public List<Prueba> listRevertPrueba(int id) {
 
         openDbRead();
 
@@ -256,13 +256,13 @@ public class ManagerSQLiteHelper {
         String[] param = {String.valueOf(id)};
         String[] columns = {Constantes.PRUEBA_COL_1, Constantes.PRUEBA_COL_2, Constantes.PRUEBA_COL_3};
 
-        Cursor cursor = db.query(Constantes.NAME_TABLE_PRUEBA, columns, Constantes.PRUEBA_COL_3 + "=?", param, null, null, null);
+        Cursor cursor = db.query(Constantes.NAME_TABLE_PRUEBA, columns, Constantes.PRUEBA_COL_3 + "=?", param,
+                null, null, Constantes.PRUEBA_COL_1 + " DESC ");
 
 
         if (cursor.moveToFirst()) {
 
             do {
-
                 Prueba prueba = new Prueba();
 
                 prueba.setId(cursor.getInt(0));
@@ -270,16 +270,13 @@ public class ManagerSQLiteHelper {
                 prueba.setId_boy(cursor.getInt(2));
 
                 listPrueba.add(prueba);
-
             } while (cursor.moveToNext());
 
         }
 
         closeDB();
 
-        Collections.reverse(listPrueba);
-
-        return listPrueba.get(0);
+        return listPrueba;
 
     }
 
@@ -373,6 +370,39 @@ public class ManagerSQLiteHelper {
                 boy.setName(cursor.getString(1));
                 boy.setFecha_nacimiento(cursor.getString(2));
                 boy.setGenero(cursor.getString(3));
+                boy.setUrl_avatar(cursor.getString(4));
+                boy.setScore(cursor.getInt(5));
+
+                listBoys.add(boy);
+
+            } while (cursor.moveToNext());
+
+        }
+
+        closeDB();
+
+        return listBoys;
+
+    }
+
+    public ArrayList<Boy> listBoysForMaxScore() {
+
+        openDbRead();
+
+        listBoys = new ArrayList<>();
+
+        Cursor cursor = db.rawQuery("SELECT * FROM " + Constantes.NAME_TABLE_USER + " ORDER BY " + Constantes.USE_COL_6 + " DESC;", null);
+
+        if (cursor.moveToFirst()) {
+
+            do {
+
+                Boy boy = new Boy();
+
+                boy.setId(cursor.getInt(0));
+                boy.setName(cursor.getString(1));
+                boy.setGenero(cursor.getString(2));
+                boy.setFecha_nacimiento(cursor.getString(3));
                 boy.setUrl_avatar(cursor.getString(4));
                 boy.setScore(cursor.getInt(5));
 

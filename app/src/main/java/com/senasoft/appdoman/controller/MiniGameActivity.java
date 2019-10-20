@@ -138,7 +138,7 @@ public class MiniGameActivity extends AppCompatActivity implements View.OnClickL
         imageView.setVisibility(View.INVISIBLE);
         control++;
         if (control == globosFin) {
-            Intent intent = new Intent(MiniGameActivity.this, Score.class);
+            Intent intent = new Intent(MiniGameActivity.this, ScoreFinalActivity.class);
             startActivity(intent);
             finish();
         }

@@ -87,8 +87,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             e.printStackTrace();
         }
 
-        if (list.size() > 1) {
-            btnNext.setVisibility(View.VISIBLE);
+        if (list != null) {
+            if (list.size() > 1) {
+                btnNext.setVisibility(View.VISIBLE);
+            }
         }
 
     }
@@ -129,8 +131,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
 
             case R.id.btnConfig:
-                startActivity(new Intent(Login.this, MenuActivity.class));
-                finish();
+                    startActivity(new Intent(Login.this, MenuActivity.class));
+                    finish();
                 break;
         }
     }
@@ -176,7 +178,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     public void decodeAvatar(String path) {
         if (path != null) {
-            imgAvatar.setImageBitmap(BitmapFactory.decodeFile(path));
+            try {
+                imgAvatar.setImageBitmap(BitmapFactory.decodeFile(path));
+            }catch (OutOfMemoryError e){
+                e.printStackTrace();
+            }
         } else {
             imgAvatar.setImageResource(R.drawable.avataaars);
         }
@@ -184,11 +190,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     public void sendUser(int id){
 
-        intent = new Intent(Login.this, MainActivity.class);
-        intent.putExtra("user", tvName.getText().toString());
-        intent.putExtra("idUser", id);
-        startActivity(intent);
-        finish();
+        if (list.size() >= 1) {
+            intent = new Intent(Login.this, MainActivity.class);
+            intent.putExtra("user", tvName.getText().toString());
+            intent.putExtra("idUser", id);
+            startActivity(intent);
+            finish();
+        } else {
+            Toast.makeText(this, "No hay niños registrados", Toast.LENGTH_SHORT).show();
+        }
 
     }
 
