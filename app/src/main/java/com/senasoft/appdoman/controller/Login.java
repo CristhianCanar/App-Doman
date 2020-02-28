@@ -99,13 +99,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btnIniciaSesionLog:
-
+                startActivity(new Intent(Login.this, TimerIntervals.class));
+                /*
                 if (ban) {
                     sendUser(idUser);
                 } else {
                     sendUser(idUser-1);
                 }
-
+                */
                 break;
 
             case R.id.btnBackUser:

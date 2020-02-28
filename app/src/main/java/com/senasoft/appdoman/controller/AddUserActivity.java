@@ -85,6 +85,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
         switch (view.getId()) {
             case R.id.btnTakeAvatar:
                 Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
                 startActivityForResult(i, RESULT_LOAD_IMAGE);
                 break;
             case R.id.btnRegistrar:
@@ -107,7 +108,7 @@ public class AddUserActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
+        //en el if,
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumn = {MediaStore.Images.Media.DATA};

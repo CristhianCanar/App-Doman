@@ -30,7 +30,8 @@ public class AddCategoryActivity extends AppCompatActivity {
 
     public int RESULT_LOAD_IMAGE = 101;
     private String urlImage = "";
-    private boolean control = false;
+    //camiar control a false
+    private boolean control = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
